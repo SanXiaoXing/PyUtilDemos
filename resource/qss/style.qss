@@ -1,0 +1,160 @@
+
+
+QComboBox{
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
+}
+
+
+QLineEdit{
+    border:0px;    
+    border-bottom: 1px solid #B3B3B3;
+    font-family:'Microsoft YaHei';
+    font-size:18px;
+    }
+
+QLineEdit:hover{
+    border-bottom: 2px solid #92beff;	
+    }
+ 
+QLineEdit:focus{
+    border-bottom: 2px solid #2c7dff;	
+    }
+
+
+QPlainTextEdit{
+    color: #515151;
+    font-family:'Microsoft YaHei';
+    font-size:16px;
+    line-height: 2em;
+}
+
+QTreeWidget QHeaderView::section{
+
+    background:transparent;
+    
+    height:0px;
+    
+}
+QTreeWidget {
+    color: Black;
+    background: white;
+	border:none;
+    font-family: "Microsoft YaHei";
+    font-size: 20px;
+	outline:none;
+	
+}
+QTreeWidget::item {
+    height: 40px;
+	color: #000000;
+	border-bottom: 1px solid #dbdbdb;
+	padding: 5px;
+
+}
+QTreeWidget::Item:hover {
+	background: rgb(255, 255, 255);
+}
+
+QTreeWidget::Item:selected {
+    background: #F0F8FF;
+	color:#1E90FF;
+	font-weight: 200;
+}
+
+
+
+QGroupBox
+{
+    border: 2px solid rgb(134, 156, 204);
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3px;
+    margin: 5px;
+    font-family: "Microsoft YaHei";
+}
+
+QTabWidget QTabBar::tab
+{
+    font-family: "Microsoft YaHei";
+    font-size: 20px;
+
+
+}
+
+
+QTabWidget QTabBar
+{
+    font-size: 25px;
+    
+}
+
+QPlainTextEdit{
+    border: 1px solid #ccc;
+    padding: 2px;
+    
+}
+
+QPlainTextEdit:focus{
+    border: 1px solid rgb(95, 137, 192);
+}
+QPlainTextEdit::selection{
+    background-color: rgb(75, 93, 255);
+    color:white;
+}
+
+
+ 
+QTableWidget                  
+{
+    background:#FFFFFF;                  
+    font-size:14px;                
+    font-family:"Microsoft YaHei"; 
+    color:#000000;  
+
+}
+
+
+QHeaderView::section{
+    font-size:16px; 
+    font-family:"Microsoft YaHei"; 
+    }
+
+
+ 
+QScrollBar::handle:vertical       
+{
+    background: rgba(255,255,255,20%); 
+    border: 0px solid grey;           
+    border-radius:3px;                
+    width: 8px;                       
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical 
+{
+    background:rgba(255,255,255,10%);                          
+}
+
+QScollBar::add-line:vertical, QScrollBar::sub-line:vertical 
+{
+    background:transparent;                                 
+}
+
+
+QSlider::groove:horizontal {
+    height: 10px;
+    background: #dddddd;
+    border: 1px solid #999999;
+    border-radius: 5px;
+}
+QSlider::handle:horizontal {
+    width: 20px;
+    height: 20px;
+    background: #147aff;
+    border: 1px solid #147aff;
+    border-radius: 10px;
+    margin: -5px 0; /* Handle overlaps the groove by 5px on each side */
+}
+QSlider::handle:horizontal:hover {
+    background: #156dd7;
+}
