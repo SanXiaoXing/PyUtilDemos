@@ -1,23 +1,23 @@
 import os 
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import glob
 from datetime import datetime
 
-from reuse_page.Ui_LogCheckForm import *
+from Ui_log_viewer import *
 
 
+LOG_FILES=str( Path(__file__).parent / 'logs')  # 插值表配置文件路径
+print(LOG_FILES)
 
-
-
-class LogCheckForm(QWidget,Ui_LogCheckForm):
+class LogCheckForm(QWidget,Ui_log_viewer):
     def __init__(self):
         super(LogCheckForm,self).__init__()
         self.setupUi(self)
-        self.Load_qss()
         self.InitUI()
 
 
@@ -29,9 +29,10 @@ class LogCheckForm(QWidget,Ui_LogCheckForm):
         self.Set_Log_Date()
         self.calendarWidget.selectionChanged.connect(lambda:self.Get_Log_File_By_Date(self.calendarWidget.selectedDate().toString("yyyy-MM-dd")))
 
+
+
     def Set_Log_Date(self):
-        logs_folder=comm.get_path('logs')
-        log_files=glob.glob(os.path.join(logs_folder,"*.log"))
+        log_files=glob.glob(os.path.join(LOG_FILES,"*.log"))
         for logfile in log_files: 
             date = os.path.basename(logfile)
             date = date.split('_')[1].split('.')[0]
@@ -43,8 +44,7 @@ class LogCheckForm(QWidget,Ui_LogCheckForm):
         
 
     def Get_Log_File_By_Date(self,date):
-        logs_folder=comm.get_path('logs')
-        log_files=glob.glob(os.path.join(logs_folder,"*.log"))
+        log_files=glob.glob(os.path.join(LOG_FILES,"*.log"))
         for logfile in log_files:
             if date in logfile:
                 with open(logfile,'r',encoding='utf-8') as file:
@@ -54,10 +54,7 @@ class LogCheckForm(QWidget,Ui_LogCheckForm):
 
             
 
-    def Load_qss(self):
-        qssfile=comm.get_path('resources\qss\style.qss')
-        with open(qssfile, 'r') as f:
-            self.setStyleSheet(f.read())
+
 
 
 
