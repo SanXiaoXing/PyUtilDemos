@@ -161,7 +161,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QGridLayout" name="gridLayout_4" rowstretch="9,0" columnstretch="1,8,1">
+      <layout class="QGridLayout" name="gridLayout_4" rowstretch="9,0" columnstretch="1,8,1,0">
        <property name="leftMargin">
         <number>7</number>
        </property>
@@ -174,50 +174,7 @@
        <property name="bottomMargin">
         <number>7</number>
        </property>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="pushButton_save">
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    height: 25px; /* 按钮高度 */
-    width: 85px; /* 按钮宽度 */
-    font-size: 16px;
-    font-family: &quot;Microsoft YaHei&quot;;
-}</string>
-         </property>
-         <property name="text">
-          <string>保存</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_clear">
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    height: 25px; /* 按钮高度 */
-    width: 85px; /* 按钮宽度 */
-    font-size: 16px;
-    font-family: &quot;Microsoft YaHei&quot;;
-}</string>
-         </property>
-         <property name="text">
-          <string>清空数据</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="3">
+       <item row="0" column="0" colspan="4">
         <widget class="QTableWidget" name="tableWidget_cali">
          <property name="font">
           <font>
@@ -235,6 +192,62 @@
            <string>实测值</string>
           </property>
          </column>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QPushButton" name="pushButton_save">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    height: 25px; /* 按钮高度 */
+    width: 85px; /* 按钮宽度 */
+    font-size: 16px;
+    font-family: &quot;Microsoft YaHei&quot;;
+}</string>
+         </property>
+         <property name="text">
+          <string>保存</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButton_clear">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+    height: 25px; /* 按钮高度 */
+    width: 85px; /* 按钮宽度 */
+    font-size: 16px;
+    font-family: &quot;Microsoft YaHei&quot;;
+}</string>
+         </property>
+         <property name="text">
+          <string>清空数据</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="label_info">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
         </widget>
        </item>
       </layout>

@@ -85,26 +85,6 @@ class Ui_CalibrationForm(object):
         self.gridLayout_4 = QtWidgets.QGridLayout()
         self.gridLayout_4.setContentsMargins(7, 7, 7, 7)
         self.gridLayout_4.setObjectName("gridLayout_4")
-        self.pushButton_save = QtWidgets.QPushButton(CalibrationForm)
-        self.pushButton_save.setStyleSheet("QPushButton {\n"
-"    height: 25px; /* 按钮高度 */\n"
-"    width: 85px; /* 按钮宽度 */\n"
-"    font-size: 16px;\n"
-"    font-family: \"Microsoft YaHei\";\n"
-"}")
-        self.pushButton_save.setObjectName("pushButton_save")
-        self.gridLayout_4.addWidget(self.pushButton_save, 1, 2, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_4.addItem(spacerItem1, 1, 1, 1, 1)
-        self.pushButton_clear = QtWidgets.QPushButton(CalibrationForm)
-        self.pushButton_clear.setStyleSheet("QPushButton {\n"
-"    height: 25px; /* 按钮高度 */\n"
-"    width: 85px; /* 按钮宽度 */\n"
-"    font-size: 16px;\n"
-"    font-family: \"Microsoft YaHei\";\n"
-"}")
-        self.pushButton_clear.setObjectName("pushButton_clear")
-        self.gridLayout_4.addWidget(self.pushButton_clear, 1, 0, 1, 1)
         self.tableWidget_cali = QtWidgets.QTableWidget(CalibrationForm)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
@@ -117,7 +97,34 @@ class Ui_CalibrationForm(object):
         self.tableWidget_cali.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_cali.setHorizontalHeaderItem(1, item)
-        self.gridLayout_4.addWidget(self.tableWidget_cali, 0, 0, 1, 3)
+        self.gridLayout_4.addWidget(self.tableWidget_cali, 0, 0, 1, 4)
+        self.pushButton_save = QtWidgets.QPushButton(CalibrationForm)
+        self.pushButton_save.setStyleSheet("QPushButton {\n"
+"    height: 25px; /* 按钮高度 */\n"
+"    width: 85px; /* 按钮宽度 */\n"
+"    font-size: 16px;\n"
+"    font-family: \"Microsoft YaHei\";\n"
+"}")
+        self.pushButton_save.setObjectName("pushButton_save")
+        self.gridLayout_4.addWidget(self.pushButton_save, 1, 3, 1, 1)
+        self.pushButton_clear = QtWidgets.QPushButton(CalibrationForm)
+        self.pushButton_clear.setStyleSheet("QPushButton {\n"
+"    height: 25px; /* 按钮高度 */\n"
+"    width: 85px; /* 按钮宽度 */\n"
+"    font-size: 16px;\n"
+"    font-family: \"Microsoft YaHei\";\n"
+"}")
+        self.pushButton_clear.setObjectName("pushButton_clear")
+        self.gridLayout_4.addWidget(self.pushButton_clear, 1, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_4.addItem(spacerItem1, 1, 1, 1, 1)
+        self.label_info = QtWidgets.QLabel(CalibrationForm)
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑")
+        font.setPointSize(12)
+        self.label_info.setFont(font)
+        self.label_info.setObjectName("label_info")
+        self.gridLayout_4.addWidget(self.label_info, 1, 2, 1, 1)
         self.gridLayout_4.setColumnStretch(0, 1)
         self.gridLayout_4.setColumnStretch(1, 8)
         self.gridLayout_4.setColumnStretch(2, 1)
@@ -142,9 +149,10 @@ class Ui_CalibrationForm(object):
         self.label_2.setText(_translate("CalibrationForm", "通道号："))
         self.label_4.setText(_translate("CalibrationForm", "为保证校准的准确性，标准值必须包含板卡量程范围内的最小值和最大值。"))
         self.pushButton_ouput.setText(_translate("CalibrationForm", "输出/采集"))
-        self.pushButton_save.setText(_translate("CalibrationForm", "保存"))
-        self.pushButton_clear.setText(_translate("CalibrationForm", "清空数据"))
         item = self.tableWidget_cali.horizontalHeaderItem(0)
         item.setText(_translate("CalibrationForm", "标准值"))
         item = self.tableWidget_cali.horizontalHeaderItem(1)
         item.setText(_translate("CalibrationForm", "实测值"))
+        self.pushButton_save.setText(_translate("CalibrationForm", "保存"))
+        self.pushButton_clear.setText(_translate("CalibrationForm", "清空数据"))
+        self.label_info.setText(_translate("CalibrationForm", "TextLabel"))
