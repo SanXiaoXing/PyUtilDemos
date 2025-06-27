@@ -1,0 +1,17 @@
+{
+    "data1":{
+        "name":"数据1",
+        "color":"",
+        "visible": true
+    },
+    "data2":{
+        "name":"数据2",
+        "color":"",
+        "visible": true
+    },
+    "data3":{
+        "name":"数据3",
+        "color":"",
+        "visible": true
+    }
+}
