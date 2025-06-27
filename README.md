@@ -89,3 +89,6 @@ python main.py
 - NumPy
 - Matplotlib (用于绘图功能)
 - 其他依赖将在各模块开发过程中添加
+
+## 贡献者
+- [SanXiaoXing](https://github.com/SanXiaoXing)
