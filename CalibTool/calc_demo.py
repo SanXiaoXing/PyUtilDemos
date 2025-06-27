@@ -1,6 +1,11 @@
-"""
+'''
 根据插值表计算校准值DEMO
-"""
+
+Author: JIN && <jjyrealdeal@163.com>
+Date: 2025-06-24 16:41:58
+Copyright (c) 2025 by JIN, All Rights Reserved. 
+'''
+
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -16,15 +21,27 @@ class CalcDemo:
         self.calibconf = self.load_calibconf()
 
 
-    def load_calibconf(self):
-        """加载插值表配置文件"""
+    def load_calibconf(self) -> dict:
+        """
+        加载插值表配置文件功能
+
+        :return: 插值表配置dict
+        """
         with open(self.calibconf_path, 'r') as f:
             calibconf = json.load(f)
+
         return calibconf
     
     
-    def calc_data(self, cardname, ch, value):
-        """根据插值表计算校准值"""
+    def calc_data(self, cardname: str, ch: int, value: float) -> float:
+        """
+        根据插值表计算校准值
+        
+        :cardname: 板卡名称
+        :ch: 板卡通道
+        :value: 预期值
+        :return: 校准值
+        """
         calibdict = self.calibconf[cardname][str(ch)]
         
         if not calibdict:
@@ -43,6 +60,7 @@ class CalcDemo:
         calib_val = np.interp(value, messvals, standvals)
         # 保留两位小数
         calib_val = round(calib_val, 2)
+
         return calib_val
     
 

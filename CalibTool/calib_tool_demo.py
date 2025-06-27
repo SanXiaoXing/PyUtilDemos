@@ -1,6 +1,11 @@
-"""
-计量校准工具
-"""
+'''
+校准工具
+
+Author: JIN && <jjyrealdeal@163.com>
+Date: 2025-05-14 11:28:51
+Copyright (c) 2025 by JIN, All Rights Reserved. 
+'''
+
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -17,7 +22,10 @@ CALIBCONF_PATH=str( Path(__file__).parent / 'calibconf.json')  # 插值表配置
 
 
 class CalibrationForm(QWidget,Ui_CalibrationForm): 
-    def __init__(self,cardinfo):
+    def __init__(self,cardinfo:dict):
+        """
+        :cardinfo: 待校准的板卡信息dict
+        """
         super(CalibrationForm,self).__init__()
         self.setupUi(self)
         self.cardname=cardinfo['name']
@@ -27,7 +35,8 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
         self.load_cardinfo()
         
 
-    def init_ui(self):
+    def init_ui(self) -> None:
+        """初始化界面"""
         self.setWindowTitle('校准工具')
         self.resize(800,500)
         self.tableWidget_cali.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows) #QTableWidget设置整行选中
@@ -42,7 +51,7 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
         self.comboBox_ch.currentIndexChanged.connect(self.load_calibdata)
 
 
-    def load_calibconf(self):
+    def load_calibconf(self) -> None:
         """加载插值表"""
         try:
             with open(CALIBCONF_PATH, 'r') as file:
@@ -57,7 +66,7 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
             json.dump(self.calibconf, file, indent=4)
 
 
-    def load_cardinfo(self):
+    def load_cardinfo(self) -> None:
         """加载板卡信息"""
         self.comboBox_cardname.addItem(self.cardname)
         self.comboBox_ch.addItems([str(i) for i in range(0,self.cardch)])
@@ -67,7 +76,7 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
         self.load_calibdata()
 
     
-    def load_calibdata(self):
+    def load_calibdata(self) -> None:
         """加载标定信息并显示在表格中"""
         currch = self.comboBox_ch.currentText()
 
@@ -98,7 +107,7 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
    
                     
 
-    def table_contextmenu_event(self,pos):
+    def table_contextmenu_event(self,pos) -> None:
         """设置右键菜单列表"""
         item = self.tableWidget_cali.itemAt(pos)
         TreeMenu=QMenu(parent=self.tableWidget_cali)
@@ -111,12 +120,12 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
         TreeMenu.exec_(self.tableWidget_cali.mapToGlobal(pos))  # 显示右键菜单
 
 
-    def delete_all(self):
+    def delete_all(self) -> None:
         """清空表格数据"""
         self.tableWidget_cali.setRowCount(0)
 
 
-    def delete_row(self):
+    def delete_row(self) -> None:
         """删除表格行"""
         selected_indexes = self.tableWidget_cali.selectedIndexes()
         if not selected_indexes:
@@ -126,7 +135,7 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
             self.tableWidget_cali.removeRow(row)
 
 
-    def signal_output(self):
+    def signal_output(self) -> None:
         """信号激励（输出or采集）"""
         val=self.doubleSpinBox_val.value()
         ch=int(self.comboBox_ch.currentText())
@@ -166,7 +175,7 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
                     break
     
 
-    def get_column_values(self):
+    def get_column_values(self) -> list:
         """获取当前表格所有的标准值"""
         standvals = []
         for row in range(self.tableWidget_cali.rowCount()):
@@ -176,7 +185,7 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
         return standvals
     
 
-    def save_calibconf(self):
+    def save_calibconf(self) -> None:
         """保存插值表配置到文件"""
         ch = str(self.comboBox_ch.currentText())  # 当前通道号转为字符串 key
         # 初始化目标字典结构
