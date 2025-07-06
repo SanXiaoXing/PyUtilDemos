@@ -20,28 +20,69 @@
       <widget class="QCalendarWidget" name="calendarWidget"/>
      </item>
      <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
+      <widget class="QLabel" name="label_historyLogs">
+       <property name="text">
+        <string>历史日志文件：</string>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="listWidget_historyLogs"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>历史日志：</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>历史日志：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>日志类型：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_logType">
+         <item>
+          <property name="text">
+           <string>全部</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>INFO</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ERROR</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QPlainTextEdit" name="plainTextEdit_log"/>
