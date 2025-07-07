@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,7">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="3,7">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="3,0,7">
      <item>
       <widget class="QCalendarWidget" name="calendarWidget"/>
      </item>
@@ -68,7 +68,6 @@
          </item>
         </widget>
        </item>
-
        <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
