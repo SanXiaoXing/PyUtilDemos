@@ -269,8 +269,8 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
             msg_box = QMessageBox(self)
             msg_box.setWindowTitle("警告")
             msg_box.setText("检测到有未填写的实测值，\n直接退出将导致未保存的数据丢失。")
-            btn_continue = msg_box.addButton("继续编辑", QMessageBox.YesRole)
-            btn_exit = msg_box.addButton("直接退出", QMessageBox.NoRole)
+            btn_continue = msg_box.addButton("Edit", QMessageBox.YesRole)
+            btn_exit = msg_box.addButton("Quit", QMessageBox.NoRole)
             msg_box.setDefaultButton(btn_continue)
 
             msg_box.exec_()
