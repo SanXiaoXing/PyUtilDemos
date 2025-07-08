@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import glob
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 
 from Ui_log_viewer import *
@@ -46,6 +46,10 @@ class LogCheckForm(QWidget,Ui_log_viewer):
         self.pushButton_batchMode.clicked.connect(self.Enter_Batch_Mode)
         self.pushButton_deleteSelected.clicked.connect(self.Delete_Selected_Logs)
         self.pushButton_cancelBatch.clicked.connect(self.Exit_Batch_Mode)
+        self.pushButton_deleteByDate.clicked.connect(self.Delete_Logs_By_Date)
+        
+        # 设置按钮样式
+        self.Set_Button_Styles()
         
         self.Load_History_Log_List()
 
@@ -475,6 +479,178 @@ class LogCheckForm(QWidget,Ui_log_viewer):
         # 恢复右键菜单和单击事件
         self.listWidget_historyLogs.setContextMenuPolicy(Qt.CustomContextMenu)
         self.listWidget_historyLogs.itemClicked.connect(self.On_History_Log_Clicked)
+    
+    def Delete_Logs_By_Date(self):
+        """按日期范围删除日志文件"""
+        try:
+            # 获取用户输入的天数
+            days, ok = QInputDialog.getInt(self, '按日期删除日志', 
+                                          '请输入要删除多少天前的日志文件：\n(例如：输入7表示删除7天前及更早的日志)', 
+                                          7, 1, 365, 1)
+            
+            if not ok:
+                return
+            
+            # 计算截止日期
+            cutoff_date = datetime.now() - timedelta(days=days)
+            cutoff_date_str = cutoff_date.strftime('%Y-%m-%d')
+            
+            # 查找符合条件的日志文件
+            log_files = glob.glob(os.path.join(LOG_FILES, "*.log"))
+            files_to_delete = []
+            
+            for logfile in log_files:
+                try:
+                    # 从文件名提取日期
+                    filename = os.path.basename(logfile)
+                    date_str = filename.split('_')[1].split('.')[0]
+                    file_date = datetime.strptime(date_str, '%Y-%m-%d')
+                    
+                    # 如果文件日期早于截止日期，加入删除列表
+                    if file_date < cutoff_date:
+                        files_to_delete.append((logfile, date_str))
+                        
+                except Exception as e:
+                    print(f"解析文件日期时出错 {logfile}: {e}")
+                    continue
+            
+            if not files_to_delete:
+                QMessageBox.information(self, '提示', f'没有找到{days}天前的日志文件')
+                return
+            
+            # 确认删除
+            file_list = [date for _, date in files_to_delete]
+            reply = QMessageBox.question(self, '确认按日期删除', 
+                                       f'找到 {len(files_to_delete)} 个{days}天前的日志文件：\n\n' + 
+                                       '\n'.join(file_list[:10]) + 
+                                       (f'\n... 还有{len(file_list)-10}个文件' if len(file_list) > 10 else '') +
+                                       f'\n\n确定要删除{cutoff_date_str}之前的所有日志文件吗？\n此操作不可撤销！',
+                                       QMessageBox.Yes | QMessageBox.No,
+                                       QMessageBox.No)
+            
+            if reply == QMessageBox.Yes:
+                deleted_count = 0
+                failed_files = []
+                current_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+                need_clear_display = False
+                
+                for logfile, date_str in files_to_delete:
+                    try:
+                        if os.path.exists(logfile):
+                            os.remove(logfile)
+                            deleted_count += 1
+                            
+                            # 检查是否需要清空当前显示
+                            if date_str == current_date:
+                                need_clear_display = True
+                        else:
+                            failed_files.append(f'{date_str} (文件不存在)')
+                            
+                    except Exception as e:
+                        failed_files.append(f'{date_str} (删除失败: {str(e)})')
+                
+                # 重新加载列表
+                self.Load_History_Log_List()
+                
+                # 清空当前显示（如果需要）
+                if need_clear_display:
+                    self.current_log_content = ""
+                    self.plainTextEdit_log.clear()
+                    self.Update_Log_Types()
+                
+                # 更新日历显示
+                self.Set_Log_Date()
+                
+                # 显示结果
+                if failed_files:
+                    QMessageBox.warning(self, '按日期删除完成', 
+                                       f'成功删除 {deleted_count} 个文件\n\n失败的文件:\n' + 
+                                       '\n'.join(failed_files))
+                else:
+                    QMessageBox.information(self, '按日期删除成功', f'成功删除 {deleted_count} 个{days}天前的日志文件')
+                    
+        except Exception as e:
+            QMessageBox.critical(self, '按日期删除失败', f'按日期删除时出错: {str(e)}')
+    
+    def Set_Button_Styles(self):
+        """设置按钮样式"""
+        # 批量模式按钮样式 - 蓝色背景
+        batch_style = """
+            QPushButton {
+                background-color: #3498db;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+            QPushButton:pressed {
+                background-color: #21618c;
+            }
+        """
+        
+        # 删除选中按钮样式 - 红色背景
+        delete_style = """
+            QPushButton {
+                background-color: #e74c3c;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #c0392b;
+            }
+            QPushButton:pressed {
+                background-color: #a93226;
+            }
+        """
+        
+        # 取消按钮样式 - 灰色背景
+        cancel_style = """
+            QPushButton {
+                background-color: #95a5a6;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #7f8c8d;
+            }
+            QPushButton:pressed {
+                background-color: #6c7b7d;
+            }
+        """
+        
+        # 按时间删除按钮样式 - 紫色背景
+        date_delete_style = """
+            QPushButton {
+                background-color: #9b59b6;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #8e44ad;
+            }
+            QPushButton:pressed {
+                background-color: #7d3c98;
+            }
+        """
+        
+        # 应用样式
+        self.pushButton_deleteSelected.setStyleSheet(delete_style)
+        self.pushButton_batchMode.setStyleSheet(batch_style)
+        self.pushButton_cancelBatch.setStyleSheet(cancel_style)
+        self.pushButton_deleteByDate.setStyleSheet(date_delete_style)
 
 
 if __name__ == "__main__":

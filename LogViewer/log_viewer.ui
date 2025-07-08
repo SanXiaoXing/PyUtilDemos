@@ -96,6 +96,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="pushButton_deleteByDate">
+         <property name="text">
+          <string>按时间删除</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
