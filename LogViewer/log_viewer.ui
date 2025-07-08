@@ -69,6 +69,33 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="pushButton_batchMode">
+         <property name="text">
+          <string>批量删除</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_deleteSelected">
+         <property name="text">
+          <string>删除选中</string>
+         </property>
+         <property name="visible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_cancelBatch">
+         <property name="text">
+          <string>取消</string>
+         </property>
+         <property name="visible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
