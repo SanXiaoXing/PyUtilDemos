@@ -1,72 +1,42 @@
 {
     "data1":{
         "name":"数据1",
-        "color":"",
+        "color":"FF0000",
         "visible": true
     },
     "data2":{
         "name":"数据2",
-        "color":"",
+        "color":"FF0000",
         "visible": true
     },
     "data3":{
         "name":"数据3",
-        "color":"",
+        "color":"FF0000",
         "visible": true
     },
     "data4":{
         "name":"数据4",
-        "color":"",
+        "color":"FF0000",
         "visible": true
     },
     "data5":{
         "name":"数据5",
-        "color":"",
+        "color":"FF0000",
         "visible": true
     },
     "data6":{
         "name":"数据6",
-        "color":"",
+        "color":"FF0000",
         "visible": true
     },
     "data7":{
         "name":"数据7",
-        "color":"",
+        "color":"FF0000",
         "visible": true
     },
     "data8":{
         "name":"数据8",
-        "color":"",
+        "color":"FF0000",
         "visible": true
-    },
-    "data9":{
-        "name":"数据9",
-        "color":"",
-        "visible": false
-    },
-    "data10":{
-        "name":"数据10",
-        "color":"",
-        "visible": false
-    },
-    "data11":{
-        "name":"数据11",
-        "color":"",
-        "visible": false
-    },
-    "data12":{
-        "name":"数据12",
-        "color":"",
-        "visible": false
-    },
-    "data13":{
-        "name":"数据13",
-        "color":"",
-        "visible": false
-    },
-    "data14":{
-        "name":"数据14",
-        "color":"",
-        "visible": false
     }
 }

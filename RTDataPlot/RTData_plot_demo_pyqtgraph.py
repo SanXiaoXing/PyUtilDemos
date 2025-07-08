@@ -37,6 +37,7 @@ class PlotThread(QThread):
             self.update_signal.emit(data, self.xtime)
             QThread.msleep(100)
 
+
     def stop(self):
         self._mutex.lock()
         self._is_stopped = True
