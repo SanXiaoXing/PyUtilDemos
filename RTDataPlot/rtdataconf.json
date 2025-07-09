@@ -1,42 +1,74 @@
 {
-    "data1":{
-        "name":"数据1",
-        "color":"FF0000",
-        "visible": true
-    },
-    "data2":{
-        "name":"数据2",
-        "color":"FF0000",
-        "visible": true
-    },
-    "data3":{
-        "name":"数据3",
-        "color":"FF0000",
-        "visible": true
-    },
-    "data4":{
-        "name":"数据4",
-        "color":"FF0000",
-        "visible": true
-    },
-    "data5":{
-        "name":"数据5",
-        "color":"FF0000",
-        "visible": true
-    },
-    "data6":{
-        "name":"数据6",
-        "color":"FF0000",
-        "visible": true
-    },
-    "data7":{
-        "name":"数据7",
-        "color":"FF0000",
-        "visible": true
-    },
-    "data8":{
-        "name":"数据8",
-        "color":"FF0000",
-        "visible": true
-    }
+  "data1": {
+    "name": "数据1",
+    "color": "#aaaaff",
+    "unit": "/",
+    "visible": false
+  },
+  "data2": {
+    "name": "数据2",
+    "color": "#aa0000",
+    "unit": "/",
+    "visible": true
+  },
+  "data3": {
+    "name": "数据3",
+    "color": "#0000ff",
+    "unit": "/",
+    "visible": true
+  },
+  "data4": {
+    "name": "数据4",
+    "color": "#00ffff",
+    "unit": "/",
+    "visible": true
+  },
+  "data5": {
+    "name": "数据5",
+    "color": "#00ff7f",
+    "unit": "/",
+    "visible": true
+  },
+  "data6": {
+    "name": "数据6",
+    "color": "#917eff",
+    "unit": "/",
+    "visible": true
+  },
+  "data7": {
+    "name": "数据7",
+    "color": "#ff5500",
+    "unit": "/",
+    "visible": true
+  },
+  "data8": {
+    "name": "数据8",
+    "color": "#ffff00",
+    "unit": "/",
+    "visible": true
+  },
+  "data9": {
+    "name": "数据9",
+    "color": "#55007f",
+    "unit": "/",
+    "visible": false
+  },
+  "data10": {
+    "name": "数据10",
+    "color": "#55aa7f",
+    "unit": "/",
+    "visible": true
+  },
+  "data11": {
+    "name": "数据11",
+    "color": "#aaaa00",
+    "unit": "/",
+    "visible": false
+  },
+  "data12": {
+    "name": "数据12",
+    "color": "FF0000",
+    "unit": "/",
+    "visible": false
+  }
 }
