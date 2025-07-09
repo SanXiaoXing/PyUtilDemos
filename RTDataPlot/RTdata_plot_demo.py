@@ -123,7 +123,7 @@ class CurveDialog(QDialog, Ui_Dialog_Select):
 
             checkbox.stateChanged.connect(self.generate_checkbox_handler(row, key))
 
-            # ✅ 包装成居中的 QWidget
+            #  包装成居中的 QWidget
             center_widget = QWidget()
             layout = QHBoxLayout(center_widget)
             layout.addWidget(checkbox)
@@ -234,23 +234,26 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         super(DataPlotForm,self).__init__()
         self.setupUi(self)
         self.data_buffer = {}  
-        self.init_system()
+        self.init_plot_system()
         self.init_connections()
 
 
-    def init_system(self):
+    def init_plot_system(self):
         # 初始化绘图区域
         self.plot_widget = pg.PlotWidget()
         self.plot_widget.setBackground('white')
         self.plot_widget.addLegend()
+        self.plot_widget.showGrid(x=True, y=True, alpha=0.5)  # alpha controls transparency (0-1)
         self.plot_widget.setLabel('left', '数值')
         self.plot_widget.setLabel('bottom', '时间')
         self.horizontalLayout_plot.addWidget(self.plot_widget)
+
 
         # 初始化组件
         self.curves = {}
         self.data_thread = DataThread()
         self.init_curves()
+        #self.init_dataview()
 
 
 
@@ -339,6 +342,8 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
                 self.data_buffer[key].append(data[key])
                 ydata = self.data_buffer[key][-100:]
                 curve.setData(xdata[-len(ydata):], ydata)
+
+
 
         # 自动调整Y轴
         visible_data = []
