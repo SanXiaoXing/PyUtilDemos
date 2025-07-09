@@ -3,7 +3,7 @@
     "name": "数据1",
     "color": "#aaaaff",
     "unit": "/",
-    "visible": true
+    "visible": false
   },
   "data2": {
     "name": "数据2",
@@ -19,7 +19,7 @@
   },
   "data4": {
     "name": "数据4",
-    "color": "#55ffff",
+    "color": "#00ffff",
     "unit": "/",
     "visible": true
   },
@@ -31,7 +31,7 @@
   },
   "data6": {
     "name": "数据6",
-    "color": "#ff55ff",
+    "color": "#917eff",
     "unit": "/",
     "visible": true
   },
@@ -57,7 +57,7 @@
     "name": "数据10",
     "color": "#55aa7f",
     "unit": "/",
-    "visible": false
+    "visible": true
   },
   "data11": {
     "name": "数据11",

@@ -1,4 +1,6 @@
 import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import json
 import math
 from pathlib import Path
@@ -9,37 +11,37 @@ from PyQt5.QtSvg import QSvgRenderer
 import pyqtgraph as pg
 from Ui_Form_RTdata_plot import *
 from Ui_Dialog_Select import *
+from assets import ICON_SQUARE
 
 
 _CONF_PATH = Path(__file__).parent / 'rtdataconf.json'
+
+
+
 # 创建svg图标
-# 将 SVG 数据写入临时文件或使用 QSvgRenderer 直接渲染
-renderer = QSvgRenderer(QByteArray(f'''
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-<path d="M0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96z"/>
-</svg>'''.encode()))
+renderer = QSvgRenderer(ICON_SQUARE)
 
 
-def load_config(self, confpath):
+def load_config(confpath):
     try:
         with open(confpath, 'r', encoding='utf-8') as f:
             config = json.load(f)
     except Exception as e:
-        QMessageBox.critical(self, "错误", f"加载配置失败: {str(e)}")
+        print(f"加载配置失败: {str(e)}")
         config = {}
 
     return config
 
 
-def save_config(self):
+def save_config():
     try:
         with open(_CONF_PATH, 'w', encoding='utf-8') as f:
             json.dump(_CONFIG, f, ensure_ascii=False, indent=2)
     except Exception as e:
-        QMessageBox.critical(self, "错误", f"保存配置失败: {str(e)}")
+        print( f"保存配置失败: {str(e)}")
         
 
-_CONFIG=load_config(None, _CONF_PATH)
+_CONFIG=load_config( _CONF_PATH)
 
 
 
@@ -73,13 +75,19 @@ class DataThread(QThread):
 
 
 
+
 class CurveDialog(QDialog, Ui_Dialog_Select):
     config_updated = pyqtSignal(dict)
 
     def __init__(self,parent=None):
         super(CurveDialog,self).__init__(parent)
         self.setupUi(self)
+        self.data_keys = list(_CONFIG.keys())
+        self.checked_count = 0
+        self.max_checked = 8
         self.init_ui()
+        self.init_data()
+        self.update_checkbox_enabled_state()
 
 
     def init_ui(self):
@@ -96,126 +104,119 @@ class CurveDialog(QDialog, Ui_Dialog_Select):
         header.setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
         header.setSectionResizeMode(2, QHeaderView.ResizeMode.Fixed)
 
+        self.buttonBox.accepted.connect(self.on_ok_clicked)
+
+        
+
+    def init_data(self):
         # 填充数据
         self.tableWidget_data.setRowCount(len(_CONFIG))
-        for row, (key, info) in enumerate(_CONFIG.items()):
-            # 第一列：QCheckBox
-            checkbox = QCheckBox()
-            checkbox.setChecked(info.get("visible", False))
-            checkbox.stateChanged.connect(self.on_check_state_changed)
+        for row, key in enumerate(self.data_keys):
+            config = _CONFIG[key]
 
-            # 使用 QWidget 容器包裹控件，并设置居中布局
-            widget = QWidget()
-            layout = QHBoxLayout(widget)
+            # 第一列：checkbox
+            checkbox = QCheckBox()
+            is_checked = config.get("visible", False)
+            checkbox.setChecked(is_checked)
+            if is_checked:
+                self.checked_count += 1
+
+            checkbox.stateChanged.connect(self.generate_checkbox_handler(row, key))
+
+            # ✅ 包装成居中的 QWidget
+            center_widget = QWidget()
+            layout = QHBoxLayout(center_widget)
             layout.addWidget(checkbox)
             layout.setAlignment(Qt.AlignCenter)
             layout.setContentsMargins(0, 0, 0, 0)
 
-            self.tableWidget_data.setCellWidget(row, 0, widget)
-            # 第二列：名称
-            name_item = QTableWidgetItem(f"{info.get('name', key)} ({key})")
-            name_item.setFlags(Qt.ItemIsEnabled)
-            self.tableWidget_data.setItem(row, 1, name_item)
+            self.tableWidget_data.setCellWidget(row, 0, center_widget)
 
-           
-            # 第三列：颜色图标按钮
-            color_button = QPushButton()
-            color_button.setFixedSize(24, 24)  # 设置为 24x24 正方形
-            color_button.setStyleSheet("QPushButton { border: none; padding: 0px; }")  # 去除边框和内边距
-            self._set_color_icon(color_button, QColor(info.get('color', '#FF0000')))
-            color_button.setObjectName(f"colorBtn_{key}")
-            color_button.clicked.connect(lambda _, k=key: self.pick_color(k))
+            # 第二列：name
+            item = QTableWidgetItem(config.get("name", ""))
+            item.setFlags(item.flags() ^ Qt.ItemIsEditable)
+            self.tableWidget_data.setItem(row, 1, item)
 
-            # 使用 QWidget 容器包裹按钮，并设置居中布局
-            widget_color = QWidget()
-            layout_color = QHBoxLayout(widget_color)
-            layout_color.addWidget(color_button)
-            layout_color.setAlignment(Qt.AlignCenter)
-            layout_color.setContentsMargins(0, 0, 0, 0)
-
-            self.tableWidget_data.setCellWidget(row, 2, widget_color)
+            # 第三列：颜色按钮
+            color = QColor(config.get("color", "#000000"))
+            color_btn = QPushButton()
+            color_btn.setIcon(self.colored_icon(color))
+            color_btn.setIconSize(QSize(24, 24))
+            color_btn.clicked.connect(self.generate_color_button_handler(row, key))
+            self.tableWidget_data.setCellWidget(row, 2, color_btn)
 
      
 
+    def generate_checkbox_handler(self, row, key):
+        def handler(state):
+            cell_widget = self.tableWidget_data.cellWidget(row, 0)
+            checkbox = cell_widget.findChild(QCheckBox) if cell_widget else None
 
-    def _set_color_icon(self, button, color):
-        svg_image = QImage(24, 24, QImage.Format_ARGB32)
-        svg_image.fill(Qt.transparent)
-        painter = QPainter(svg_image)
-        renderer.render(painter)
-        painter.fillRect(svg_image.rect(), color)
+            if state == Qt.Checked:
+                # print(self.checked_count)
+                if self.checked_count >= self.max_checked:
+                    checkbox.blockSignals(True)
+                    checkbox.setChecked(False)
+                    checkbox.blockSignals(False)
+                    return
+                self.checked_count += 1
+            else:
+                self.checked_count -= 1
+            print(self.checked_count)
+
+            _CONFIG[key]["visible"] = (state == Qt.Checked)
+            save_config()
+
+            # 更新所有 checkbox 的可用状态
+            self.update_checkbox_enabled_state()
+
+        return handler
+    
+
+    def update_checkbox_enabled_state(self):
+        for row, key in enumerate(self.data_keys):
+            cell_widget = self.tableWidget_data.cellWidget(row, 0)
+            checkbox = cell_widget.findChild(QCheckBox) if cell_widget else None
+            if checkbox:
+                if not checkbox.isChecked():
+                    checkbox.setEnabled(self.checked_count < self.max_checked)
+
+
+
+    def generate_color_button_handler(self, row, key):
+        def handler():
+            current_color = QColor(_CONFIG[key].get("color", "#000000"))
+            new_color = QColorDialog.getColor(initial=current_color)
+            if new_color.isValid():
+                _CONFIG[key]["color"] = new_color.name()
+                btn = self.tableWidget_data.cellWidget(row, 2)
+                btn.setIcon(self.colored_icon(new_color))
+                save_config()
+        return handler
+
+
+
+    def colored_icon(self, color: QColor):
+        pixmap = QPixmap(24, 24)
+        pixmap.fill(Qt.transparent)
+        painter = QPainter(pixmap)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setBrush(color)
+        painter.setPen(Qt.black)
+        painter.drawEllipse(2, 2, 20, 20)
         painter.end()
-        icon = QIcon(QPixmap.fromImage(svg_image))
-        button.setIcon(icon)
-        button.setIconSize(QSize(24, 24))
-
-
-    def pick_color(self, key):
-        current_color = QColor(_CONFIG[key]['color'])
-        color = QColorDialog.getColor(current_color, self, "选择颜色")
-        if color.isValid():
-            _CONFIG[key]['color'] = color.name()
-            # 更新按钮图标
-            for row in range(self.tableWidget_data.rowCount()):
-                item_key = self.tableWidget_data.item(row, 1).text().split('(')[-1].strip(')')
-                if item_key == key:
-                    # 获取容器 widget_color
-                    widget_color = self.tableWidget_data.cellWidget(row, 2)
-                    # 从容器中找到 QPushButton 按钮
-                    color_button = widget_color.findChild(QPushButton)
-                    if color_button:
-                        self._set_color_icon(color_button, color)
-            save_config(self)
-
-
-    def on_check_state_changed(self):
-        checkbox = self.sender()  # 获取触发信号的 QCheckBox
-        if not isinstance(checkbox, QCheckBox):
-            return
-        
-        checked_count = 0
-        for r in range(self.tableWidget_data.rowCount()):
-            widget = self.tableWidget_data.cellWidget(r, 0)
-            if widget:
-                cb = widget.findChild(QCheckBox)
-                if cb and cb.isChecked():
-                    checked_count += 1
-
-        if checked_count > 8:
-            checkbox.setChecked(False)
-            QMessageBox.warning(self, "提示", "最多只能显示8条曲线")
-
-        row = -1
-        for r in range(self.tableWidget_data.rowCount()):
-            widget = self.tableWidget_data.cellWidget(r, 0)
-            if widget and checkbox in widget.children():
-                row = r
-                break
-
-        if row == -1:
-            return
-
-        # 获取 key
-        name_item = self.tableWidget_data.item(row, 1)
-        if not name_item:
-            return
-        key = name_item.text().split('(')[-1].strip(')')
-        
-
-        # 更新配置
-        _CONFIG[key]['visible'] = checkbox.isChecked()
-        save_config(self)
-
-        
-
-
+        return QIcon(pixmap)
 
 
 
 
     
+    
+
+        
+
+    
     def on_ok_clicked(self):
-        save_config(self)
         self.config_updated.emit(_CONFIG)
         self.accept()  # 关闭对话框
 
@@ -235,6 +236,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         self.data_buffer = {}  
         self.init_system()
         self.init_connections()
+
 
     def init_system(self):
         # 初始化绘图区域
@@ -268,8 +270,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
             if not _CONFIG.get(key, {}).get("visible", False):
                 del self.data_buffer[key]
         
-        # 清空 gridLayout_data 中的所有控件
-        self.clear_grid_layout(self.gridLayout_data)
+        
 
 
     def clear_grid_layout(self, layout):
@@ -281,6 +282,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
                     widget.deleteLater()
                 elif item.layout() is not None:
                     self.clear_grid_layout(item.layout())  # 递归清除子布局
+
 
 
 
@@ -301,7 +303,10 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
             
 
+
+
     def init_dataview(self):
+        self.clear_grid_layout(self.gridLayout_dataview)
         for key, params in _CONFIG.items():
             if not params.get("visible", False):
                 continue
@@ -319,8 +324,6 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
             layout.addWidget(label, 1)
             layout.addWidget(doublespinbox, 1)
-
-
 
 
 
@@ -385,12 +388,9 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
 
     def on_config_updated(self, updated_config):
-        global _CONFIG
-        _CONFIG = updated_config  # Update the global config
-
         # Synchronize data_buffer with the updated configuration
         for key in list(self.data_buffer.keys()):
-            if not _CONFIG.get(key, {}).get("visible", False):
+            if not updated_config.get(key, {}).get("visible", False):
                 del self.data_buffer[key]  # Remove hidden curve's data buffer
             else:
                 self.data_buffer.setdefault(key, [])  # Ensure visible curves have a buffer
