@@ -36,6 +36,20 @@
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="pushButton_xmode">
+          <property name="text">
+           <string>固定X轴</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_yautoscale">
+          <property name="text">
+           <string>固定Y轴</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="pushButton_select">
           <property name="text">
            <string>选择监控数据</string>
