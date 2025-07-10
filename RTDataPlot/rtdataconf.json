@@ -1,13 +1,13 @@
 {
   "data1": {
     "name": "数据1",
-    "color": "#aaaaff",
+    "color": "#2bbfff",
     "unit": "/",
-    "visible": false
+    "visible": true
   },
   "data2": {
     "name": "数据2",
-    "color": "#aa0000",
+    "color": "#ff55ff",
     "unit": "/",
     "visible": true
   },
@@ -39,13 +39,13 @@
     "name": "数据7",
     "color": "#ff5500",
     "unit": "/",
-    "visible": true
+    "visible": false
   },
   "data8": {
     "name": "数据8",
     "color": "#ffff00",
     "unit": "/",
-    "visible": true
+    "visible": false
   },
   "data9": {
     "name": "数据9",
@@ -57,7 +57,7 @@
     "name": "数据10",
     "color": "#55aa7f",
     "unit": "/",
-    "visible": true
+    "visible": false
   },
   "data11": {
     "name": "数据11",

@@ -3,6 +3,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import json
 import math
+from collections import deque
 from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -49,29 +50,42 @@ _CONFIG=load_config( _CONF_PATH)
 class DataThread(QThread):
     data_updated = pyqtSignal(dict, int)
 
-
     def __init__(self):
         super().__init__()
         self._mutex = QMutex()
         self._condition = QWaitCondition()
         self._is_paused = False
-
-
+        self._is_running = True  # 新增运行状态标志
 
     def run(self):
         xtime = 0
-        while True:
+        keys = [k for k in _CONFIG.keys() if _CONFIG[k].get("visible", False)]
+        while self._is_running:
             self._mutex.lock()
             if self._is_paused:
-                self._mutex.unlock()
-                self._condition.wait(self._mutex)  # 等待唤醒
-                continue
+                self._condition.wait(self._mutex)
             self._mutex.unlock()
 
+            # 判断退出标志，避免唤醒后继续执行
+            if not self._is_running:
+                break
+
             combined_data = {}
+            for i, key in enumerate(keys):
+                angle = xtime * 0.1 
+                combined_data[key] = math.sin(angle)+i
+
             self.data_updated.emit(combined_data, xtime)
             xtime += 1
             self.msleep(100)
+
+    def stop(self):
+        self._mutex.lock()
+        self._is_running = False
+        self._condition.wakeAll()
+        self._mutex.unlock()
+
+
 
 
 
@@ -234,6 +248,8 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         super(DataPlotForm,self).__init__()
         self.setupUi(self)
         self.data_buffer = {}  
+        self.auto_y_scale = True
+        self.scroll_x_mode = True  # 默认滚动模式
         self.init_plot_system()
         self.init_connections()
 
@@ -246,7 +262,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         self.plot_widget.showGrid(x=True, y=True, alpha=0.5)  # alpha controls transparency (0-1)
         self.plot_widget.setLabel('left', '数值')
         self.plot_widget.setLabel('bottom', '时间')
-        self.horizontalLayout_plot.addWidget(self.plot_widget)
+        self.gridLayout_plot.addWidget(self.plot_widget)
 
 
         # 初始化组件
@@ -259,9 +275,12 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
     def init_connections(self):
         self.pushButton_select.clicked.connect(self.show_curve_selector)
-        self.pushButton_screenshot.clicked.connect(self.save_screenshot)
         self.pushButton_control.clicked.connect(self.plot_control)
         self.data_thread.data_updated.connect(self.update_plot)
+        self.pushButton_yautoscale.clicked.connect(self.toggle_y_autoscale)
+        self.pushButton_xmode.clicked.connect(self.toggle_x_mode)
+
+
 
 
     def clear_curves(self):
@@ -272,6 +291,24 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         for key in list(self.data_buffer.keys()):
             if not _CONFIG.get(key, {}).get("visible", False):
                 del self.data_buffer[key]
+
+
+    def toggle_y_autoscale(self):
+        self.auto_y_scale = not self.auto_y_scale
+        if self.auto_y_scale:
+            self.pushButton_yautoscale.setText("固定Y轴")
+        else:
+            self.pushButton_yautoscale.setText("自动Y轴")
+
+
+    def toggle_x_mode(self):
+        self.scroll_x_mode = not self.scroll_x_mode
+        if self.scroll_x_mode:
+            self.pushButton_xmode.setText("滚动X轴")
+        else:
+            self.pushButton_xmode.setText("固定X轴")
+
+
         
         
 
@@ -298,11 +335,16 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
             color_str = params.get('color', '#FF0000')
             color = QColor(color_str)
+            
+            # 初始化曲线，并将实时数据添加到name中
             curve = self.plot_widget.plot(
                 pen=pg.mkPen(color, width=2),
-                name=params['name']
+                name = params.get('name', key),
+                color = params.get('color', '#FF0000')
             )
             self.curves[key] = curve
+
+
 
             
 
@@ -332,31 +374,47 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
 
 
-
-
     def update_plot(self, data, xtime):
-        xdata = list(range(max(0, xtime - 100), xtime))
-    
+        #xdata = list(range(max(0, xtime - 1000), xtime))
+
         for key, curve in self.curves.items():
             if key in data and _CONFIG.get(key, {}).get("visible", False):
+                if key not in self.data_buffer:
+                    self.data_buffer[key] = deque(maxlen=10000)
+
                 self.data_buffer[key].append(data[key])
-                ydata = self.data_buffer[key][-100:]
-                curve.setData(xdata[-len(ydata):], ydata)
+                ydata_full = list(self.data_buffer[key])
+
+                # 构建完整 x 轴（以当前 xtime 为尾部）
+                start_xtime = xtime - len(ydata_full) + 1
+                xdata_full = list(range(start_xtime, xtime + 1))
+
+                # 决定显示区域
+                if self.scroll_x_mode:
+                    # 滚动模式：仅显示最近100个点
+                    ydata = ydata_full[-100:]
+                    xdata = xdata_full[-100:]
+                    self.plot_widget.setXRange(xdata[0], xdata[-1], padding=0)
+                else:
+                    # 固定模式：显示全部历史
+                    ydata = ydata_full
+                    xdata = xdata_full
+                    self.plot_widget.enableAutoRange(axis='x', enable=True)  # 可选：自动扩展X轴
+
+                if len(xdata) == len(ydata):
+                    curve.setData(x=xdata, y=ydata)
+
+        # 自动 Y 轴缩放
+        if self.auto_y_scale:
+            visible_data = [data[k] for k in data if _CONFIG.get(k, {}).get("visible", False)]
+            if visible_data:
+                min_val = min(visible_data)
+                max_val = max(visible_data)
+                self.plot_widget.setYRange(min_val * 0.9, max_val * 1.1)
 
 
 
-        # 自动调整Y轴
-        visible_data = []
-        for key, value in data.items():
-            if _CONFIG.get(key, {}).get("visible", False):
-                visible_data.append(value)
-
-        if visible_data:
-            min_val = min(visible_data)
-            max_val = max(visible_data)
-            self.plot_widget.setYRange(min_val * 0.9, max_val * 1.1)
-
-
+        
 
     def plot_control(self):
         if self.pushButton_control.text() == "开始":
@@ -368,10 +426,10 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
     def start_plotting(self):
         if not self.data_thread.isRunning():
-            self.data_thread.start()  # 只有不在运行时才启动
+            self.data_thread.start()
         self.data_thread._mutex.lock()
         self.data_thread._is_paused = False
-        self.data_thread._condition.wakeAll()  # 唤醒线程继续执行
+        self.data_thread._condition.wakeAll()
         self.data_thread._mutex.unlock()
         self.pushButton_control.setText("停止")
 
@@ -402,15 +460,11 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
         self.init_curves()  # Reinitialize curves based on the new config
 
-    def save_screenshot(self):
-        pass
-
 
 
     def closeEvent(self, event):
-        self.data_thread._is_paused = True
-        self.data_thread._condition.wakeAll()  # 唤醒线程以便退出循环
-        self.data_thread.quit()
+        # 停止线程安全退出
+        self.data_thread.stop()
         self.data_thread.wait()
         super().closeEvent(event)
 
