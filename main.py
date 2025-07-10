@@ -1,52 +1,117 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QStackedWidget, QHBoxLayout, QWidget, QLabel,QListWidgetItem
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
+    QGridLayout, QFrame, QSizePolicy
+)
+from PyQt5.QtSvg import QSvgWidget
+from PyQt5.QtCore import Qt, pyqtSignal, QSize
+from PyQt5.QtGui import QFont
 
-class MainWindow(QMainWindow):
+
+class HoverFrame(QFrame):
+    clicked = pyqtSignal()
+
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("PyQt5 主界面示例")
-        self.setGeometry(100, 100, 800, 600)
+        self.setMouseTracking(True)
+        self.setCursor(Qt.PointingHandCursor)
+        self.setStyleSheet(self.default_style())
 
-        # 创建主布局
-        main_widget = QWidget()
-        main_layout = QHBoxLayout()
-        main_widget.setLayout(main_layout)
-        self.setCentralWidget(main_widget)
+    def enterEvent(self, event):
+        self.setStyleSheet(self.hover_style())
+        super().enterEvent(event)
 
-        # 创建左侧侧边栏
-        self.sidebar = QListWidget()
-        self.sidebar.setFixedWidth(150)
-        self.sidebar.setIconSize(self.sidebar.iconSize())
-        main_layout.addWidget(self.sidebar)
+    def leaveEvent(self, event):
+        self.setStyleSheet(self.default_style())
+        super().leaveEvent(event)
 
-        # 创建右侧堆叠窗口
-        self.stacked_widget = QStackedWidget()
-        main_layout.addWidget(self.stacked_widget)
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.clicked.emit()
+        super().mousePressEvent(event)
 
-        # 添加页面
-        self.add_page("页面1", "page1.png", "这是页面1的内容")
-        self.add_page("页面2", "page2.png", "这是页面2的内容")
-        self.add_page("页面3", "page3.png", "这是页面3的内容")
+    def default_style(self):
+        return """
+            QFrame {
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+                border-radius: 10px;
+                padding: 10px;
+            }
+        """
 
-        # 连接点击事件
-        self.sidebar.currentRowChanged.connect(self.change_page)
+    def hover_style(self):
+        return """
+            QFrame {
+                background-color: #f0f8ff;
+                border: 1px solid #3399ff;
+                border-radius: 10px;
+                padding: 10px;
+            }
+        """
 
-    def add_page(self, name, icon_path, content):
-        # 添加侧边栏项
-        item = QListWidgetItem(QIcon(icon_path), name)
-        self.sidebar.addItem(item)
 
-        # 添加页面内容
-        label = QLabel(content)
-        self.stacked_widget.addWidget(label)
+class CardWidget(HoverFrame):
+    def __init__(self, svg_path: str, title: str, description: str, parent=None):
+        super().__init__()
+        self.title = title  # 用于点击事件中使用
 
-    def change_page(self, index):
-        self.stacked_widget.setCurrentIndex(index)
+        layout = QHBoxLayout()
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(10)
+
+        # 左侧 SVG 图标
+        svg_widget = QSvgWidget(svg_path)
+        svg_widget.setFixedSize(QSize(48, 48))
+        layout.addWidget(svg_widget)
+
+        # 右侧文字
+        text_layout = QVBoxLayout()
+        title_label = QLabel(title)
+        title_label.setFont(QFont("Arial", 10, QFont.Bold))
+
+        desc_label = QLabel(description)
+        desc_label.setStyleSheet("color: #555555; font-size: 10pt;")
+        desc_label.setWordWrap(True)
+
+        text_layout.addWidget(title_label)
+        text_layout.addWidget(desc_label)
+
+        layout.addLayout(text_layout)
+        self.setLayout(layout)
+
+        # 绑定点击事件
+        self.clicked.connect(self.on_click)
+
+    def on_click(self):
+        print(f"点击了卡片: {self.title}")
+
+
+class CardGrid(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("卡片网格（含SVG、Hover、点击）")
+        self.resize(1000, 600)
+
+        grid_layout = QGridLayout()
+        grid_layout.setSpacing(20)
+
+        # 添加 8 个卡片
+        for i in range(8):
+            svg_path = "icon.svg"  # 替换成你本地 SVG 路径
+            title = f"功能模块 {i+1}"
+            desc = "这里是功能的简要描述，可以包含多行内容，用于介绍模块用途。"
+            card = CardWidget(svg_path, title, desc)
+            card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+            row = i // 4
+            col = i % 4
+            grid_layout.addWidget(card, row, col)
+
+        self.setLayout(grid_layout)
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MainWindow()
+    window = CardGrid()
     window.show()
     sys.exit(app.exec_())
