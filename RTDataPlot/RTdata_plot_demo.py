@@ -246,7 +246,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         self.plot_widget.showGrid(x=True, y=True, alpha=0.5)  # alpha controls transparency (0-1)
         self.plot_widget.setLabel('left', '数值')
         self.plot_widget.setLabel('bottom', '时间')
-        self.horizontalLayout_plot.addWidget(self.plot_widget)
+        self.gridLayout_plot.addWidget(self.plot_widget)
 
 
         # 初始化组件
@@ -259,7 +259,6 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
     def init_connections(self):
         self.pushButton_select.clicked.connect(self.show_curve_selector)
-        self.pushButton_screenshot.clicked.connect(self.save_screenshot)
         self.pushButton_control.clicked.connect(self.plot_control)
         self.data_thread.data_updated.connect(self.update_plot)
 
@@ -298,11 +297,15 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
             color_str = params.get('color', '#FF0000')
             color = QColor(color_str)
+            
+            # 初始化曲线，并将实时数据添加到name中
             curve = self.plot_widget.plot(
                 pen=pg.mkPen(color, width=2),
-                name=params['name']
+                name=self.get_curve_name(key, params)  # 获取带实时数据的名称
             )
             self.curves[key] = curve
+
+
 
             
 
@@ -332,8 +335,6 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
 
 
-
-
     def update_plot(self, data, xtime):
         xdata = list(range(max(0, xtime - 100), xtime))
     
@@ -343,6 +344,12 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
                 ydata = self.data_buffer[key][-100:]
                 curve.setData(xdata[-len(ydata):], ydata)
 
+
+                # 判断数据变化是否超过阈值，如果是则更新曲线名称
+                if abs(data[key] - self.data_buffer[key][-2]) > 0.1:
+                    curve.setName(self.get_curve_name(key, _CONFIG[key]))
+
+                
 
 
         # 自动调整Y轴
@@ -357,6 +364,16 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
             self.plot_widget.setYRange(min_val * 0.9, max_val * 1.1)
 
 
+
+    def get_curve_name(self, key, params):
+        name = params.get('name', key)
+        color = params.get('color', '#FF0000')
+
+        # 获取曲线的最新数据值
+        latest_value = self.data_buffer[key][-1] if key in self.data_buffer else 0
+
+        # 返回带有实时数据的名称
+        return f"{name}: {latest_value:.2f}"  # 你可以调整显示格式
 
     def plot_control(self):
         if self.pushButton_control.text() == "开始":
@@ -401,9 +418,6 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
                 self.data_buffer.setdefault(key, [])  # Ensure visible curves have a buffer
 
         self.init_curves()  # Reinitialize curves based on the new config
-
-    def save_screenshot(self):
-        pass
 
 
 
