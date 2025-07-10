@@ -110,10 +110,14 @@ class FluentDemoWindow(QMainWindow):
         checkbox2.setChecked(True)
         checkbox3 = QCheckBox('禁用选项')
         checkbox3.setEnabled(False)
+        checkbox4 = QCheckBox('已选中禁用选项')
+        checkbox4.setChecked(True)
+        checkbox4.setEnabled(False)
         
         checkbox_layout.addWidget(checkbox1)
         checkbox_layout.addWidget(checkbox2)
         checkbox_layout.addWidget(checkbox3)
+        checkbox_layout.addWidget(checkbox4)
         selection_layout.addLayout(checkbox_layout)
         
         # 单选按钮
