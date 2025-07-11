@@ -9,7 +9,7 @@ import glob
 from datetime import datetime, timedelta
 import re
 
-from Ui_log_viewer import *
+from LogViewer.Ui_log_viewer import *
 
 
 LOG_FILES=str( Path(__file__).parent / 'logs')  # 插值表配置文件路径
