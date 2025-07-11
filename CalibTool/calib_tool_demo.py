@@ -15,14 +15,21 @@ from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from Ui_CalibrationForm import *
+from CalibTool.Ui_CalibrationForm import *
 
  
 CALIBCONF_PATH=str( Path(__file__).parent / 'calibconf.json')  # 插值表配置文件路径
 
+cardinfo={
+        "name":"card_1",
+        "type":"模拟量",
+        "ch":2,
+        "mfr":"厂商_1",
+        "desc":"描述_1"
+    }
 
 class CalibrationForm(QWidget,Ui_CalibrationForm): 
-    def __init__(self,cardinfo:dict):
+    def __init__(self):
         """
         :cardinfo: 待校准的板卡信息dict
         """
@@ -319,24 +326,7 @@ class NumericDelegate(QStyledItemDelegate):
 
 
 if __name__ == '__main__':
-    cardinfo={
-        "card_1":{
-            "name":"card_1",
-            "type":"模拟量",
-            "ch":2,
-            "mfr":"厂商_1",
-            "desc":"描述_1"
-        },
-        "card_2":{
-            "name":"card_2",
-            "type":"模拟量",
-            "ch":4,
-            "mfr":"厂商_2",
-            "desc":"描述_2"
-        }
-    }
-
     app = QApplication(sys.argv)
-    tool = CalibrationForm(cardinfo['card_1'])
+    tool = CalibrationForm()
     tool.show()
     sys.exit(app.exec_())

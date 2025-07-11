@@ -1,20 +1,35 @@
 import sys
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
-    QGridLayout, QFrame, QSizePolicy
+    QScrollArea, QFrame, QSizePolicy
 )
 from PyQt5.QtSvg import QSvgWidget
-from PyQt5.QtCore import Qt, pyqtSignal, QSize
-from PyQt5.QtGui import QFont
+from PyQt5.QtCore import Qt, pyqtSignal, QSize,QPoint
+from PyQt5.QtGui import QFont,QColor
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame,QGraphicsDropShadowEffect
+from CalibTool.calib_tool_demo import CalibrationForm
+
+
+
 
 
 class HoverFrame(QFrame):
     clicked = pyqtSignal()
 
+    
+
     def __init__(self):
         super().__init__()
         self.setMouseTracking(True)
         self.setCursor(Qt.PointingHandCursor)
+
+        # 初始化阴影效果
+        self.shadow_effect = QGraphicsDropShadowEffect()
+        self.shadow_effect.setBlurRadius(15)
+        self.shadow_effect.setOffset(0, 4)
+        self.shadow_effect.setColor(QColor(0, 0, 0, 50))  # 阴影透明度
+        self.setGraphicsEffect(self.shadow_effect)
+        
         self.setStyleSheet(self.default_style())
 
     def enterEvent(self, event):
@@ -30,13 +45,15 @@ class HoverFrame(QFrame):
             self.clicked.emit()
         super().mousePressEvent(event)
 
+
     def default_style(self):
         return """
             QFrame {
                 background-color: #ffffff;
                 border: 1px solid #dddddd;
-                border-radius: 10px;
+                border-radius: 8px;
                 padding: 10px;
+
             }
         """
 
@@ -45,34 +62,42 @@ class HoverFrame(QFrame):
             QFrame {
                 background-color: #f0f8ff;
                 border: 1px solid #3399ff;
-                border-radius: 10px;
+                border-radius: 8px;
                 padding: 10px;
+  
             }
         """
 
 
+
+
 class CardWidget(HoverFrame):
-    def __init__(self, svg_path: str, title: str, description: str, parent=None):
+    def __init__(self, svg_path: str, title: str, description: str, window_class=None, parent=None):
         super().__init__()
-        self.title = title  # 用于点击事件中使用
+        self.title = title
+        self.window_class = window_class
 
         layout = QHBoxLayout()
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(10)
+        layout.setContentsMargins(10, 5, 10, 5)
+        layout.setSpacing(12)
 
         # 左侧 SVG 图标
         svg_widget = QSvgWidget(svg_path)
-        svg_widget.setFixedSize(QSize(48, 48))
+        svg_widget.setFixedSize(QSize(60, 60))
         layout.addWidget(svg_widget)
 
-        # 右侧文字
+        # 右侧文字（无边框）
         text_layout = QVBoxLayout()
+        text_layout.setContentsMargins(0, 0, 0, 0)
+        text_layout.setSpacing(0)
         title_label = QLabel(title)
-        title_label.setFont(QFont("Arial", 10, QFont.Bold))
+        title_label.setFont(QFont("微软雅黑", 14, QFont.Bold))
+        title_label.setStyleSheet("border: none;")
 
         desc_label = QLabel(description)
-        desc_label.setStyleSheet("color: #555555; font-size: 10pt;")
+        desc_label.setFont(QFont("微软雅黑", 10))
         desc_label.setWordWrap(True)
+        desc_label.setStyleSheet("color: #555555; font-size: 10pt; border: none;")
 
         text_layout.addWidget(title_label)
         text_layout.addWidget(desc_label)
@@ -80,38 +105,148 @@ class CardWidget(HoverFrame):
         layout.addLayout(text_layout)
         self.setLayout(layout)
 
-        # 绑定点击事件
         self.clicked.connect(self.on_click)
 
     def on_click(self):
         print(f"点击了卡片: {self.title}")
+        if self.window_class:
+            self.window_class().show()
 
 
-class CardGrid(QWidget):
+
+
+
+
+
+class ScrollCardList(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("卡片网格（含SVG、Hover、点击）")
-        self.resize(1000, 600)
+        self.setWindowTitle("纵向滚动卡片列表")
+        self.resize(600, 800)
 
-        grid_layout = QGridLayout()
-        grid_layout.setSpacing(20)
+        # 主布局
+        main_layout = QVBoxLayout(self)
 
-        # 添加 8 个卡片
-        for i in range(8):
-            svg_path = "icon.svg"  # 替换成你本地 SVG 路径
-            title = f"功能模块 {i+1}"
-            desc = "这里是功能的简要描述，可以包含多行内容，用于介绍模块用途。"
-            card = CardWidget(svg_path, title, desc)
+        # 滚动区域设置
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setStyleSheet("""
+            QScrollArea {
+                border: none;
+                background-color: transparent;
+            }
+            QScrollArea > QWidget {
+                background-color: transparent;
+            }
+            QScrollBar:vertical {
+                background: transparent;
+                width: 8px;
+                margin: 2px 0 2px 0;
+                border-radius: 4px;
+            }
+            QScrollBar::handle:vertical {
+                background: rgba(100, 100, 100, 0.4);
+                min-height: 20px;
+                border-radius: 4px;
+            }
+            QScrollBar::handle:vertical:hover {
+                background: rgba(80, 80, 80, 0.6);
+            }
+            QScrollBar::add-line:vertical,
+            QScrollBar::sub-line:vertical {
+                height: 0;
+            }
+
+            QScrollBar:horizontal {
+                background: transparent;
+                height: 8px;
+                margin: 0 2px 0 2px;
+                border-radius: 4px;
+            }
+            QScrollBar::handle:horizontal {
+                background: rgba(100, 100, 100, 0.4);
+                min-width: 20px;
+                border-radius: 4px;
+            }
+            QScrollBar::handle:horizontal:hover {
+                background: rgba(80, 80, 80, 0.6);
+            }
+            QScrollBar::add-line:horizontal,
+            QScrollBar::sub-line:horizontal {
+                width: 0;
+            }
+        """)
+
+
+        # 卡片容器 Widget + 布局
+        content_widget = QWidget()
+        content_layout = QVBoxLayout(content_widget)
+        content_layout.setSpacing(12)
+        content_layout.setContentsMargins(10, 10, 10, 10)
+
+        card_data = [
+            {
+                "svg_path": "icon1.svg",
+                "title": "校准工具",
+                "description": "这是一个校准工具",
+                "window_class": CalibrationForm
+            },
+            {
+                "svg_path": "icon2.svg",
+                "title": "数据回放",
+                "description": "这是一个数据回放工具。",
+                "window_class": None  # 暂时不绑定窗口
+            },
+            {
+                "svg_path": "icon3.svg",
+                "title": "实时曲线",
+                "description": "这是一个实时曲线工具。",
+                "window_class": None  # 暂时不绑定窗口
+            },
+            {
+                "svg_path": "icon3.svg",
+                "title": "日志查看",
+                "description": "这是一个日志查看工具。",
+                "window_class": None  # 暂时不绑定窗口
+            },
+            {
+                "svg_path": "icon3.svg",
+                "title": "状态监控",
+                "description": "这是一个状态监控工具。",
+                "window_class": None  # 暂时不绑定窗口
+            },
+            {
+                "svg_path": "icon3.svg",
+                "title": "总线数据解析",
+                "description": "这是一个总线数据解析工具。",
+                "window_class": None  # 暂时不绑定窗口
+            },
+        ]
+
+        for data in card_data:
+            card = CardWidget(
+                data["svg_path"],
+                data["title"], 
+                data["description"],
+                data.get("window_class"))  # 传递窗口类)
             card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-            row = i // 4
-            col = i % 4
-            grid_layout.addWidget(card, row, col)
+            content_layout.addWidget(card)
 
-        self.setLayout(grid_layout)
+        content_layout.addStretch()  # 防止最后一个卡片贴底部
+        scroll_area.setWidget(content_widget)
+        main_layout.addWidget(scroll_area)
+
+
+
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = CardGrid()
+    # 设置现代风格样式
+    app.setStyle("Fusion")
+    app.setFont(QFont("Segoe UI", 10))  # 设置现代字体
+
+    window = ScrollCardList()
     window.show()
     sys.exit(app.exec_())
+
