@@ -1,11 +1,14 @@
 import sys
 import os
+from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtSvg import QSvgWidget
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from CalibTool.calib_tool_demo import CalibrationForm
 from RTDataPlot.RTdata_plot_demo import DataPlotForm
+from LogViewer.log_viewer_demo import LogCheckForm
+from BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
 
 
 
@@ -78,6 +81,7 @@ class CardWidget(HoverFrame):
         layout.setSpacing(12)
 
         # 左侧 SVG 图标
+        svg_path=str(Path(__file__) .parent/ f'assets/icon/{svg_path}')
         svg_widget = QSvgWidget(svg_path)
         svg_widget.setFixedSize(QSize(60, 60))
         layout.addWidget(svg_widget)
@@ -118,8 +122,9 @@ class CardWidget(HoverFrame):
 class ScrollCardList(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("纵向滚动卡片列表")
+        self.setWindowTitle("正经工具箱")
         self.resize(600, 800)
+        self.setWindowIcon(QIcon(str(Path(__file__) .parent/ 'assets/icon/fill-shit-ac.svg')))
 
         # 主布局
         main_layout = QVBoxLayout(self)
@@ -183,43 +188,43 @@ class ScrollCardList(QWidget):
 
         card_data = [
             {
-                "svg_path": "icon1.svg",
+                "svg_path": "计算.svg",
                 "title": "校准工具",
                 "description": "这是一个校准工具",
                 "window_class": CalibrationForm
             },
             {
-                "svg_path": "icon2.svg",
+                "svg_path": "分析统计.svg",
                 "title": "数据回放",
                 "description": "这是一个数据回放工具。",
                 "window_class": None  # 暂时不绑定窗口
             },
             {
-                "svg_path": "icon3.svg",
+                "svg_path": "仪表盘.svg",
                 "title": "实时曲线",
                 "description": "这是一个实时曲线工具。",
                 "window_class": DataPlotForm  # 暂时不绑定窗口
             },
             {
-                "svg_path": "icon3.svg",
+                "svg_path": "文件文档.svg",
                 "title": "日志查看",
                 "description": "这是一个日志查看工具。",
-                "window_class": None  # 暂时不绑定窗口
+                "window_class": LogCheckForm  # 暂时不绑定窗口
             },
             {
-                "svg_path": "icon3.svg",
+                "svg_path": "灯泡主意创新.svg",
                 "title": "状态监控",
                 "description": "这是一个状态监控工具。",
-                "window_class": None  # 暂时不绑定窗口
+                "window_class": BulbStateMonitor  # 暂时不绑定窗口
             },
             {
-                "svg_path": "icon3.svg",
+                "svg_path": "数据线.svg",
                 "title": "总线数据解析",
                 "description": "这是一个总线数据解析工具。",
                 "window_class": None  # 暂时不绑定窗口
             },
         ]
-
+        
         for data in card_data:
             card = CardWidget(
                 data["svg_path"],
