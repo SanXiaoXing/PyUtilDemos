@@ -14,35 +14,106 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_RTDataPlotForm(object):
     def setupUi(self, RTDataPlotForm):
         RTDataPlotForm.setObjectName("RTDataPlotForm")
-        RTDataPlotForm.resize(999, 612)
+        RTDataPlotForm.resize(999, 684)
         self.horizontalLayout = QtWidgets.QHBoxLayout(RTDataPlotForm)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.groupBox = QtWidgets.QGroupBox(RTDataPlotForm)
+        self.groupBox.setStyleSheet("")
         self.groupBox.setObjectName("groupBox")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.groupBox)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.gridLayout = QtWidgets.QGridLayout(self.groupBox)
+        self.gridLayout.setObjectName("gridLayout")
+        self.gridLayout_data = QtWidgets.QGridLayout()
+        self.gridLayout_data.setObjectName("gridLayout_data")
+        self.gridLayout.addLayout(self.gridLayout_data, 1, 1, 1, 1)
+        self.gridLayout_3 = QtWidgets.QGridLayout()
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.pushButton_yautoscale = QtWidgets.QPushButton(self.groupBox)
+        self.pushButton_yautoscale.setObjectName("pushButton_yautoscale")
+        self.gridLayout_3.addWidget(self.pushButton_yautoscale, 0, 1, 1, 1)
+        self.label_3 = QtWidgets.QLabel(self.groupBox)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout_3.addWidget(self.label_3, 3, 0, 1, 1)
+        self.horizontalSlider_Y = QtWidgets.QSlider(self.groupBox)
+        self.horizontalSlider_Y.setStyleSheet("\n"
+"QSlider::groove:horizontal {\n"
+"    height: 10px;\n"
+"    background: #dddddd;\n"
+"    border: 1px solid #999999;\n"
+"    border-radius: 5px;\n"
+"}\n"
+"QSlider::handle:horizontal {\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"    background: #147aff;\n"
+"    border: 1px solid #147aff;\n"
+"    border-radius: 10px;\n"
+"    margin: -5px 0; /* Handle overlaps the groove by 5px on each side */\n"
+"}\n"
+"QSlider::handle:horizontal:hover {\n"
+"    background: #156dd7;\n"
+"}")
+        self.horizontalSlider_Y.setMaximum(1)
+        self.horizontalSlider_Y.setPageStep(1)
+        self.horizontalSlider_Y.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider_Y.setObjectName("horizontalSlider_Y")
+        self.gridLayout_3.addWidget(self.horizontalSlider_Y, 3, 1, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout_3.addWidget(self.label_4, 3, 2, 1, 1)
+        self.pushButton_xmode = QtWidgets.QPushButton(self.groupBox)
+        self.pushButton_xmode.setObjectName("pushButton_xmode")
+        self.gridLayout_3.addWidget(self.pushButton_xmode, 1, 1, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.groupBox)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout_3.addWidget(self.label_2, 2, 2, 1, 1)
+        self.horizontalSlider_X = QtWidgets.QSlider(self.groupBox)
+        self.horizontalSlider_X.setStyleSheet("\n"
+"QSlider::groove:horizontal {\n"
+"    height: 10px;\n"
+"    background: #dddddd;\n"
+"    border: 1px solid #999999;\n"
+"    border-radius: 5px;\n"
+"}\n"
+"QSlider::handle:horizontal {\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"    background: #147aff;\n"
+"    border: 1px solid #147aff;\n"
+"    border-radius: 10px;\n"
+"    margin: -5px 0; /* Handle overlaps the groove by 5px on each side */\n"
+"}\n"
+"QSlider::handle:horizontal:hover {\n"
+"    background: #156dd7;\n"
+"}")
+        self.horizontalSlider_X.setMaximum(1)
+        self.horizontalSlider_X.setPageStep(1)
+        self.horizontalSlider_X.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider_X.setObjectName("horizontalSlider_X")
+        self.gridLayout_3.addWidget(self.horizontalSlider_X, 2, 1, 1, 1)
+        self.label = QtWidgets.QLabel(self.groupBox)
+        self.label.setObjectName("label")
+        self.gridLayout_3.addWidget(self.label, 2, 0, 1, 1)
+        self.gridLayout.addLayout(self.gridLayout_3, 2, 1, 1, 1)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
-        self.pushButton_xmode = QtWidgets.QPushButton(self.groupBox)
-        self.pushButton_xmode.setObjectName("pushButton_xmode")
-        self.horizontalLayout_3.addWidget(self.pushButton_xmode)
-        self.pushButton_yautoscale = QtWidgets.QPushButton(self.groupBox)
-        self.pushButton_yautoscale.setObjectName("pushButton_yautoscale")
-        self.horizontalLayout_3.addWidget(self.pushButton_yautoscale)
         self.pushButton_select = QtWidgets.QPushButton(self.groupBox)
         self.pushButton_select.setObjectName("pushButton_select")
         self.horizontalLayout_3.addWidget(self.pushButton_select)
         self.pushButton_control = QtWidgets.QPushButton(self.groupBox)
+        self.pushButton_control.setStyleSheet("")
         self.pushButton_control.setObjectName("pushButton_control")
         self.horizontalLayout_3.addWidget(self.pushButton_control)
-        self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.gridLayout.addLayout(self.horizontalLayout_3, 0, 1, 1, 1)
         self.gridLayout_plot = QtWidgets.QGridLayout()
         self.gridLayout_plot.setObjectName("gridLayout_plot")
-        self.verticalLayout.addLayout(self.gridLayout_plot)
-        self.verticalLayout.setStretch(0, 1)
-        self.verticalLayout.setStretch(1, 9)
+        self.gridLayout.addLayout(self.gridLayout_plot, 0, 0, 3, 1)
+        self.gridLayout.setColumnStretch(0, 9)
+        self.gridLayout.setColumnStretch(1, 1)
+        self.gridLayout.setRowStretch(0, 1)
+        self.gridLayout.setRowStretch(1, 8)
+        self.gridLayout.setRowStretch(2, 1)
         self.horizontalLayout.addWidget(self.groupBox)
 
         self.retranslateUi(RTDataPlotForm)
@@ -52,7 +123,11 @@ class Ui_RTDataPlotForm(object):
         _translate = QtCore.QCoreApplication.translate
         RTDataPlotForm.setWindowTitle(_translate("RTDataPlotForm", "Form"))
         self.groupBox.setTitle(_translate("RTDataPlotForm", "曲线显示"))
-        self.pushButton_xmode.setText(_translate("RTDataPlotForm", "固定X轴"))
         self.pushButton_yautoscale.setText(_translate("RTDataPlotForm", "固定Y轴"))
+        self.label_3.setText(_translate("RTDataPlotForm", "固定Y轴"))
+        self.label_4.setText(_translate("RTDataPlotForm", "自动Y轴"))
+        self.pushButton_xmode.setText(_translate("RTDataPlotForm", "固定X轴"))
+        self.label_2.setText(_translate("RTDataPlotForm", "滚动X轴"))
+        self.label.setText(_translate("RTDataPlotForm", "固定X轴"))
         self.pushButton_select.setText(_translate("RTDataPlotForm", "选择监控数据"))
         self.pushButton_control.setText(_translate("RTDataPlotForm", "开始"))
