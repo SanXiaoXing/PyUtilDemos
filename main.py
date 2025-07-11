@@ -1,5 +1,6 @@
 import sys
 import os
+import os
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
     QScrollArea, QFrame, QSizePolicy
@@ -38,18 +39,30 @@ class HoverFrame(QFrame):
         if not self.is_hovered:
             self.is_hovered = True
             self.start_hover_animation()
+        """鼠标进入事件"""
+        if not self.is_hovered:
+            self.is_hovered = True
+            self.start_hover_animation()
         super().enterEvent(event)
+    
     
     def leaveEvent(self, event):
         """鼠标离开事件"""
         if self.is_hovered:
             self.is_hovered = False
             self.start_leave_animation()
+        """鼠标离开事件"""
+        if self.is_hovered:
+            self.is_hovered = False
+            self.start_leave_animation()
         super().leaveEvent(event)
+    
     
     def mousePressEvent(self, event):
         """鼠标点击事件"""
+        """鼠标点击事件"""
         if event.button() == Qt.LeftButton:
+            self.clicked.emit(self.title)
             self.clicked.emit(self.title)
         super().mousePressEvent(event)
 
