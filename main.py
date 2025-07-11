@@ -190,25 +190,25 @@ class ScrollCardList(QWidget):
             {
                 "svg_path": "计算.svg",
                 "title": "校准工具",
-                "description": "这是一个校准工具",
+                "description": "采用线性插值的方式实现数据校准",
                 "window_class": CalibrationForm
             },
             {
                 "svg_path": "分析统计.svg",
                 "title": "数据回放",
-                "description": "这是一个数据回放工具。",
+                "description": "支持加载 CSV 文件并以图表形式回放历史数据，用户可以通过控制按钮实现播放、暂停、停止等操作",
                 "window_class": None  # 暂时不绑定窗口
             },
             {
                 "svg_path": "仪表盘.svg",
                 "title": "实时曲线",
-                "description": "这是一个实时曲线工具。",
+                "description": "实时接收来自串口、网络或其他传感器接口的数据流，并以图形化方式展示其变化趋势",
                 "window_class": DataPlotForm  # 暂时不绑定窗口
             },
             {
                 "svg_path": "文件文档.svg",
                 "title": "日志查看",
-                "description": "这是一个日志查看工具。",
+                "description": "支持按日期查看历史日志以及按类型分类查看，支持选择对应期限的文件删除",
                 "window_class": LogCheckForm  # 暂时不绑定窗口
             },
             {
@@ -220,7 +220,7 @@ class ScrollCardList(QWidget):
             {
                 "svg_path": "数据线.svg",
                 "title": "总线数据解析",
-                "description": "这是一个总线数据解析工具。",
+                "description": "这是一个总线数据解析工具",
                 "window_class": None  # 暂时不绑定窗口
             },
         ]
