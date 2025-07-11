@@ -265,6 +265,9 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
             if not measured_item or not measured_item.text().strip():
                 return True  # 存在空值
         return False  # 没有空值
+    
+
+
 
 
 

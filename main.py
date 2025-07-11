@@ -1,12 +1,9 @@
 import sys
-from PyQt5.QtWidgets import (
-    QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
-    QScrollArea, QFrame, QSizePolicy
-)
+import os
+from PyQt5.QtWidgets import *
 from PyQt5.QtSvg import QSvgWidget
-from PyQt5.QtCore import Qt, pyqtSignal, QSize,QPoint
-from PyQt5.QtGui import QFont,QColor
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame,QGraphicsDropShadowEffect
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from CalibTool.calib_tool_demo import CalibrationForm
 from RTDataPlot.RTdata_plot_demo import DataPlotForm
 
@@ -109,7 +106,8 @@ class CardWidget(HoverFrame):
     def on_click(self):
         print(f"点击了卡片: {self.title}")
         if self.window_class:
-            self.window_class().show()
+            self._window = self.window_class()  # 保存引用
+            self._window.show()
 
 
 
@@ -239,10 +237,13 @@ class ScrollCardList(QWidget):
 
 
 
+
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     # 设置现代风格样式
-    app.setStyle("Fusion")
+    #app.setStyle("Fusion")
     app.setFont(QFont("Segoe UI", 10))  # 设置现代字体
 
     window = ScrollCardList()
