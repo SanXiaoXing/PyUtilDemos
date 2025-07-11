@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>999</width>
-    <height>612</height>
+    <height>684</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,11 +16,129 @@
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <widget class="QGroupBox" name="groupBox">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="title">
       <string>曲线显示</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="1,9">
-      <item>
+     <layout class="QGridLayout" name="gridLayout" rowstretch="1,8,1" columnstretch="9,1">
+      <item row="1" column="1">
+       <layout class="QGridLayout" name="gridLayout_data"/>
+      </item>
+      <item row="2" column="1">
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pushButton_yautoscale">
+          <property name="text">
+           <string>固定Y轴</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>固定Y轴</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSlider" name="horizontalSlider_Y">
+          <property name="styleSheet">
+           <string notr="true">
+QSlider::groove:horizontal {
+    height: 10px;
+    background: #dddddd;
+    border: 1px solid #999999;
+    border-radius: 5px;
+}
+QSlider::handle:horizontal {
+    width: 20px;
+    height: 20px;
+    background: #147aff;
+    border: 1px solid #147aff;
+    border-radius: 10px;
+    margin: -5px 0; /* Handle overlaps the groove by 5px on each side */
+}
+QSlider::handle:horizontal:hover {
+    background: #156dd7;
+}</string>
+          </property>
+          <property name="maximum">
+           <number>1</number>
+          </property>
+          <property name="pageStep">
+           <number>1</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>自动Y轴</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pushButton_xmode">
+          <property name="text">
+           <string>固定X轴</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>滚动X轴</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSlider" name="horizontalSlider_X">
+          <property name="styleSheet">
+           <string notr="true">
+QSlider::groove:horizontal {
+    height: 10px;
+    background: #dddddd;
+    border: 1px solid #999999;
+    border-radius: 5px;
+}
+QSlider::handle:horizontal {
+    width: 20px;
+    height: 20px;
+    background: #147aff;
+    border: 1px solid #147aff;
+    border-radius: 10px;
+    margin: -5px 0; /* Handle overlaps the groove by 5px on each side */
+}
+QSlider::handle:horizontal:hover {
+    background: #156dd7;
+}</string>
+          </property>
+          <property name="maximum">
+           <number>1</number>
+          </property>
+          <property name="pageStep">
+           <number>1</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>固定X轴</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <spacer name="horizontalSpacer">
@@ -36,20 +154,6 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_xmode">
-          <property name="text">
-           <string>固定X轴</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton_yautoscale">
-          <property name="text">
-           <string>固定Y轴</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="pushButton_select">
           <property name="text">
            <string>选择监控数据</string>
@@ -58,6 +162,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_control">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="text">
            <string>开始</string>
           </property>
@@ -65,7 +172,7 @@
         </item>
        </layout>
       </item>
-      <item>
+      <item row="0" column="0" rowspan="3">
        <layout class="QGridLayout" name="gridLayout_plot"/>
       </item>
      </layout>

@@ -262,7 +262,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         self.plot_widget.showGrid(x=True, y=True, alpha=0.5)  # alpha controls transparency (0-1)
         self.plot_widget.setLabel('left', '数值')
         self.plot_widget.setLabel('bottom', '时间')
-        self.gridLayout_plot.addWidget(self.plot_widget)
+        self.gridLayout_plot.addWidget(self.plot_widget)\
 
 
         # 初始化组件
@@ -279,7 +279,6 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         self.data_thread.data_updated.connect(self.update_plot)
         self.pushButton_yautoscale.clicked.connect(self.toggle_y_autoscale)
         self.pushButton_xmode.clicked.connect(self.toggle_x_mode)
-
 
 
 
