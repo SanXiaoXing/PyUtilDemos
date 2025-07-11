@@ -10,8 +10,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtSvg import QSvgRenderer
 import pyqtgraph as pg
-from Ui_Form_RTdata_plot import *
-from Ui_Dialog_Select import *
+from RTDataPlot.Ui_Form_RTdata_plot import *
+from RTDataPlot.Ui_Dialog_Select import *
 from assets import ICON_SQUARE
 
 

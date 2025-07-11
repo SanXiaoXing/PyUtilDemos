@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt, pyqtSignal, QSize,QPoint
 from PyQt5.QtGui import QFont,QColor
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QFrame,QGraphicsDropShadowEffect
 from CalibTool.calib_tool_demo import CalibrationForm
+from RTDataPlot.RTdata_plot_demo import DataPlotForm
 
 
 
@@ -17,7 +18,6 @@ class HoverFrame(QFrame):
     clicked = pyqtSignal()
 
     
-
     def __init__(self):
         super().__init__()
         self.setMouseTracking(True)
@@ -29,7 +29,6 @@ class HoverFrame(QFrame):
         self.shadow_effect.setOffset(0, 4)
         self.shadow_effect.setColor(QColor(0, 0, 0, 50))  # 阴影透明度
         self.setGraphicsEffect(self.shadow_effect)
-        
         self.setStyleSheet(self.default_style())
 
     def enterEvent(self, event):
@@ -201,7 +200,7 @@ class ScrollCardList(QWidget):
                 "svg_path": "icon3.svg",
                 "title": "实时曲线",
                 "description": "这是一个实时曲线工具。",
-                "window_class": None  # 暂时不绑定窗口
+                "window_class": DataPlotForm  # 暂时不绑定窗口
             },
             {
                 "svg_path": "icon3.svg",
