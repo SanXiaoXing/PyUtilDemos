@@ -1,8 +1,60 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+"""
+@Project ：py-util-demos
+@File    ：bulb_statemonitor_demo.py
+@Author  ：SanXiaoXing
+@Date    ：2025/7/12
+@Description: 灯泡状态监控工具,本工具用于实时监控设备状态，通过彩色灯泡显示不同的设备状态。
 
+数据输入接口说明：
+===================
+
+1. 界面输入方式：
+   - 在界面的"数据报文"输入框中输入十六进制数据
+   - 支持格式："ffff"、"ff 00"、"FF00" 等
+   - 点击"发送数据"按钮或按回车键发送
+
+2. 编程接口调用：
+   ```python
+   # 创建监控实例
+   monitor = BulbStateMonitor()
+
+   # 发送数据包
+   monitor.send_data_packet("ffff")  # 发送两个字节
+   monitor.send_data_packet("ff00")  # 发送 0xFF 和 0x00
+   ```
+
+3. 数据处理流程：
+   - 输入的十六进制字符串会被转换为字节数组
+   - 每个字节按位置（0, 1, 2...）分发给对应的设备组
+   - 根据配置文件中的比特位设置更新设备状态
+
+真实数据源接入说明：
+===================
+
+4. 需要接入真实数据源时，请按以下步骤操作：
+
+5. 在 BulbStateMonitor 类中实现以下方法：
+   - setup_real_data_source(): 配置真实数据源连接
+   - start_real_data_source(): 启动数据接收
+   - stop_real_data_source(): 停止数据接收
+
+6. 数据接收后，调用 process_data(byte_pos, data) 方法处理数据
+   - byte_pos: 字节位置 (int)
+   - data: 字节数据 (bytes)
+
+7. 支持的数据源类型：
+   - 串口通信 (Serial)
+   - 网络通信 (TCP/UDP)
+   - 文件数据源
+   - 其他自定义数据源
+"""
 import sys
 import os
-from datetime import datetime
-from typing import Dict, List, Tuple, Optional
+import re
+from typing import Dict
+from functools import lru_cache
 
 try:
     import pandas as pd
@@ -12,15 +64,13 @@ except ImportError:
     print("警告: pandas未安装，将使用CSV格式配置文件")
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QGridLayout, QLabel, QVBoxLayout, QHBoxLayout,
-    QGroupBox, QMenu, QAction, QMessageBox, QDialog, QFormLayout, 
-    QLineEdit, QComboBox, QPushButton, QDialogButtonBox, QFrame, QScrollArea
+    QGroupBox, QMessageBox, QLineEdit, QPushButton, QFrame, QScrollArea
 )
-from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QThread, QMutex
-from PyQt5.QtGui import QPixmap, QPainter, QColor, QFont, QContextMenuEvent, QIcon
-from PyQt5.QtSvg import QSvgRenderer
+from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtGui import QPixmap, QPainter, QColor, QIcon
 
-# 添加项目根目录到路径
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# 预编译正则表达式用于十六进制验证
+HEX_PATTERN = re.compile(r'^[0-9a-fA-F]*$')
 
 
 class BulbWidget(QLabel):
@@ -34,15 +84,17 @@ class BulbWidget(QLabel):
     STATE_ERROR = 1     # 错误状态 - 红色
     STATE_WARNING = 2   # 警告状态 - 黄色
     STATE_OFFLINE = 3   # 停止/离线 - 灰色
-    STATE_UNKNOWN = 4   # 未知状态 - 蓝色
+    STATE_FAULT = 4     # 故障状态 - 蓝色
+    STATE_UNKNOWN = 5   # 未知状态 - 橙色
     
     # 状态颜色映射
     STATE_COLORS = {
-        STATE_NORMAL: QColor(0, 255, 0),    # 绿色
-        STATE_ERROR: QColor(255, 0, 0),     # 红色
-        STATE_WARNING: QColor(255, 255, 0), # 黄色
+        STATE_NORMAL: QColor(0, 255, 0),      # 绿色
+        STATE_ERROR: QColor(255, 0, 0),       # 红色
+        STATE_WARNING: QColor(255, 255, 0),   # 黄色
         STATE_OFFLINE: QColor(128, 128, 128), # 灰色
-        STATE_UNKNOWN: QColor(0, 0, 255)    # 蓝色
+        STATE_FAULT: QColor(0, 0, 255),       # 蓝色
+        STATE_UNKNOWN: QColor(255, 165, 0)    # 橙色
     }
     
     # 状态名称映射
@@ -51,60 +103,59 @@ class BulbWidget(QLabel):
         STATE_ERROR: "错误状态",
         STATE_WARNING: "警告状态",
         STATE_OFFLINE: "停止/离线",
+        STATE_FAULT: "正常状态",
         STATE_UNKNOWN: "未知状态"
     }
     
+    # 类级别的pixmap缓存，所有实例共享
+    _pixmap_cache = {}
+    
     # 信号定义
     stateChanged = pyqtSignal(int, int)  # 状态改变信号 (设备ID, 新状态)
-    doubleClicked = pyqtSignal(int)      # 双击信号
     
     def __init__(self, device_id: int, device_name: str, initial_state: int = STATE_OFFLINE):
         super().__init__()
         self.device_id = device_id
         self.device_name = device_name
         self.current_state = initial_state
-        self.byte_pos = 0
         self.bit_pos = 0
-        self.active_value = 1
-        self.inactive_value = 0
+        self.has_fault = False  # 故障标记
         
         self.setFixedSize(24, 24)
         self.setScaledContents(True)
         self.setToolTip(f"{device_name} - {self.STATE_NAMES[initial_state]}")
         
-        # 加载SVG渲染器
-        svg_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                                    "assets", "icon", "circle.svg")
-        self.svg_renderer = QSvgRenderer(svg_path)
-        
         self.update_display()
     
-    def set_position_info(self, byte_pos: int, bit_pos: int, active_value: int, inactive_value: int):
+    def set_position_info(self, bit_pos: int):
         """设置位置信息"""
-        self.byte_pos = byte_pos
         self.bit_pos = bit_pos
-        self.active_value = active_value
-        self.inactive_value = inactive_value
     
     def update_display(self):
         """更新显示"""
-        # 创建彩色的圆形图标
-        pixmap = QPixmap(24, 24)
-        pixmap.fill(Qt.transparent)
+        # 检查缓存中是否已有该状态的pixmap
+        if self.current_state not in self._pixmap_cache:
+            # 创建彩色的圆形图标
+            pixmap = QPixmap(24, 24)
+            pixmap.fill(Qt.transparent)
+            
+            painter = QPainter(pixmap)
+            painter.setRenderHint(QPainter.Antialiasing)
+            
+            # 设置颜色
+            color = self.STATE_COLORS[self.current_state]
+            painter.setBrush(color)
+            painter.setPen(Qt.NoPen)
+            
+            # 绘制圆形
+            painter.drawEllipse(2, 2, 20, 20)
+            painter.end()
+            
+            # 缓存pixmap
+            self._pixmap_cache[self.current_state] = pixmap
         
-        painter = QPainter(pixmap)
-        painter.setRenderHint(QPainter.Antialiasing)
-        
-        # 设置颜色
-        color = self.STATE_COLORS[self.current_state]
-        painter.setBrush(color)
-        painter.setPen(Qt.NoPen)
-        
-        # 绘制圆形
-        painter.drawEllipse(2, 2, 20, 20)
-        painter.end()
-        
-        self.setPixmap(pixmap)
+        # 使用缓存的pixmap
+        self.setPixmap(self._pixmap_cache[self.current_state])
         self.setToolTip(f"{self.device_name} - {self.STATE_NAMES[self.current_state]}")
     
     def set_state(self, state: int):
@@ -115,107 +166,13 @@ class BulbWidget(QLabel):
             self.update_display()
             self.stateChanged.emit(self.device_id, state)
             
-            # 记录状态变化日志
-            print(f"设备 {self.device_name} 状态从 {self.STATE_NAMES[old_state]} 变更为 {self.STATE_NAMES[state]}")
+            # # 记录状态变化日志
+            # print(f"设备 {self.device_name} 状态从 {self.STATE_NAMES[old_state]} 变更为 {self.STATE_NAMES[state]}")
     
     def get_state(self) -> int:
         """获取当前状态"""
         return self.current_state
 
-
-class DeviceEditDialog(QDialog):
-    """设备编辑对话框"""
-    
-    def __init__(self, device_info: Dict = None, parent=None):
-        super().__init__(parent)
-        self.device_info = device_info or {}
-        self.init_ui()
-    
-    def init_ui(self):
-        self.setWindowTitle("编辑设备信息")
-        self.setModal(True)
-        self.resize(400, 300)
-        
-        layout = QVBoxLayout()
-        
-        # 表单布局
-        form_layout = QFormLayout()
-        
-        self.name_edit = QLineEdit(self.device_info.get('设备名称', ''))
-        form_layout.addRow("设备名称:", self.name_edit)
-        
-        self.byte_edit = QLineEdit(str(self.device_info.get('字节位数', 0)))
-        form_layout.addRow("字节位数:", self.byte_edit)
-        
-        self.bit_edit = QLineEdit(str(self.device_info.get('比特位数', 0)))
-        form_layout.addRow("比特位数:", self.bit_edit)
-        
-        self.active_edit = QLineEdit(str(self.device_info.get('活跃状态', 1)))
-        form_layout.addRow("活跃状态:", self.active_edit)
-        
-        self.inactive_edit = QLineEdit(str(self.device_info.get('失效状态', 0)))
-        form_layout.addRow("失效状态:", self.inactive_edit)
-        
-        self.initial_edit = QLineEdit(str(self.device_info.get('初始值', 0)))
-        form_layout.addRow("初始值:", self.initial_edit)
-        
-        layout.addLayout(form_layout)
-        
-        # 按钮
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        button_box.accepted.connect(self.accept)
-        button_box.rejected.connect(self.reject)
-        layout.addWidget(button_box)
-        
-        self.setLayout(layout)
-    
-    def get_device_info(self) -> Dict:
-        """获取设备信息"""
-        return {
-            '设备名称': self.name_edit.text(),
-            '字节位数': int(self.byte_edit.text() or 0),
-            '比特位数': int(self.bit_edit.text() or 0),
-            '活跃状态': int(self.active_edit.text() or 1),
-            '失效状态': int(self.inactive_edit.text() or 0),
-            '初始值': int(self.initial_edit.text() or 0)
-        }
-
-
-class DataSimulator(QThread):
-    """数据模拟器 - 模拟外部数据源"""
-    
-    dataReceived = pyqtSignal(int, bytes)  # 数据接收信号 (字节位置, 数据)
-    
-    def __init__(self):
-        super().__init__()
-        self.running = False
-        self.mutex = QMutex()
-        self.data_buffer = {}
-    
-    def start_simulation(self):
-        """开始模拟"""
-        self.running = True
-        self.start()
-    
-    def stop_simulation(self):
-        """停止模拟"""
-        self.running = False
-        self.wait()
-    
-    def run(self):
-        """运行模拟"""
-        import random
-        import time
-        
-        while self.running:
-            # 模拟数据变化
-            for byte_pos in range(2):  # 模拟2个字节的数据
-                # 随机生成字节数据
-                byte_data = random.randint(0, 255)
-                self.dataReceived.emit(byte_pos, bytes([byte_data]))
-                print(f"模拟数据: 字节位置 {byte_pos}, 数据 {byte_data}")
-            
-            time.sleep(2)  # 每2秒更新一次
 
 
 class BulbStateMonitor(QWidget):
@@ -226,11 +183,17 @@ class BulbStateMonitor(QWidget):
         self.devices = {}  # 设备字典 {device_id: BulbWidget}
         self.device_configs = {}  # 设备配置 {device_id: config_dict}
         self.byte_groups = {}  # 字节分组 {byte_pos: [device_ids]}
-        self.data_simulator = DataSimulator()
+        self._config_cache = None  # 配置文件缓存
+        self._config_mtime = None  # 配置文件修改时间
+        
+        # 性能统计
+        self._cache_hits = 0
+        self._cache_misses = 0
+        self._state_updates = 0
+        self._skipped_updates = 0
         
         self.init_ui()
         self.load_config()
-        self.setup_data_simulator()
     
     def init_ui(self):
         """初始化UI"""
@@ -265,34 +228,27 @@ class BulbStateMonitor(QWidget):
         
         main_layout.addWidget(self.scroll_area)
         
-        # 控制按钮
-        button_layout = QHBoxLayout()
+        # 数据输入区域
+        input_layout = QHBoxLayout()
         
-        self.start_btn = QPushButton("开始监控")
-        self.start_btn.clicked.connect(self.start_monitoring)
-        button_layout.addWidget(self.start_btn)
+        input_label = QLabel("数据报文:")
+        input_layout.addWidget(input_label)
         
-        self.stop_btn = QPushButton("停止监控")
-        self.stop_btn.clicked.connect(self.stop_monitoring)
-        self.stop_btn.setEnabled(False)
-        button_layout.addWidget(self.stop_btn)
+        self.data_input = QLineEdit()
+        self.data_input.setPlaceholderText("输入十六进制数据，如: ffff 或 ff00")
+        self.data_input.returnPressed.connect(self.process_input_data)
+        input_layout.addWidget(self.data_input)
         
-        self.reload_btn = QPushButton("重新加载配置")
-        self.reload_btn.clicked.connect(self.reload_config)
-        button_layout.addWidget(self.reload_btn)
+        self.send_btn = QPushButton("发送数据")
+        self.send_btn.clicked.connect(self.process_input_data)
+        input_layout.addWidget(self.send_btn)
         
-        button_layout.addStretch()
-        main_layout.addLayout(button_layout)
+        main_layout.addLayout(input_layout)
         
         self.setLayout(main_layout)
-
-    
-    def setup_data_simulator(self):
-        """设置数据模拟器"""
-        self.data_simulator.dataReceived.connect(self.process_data)
     
     def load_config(self):
-        """加载配置文件"""
+        """加载配置文件（带缓存机制）"""
         try:
             # 创建示例配置文件
             config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "conf.xlsx")
@@ -301,37 +257,52 @@ class BulbStateMonitor(QWidget):
             if not os.path.exists(config_path) and not os.path.exists(csv_path):
                 raise FileNotFoundError("未找到配置文件")
             
-            # 读取配置文件
-            if PANDAS_AVAILABLE and os.path.exists(config_path):
-                try:
-                    df = pd.read_excel(config_path, engine='openpyxl')
-                except Exception:
-                    # 如果openpyxl不可用，尝试其他引擎
-                    try:
-                        df = pd.read_excel(config_path, engine='xlrd')
-                    except Exception:
-                        df = pd.read_excel(config_path)
-            elif os.path.exists(csv_path):
-                if PANDAS_AVAILABLE:
-                    df = pd.read_csv(csv_path)
-                else:
-                    # 手动解析CSV
-                    import csv
-                    data = []
-                    with open(csv_path, 'r', encoding='utf-8') as f:
-                        reader = csv.DictReader(f)
-                        for row in reader:
-                            data.append(row)
-                    # 创建简单的DataFrame替代
-                    class SimpleDataFrame:
-                        def __init__(self, data):
-                            self.data = data
-                        def iterrows(self):
-                            for i, row in enumerate(self.data):
-                                yield i, row
-                    df = SimpleDataFrame(data)
+            # 确定使用的配置文件路径
+            active_config_path = config_path if (PANDAS_AVAILABLE and os.path.exists(config_path)) else csv_path
+            
+            # 检查文件修改时间，如果未变化则使用缓存
+            current_mtime = os.path.getmtime(active_config_path)
+            if self._config_cache is not None and self._config_mtime == current_mtime:
+                df = self._config_cache
+                self._cache_hits += 1
+                print(f"配置缓存命中 (命中次数: {self._cache_hits})")
             else:
-                raise FileNotFoundError("配置文件不存在")
+                self._cache_misses += 1
+                # 读取配置文件
+                if PANDAS_AVAILABLE and os.path.exists(config_path):
+                    try:
+                        df = pd.read_excel(config_path, engine='openpyxl')
+                    except Exception:
+                        # 如果openpyxl不可用，尝试其他引擎
+                        try:
+                            df = pd.read_excel(config_path, engine='xlrd')
+                        except Exception:
+                            df = pd.read_excel(config_path)
+                elif os.path.exists(csv_path):
+                    if PANDAS_AVAILABLE:
+                        df = pd.read_csv(csv_path)
+                    else:
+                        # 手动解析CSV
+                        import csv
+                        data = []
+                        with open(csv_path, 'r', encoding='utf-8') as f:
+                            reader = csv.DictReader(f)
+                            for row in reader:
+                                data.append(row)
+                        # 创建简单的DataFrame替代
+                        class SimpleDataFrame:
+                            def __init__(self, data):
+                                self.data = data
+                            def iterrows(self):
+                                for i, row in enumerate(self.data):
+                                    yield i, row
+                        df = SimpleDataFrame(data)
+                else:
+                    raise FileNotFoundError("配置文件不存在")
+                
+                # 缓存配置数据和修改时间
+                self._config_cache = df
+                self._config_mtime = current_mtime
             
             # 清空现有设备
             self.clear_devices()
@@ -345,8 +316,16 @@ class BulbStateMonitor(QWidget):
                 if 'BYTE' in df.columns:
                     # 英文列名格式
                     # 处理ActiveState和InactiveState的文本值
-                    active_state = 1 if str(row['ActiveState']) == '有效' else 0
-                    inactive_state = 0 if str(row['InactiveState']) == '无效' else 1
+                    active_state_text = str(row['ActiveState'])
+                    inactive_state_text = str(row['InactiveState'])
+                    
+                    # 检测故障关键词
+                    fault_keywords = ['故障', '错误', 'fault', 'error', 'fail']
+                    has_fault = any(keyword in active_state_text.lower() or keyword in inactive_state_text.lower() 
+                                   for keyword in fault_keywords)
+                    
+                    active_state = 1 if active_state_text == '有效' else 0
+                    inactive_state = 0 if inactive_state_text == '无效' else 1
                     
                     config = {
                         '字节位数': int(row['BYTE']),
@@ -354,24 +333,51 @@ class BulbStateMonitor(QWidget):
                         '设备名称': str(row['SignalName']),
                         '活跃状态': active_state,
                         '失效状态': inactive_state,
-                        '初始值': int(row['INIT'])
+                        '初始值': int(row['INIT']),
+                        '有故障': has_fault
                     }
                 else:
                     # 中文列名格式
+                    active_state_text = str(row.get('活跃状态文本', ''))
+                    inactive_state_text = str(row.get('失效状态文本', ''))
+                    
+                    # 检测故障关键词
+                    fault_keywords = ['故障', '错误', 'fault', 'error', 'fail']
+                    has_fault = any(keyword in active_state_text.lower() or keyword in inactive_state_text.lower() 
+                                   for keyword in fault_keywords)
+                    
                     config = {
                         '字节位数': int(row['字节位数']),
                         '比特位数': int(row['比特位数']),
                         '设备名称': str(row['设备名称']),
                         '活跃状态': int(row['活跃状态']),
                         '失效状态': int(row['失效状态']),
-                        '初始值': int(row['初始值'])
+                        '初始值': int(row['初始值']),
+                        '有故障': has_fault
                     }
                 
-                # 创建设备控件
-                initial_state = BulbWidget.STATE_NORMAL if config['初始值'] == config['活跃状态'] else BulbWidget.STATE_OFFLINE
+                # 创建设备控件 - 根据INIT值确定初始状态
+                init_value = config['初始值']
+                active_value = config['活跃状态']
+                inactive_value = config['失效状态']
+                has_fault = config['有故障']
+                
+                if has_fault:
+                    # 如果包含故障关键词，使用红灯表示错误状态
+                    initial_state = BulbWidget.STATE_ERROR
+                elif init_value == active_value:
+                    # INIT值等于活跃状态值，显示绿灯
+                    initial_state = BulbWidget.STATE_NORMAL
+                elif init_value == inactive_value:
+                    # INIT值等于失效状态值，显示灰灯
+                    initial_state = BulbWidget.STATE_OFFLINE
+                else:
+                    # INIT值既不等于活跃也不等于失效，显示橙灯
+                    initial_state = BulbWidget.STATE_UNKNOWN
+                
                 bulb = BulbWidget(device_id, config['设备名称'], initial_state)
-                bulb.set_position_info(config['字节位数'], config['比特位数'], 
-                                        config['活跃状态'], config['失效状态'])
+                bulb.set_position_info(config['比特位数'])
+                bulb.has_fault = has_fault  # 添加故障标记
                 
                 self.devices[device_id] = bulb
                 self.device_configs[device_id] = config
@@ -449,45 +455,139 @@ class BulbStateMonitor(QWidget):
         self.byte_groups.clear()
     
     def process_data(self, byte_pos: int, data: bytes):
-        """处理接收到的数据"""
-        if byte_pos in self.byte_groups:
-            byte_value = data[0] if data else 0
+        """处理接收到的数据（优化版本）"""
+        if byte_pos not in self.byte_groups:
+            return
+
+        # 安全获取字节值
+        byte_value = data[0] if data and len(data) > 0 else 0
+
+        # 批量更新该字节对应的所有设备状态
+        state_updates = []  # 收集状态更新
+        
+        for device_id in self.byte_groups[byte_pos]:
+            if device_id not in self.devices:
+                continue
+
+            bulb = self.devices[device_id]
+
+            # 获取当前 bit 的值
+            bit_value = (byte_value >> bulb.bit_pos) & 1
+
+            # 根据设备状态和 bit 值确定灯光状态
+            new_state = self._determine_bulb_state(bulb, bit_value)
             
-            # 更新该字节对应的所有设备状态
-            for device_id in self.byte_groups[byte_pos]:
-                if device_id in self.devices:
-                    bulb = self.devices[device_id]
-                    bit_value = (byte_value >> bulb.bit_pos) & 1
+            # 只有状态真正改变时才更新
+            if new_state != bulb.current_state:
+                state_updates.append((bulb, new_state))
+                self._state_updates += 1
+            else:
+                self._skipped_updates += 1
+        
+        # 批量执行状态更新
+        for bulb, new_state in state_updates:
+            bulb.set_state(new_state)
+
+
+    @lru_cache(maxsize=128)
+    def _determine_bulb_state_cached(self, has_fault: bool, bit_value: int) -> int:
+        """根据设备状态和 bit 值决定灯光状态（缓存版本）"""
+        if has_fault:
+            if bit_value == 1:
+                return BulbWidget.STATE_FAULT
+            elif bit_value == 0:
+                return BulbWidget.STATE_ERROR
+        else:
+            if bit_value == 1:
+                return BulbWidget.STATE_NORMAL
+            elif bit_value == 0:
+                return BulbWidget.STATE_OFFLINE
+        return BulbWidget.STATE_UNKNOWN
+    
+    def _determine_bulb_state(self, bulb, bit_value: int) -> int:
+        """根据设备状态和 bit 值决定灯光状态"""
+        has_fault = getattr(bulb, 'has_fault', False)
+        return self._determine_bulb_state_cached(has_fault, bit_value)
+
+    
+    def process_input_data(self):
+        """处理用户输入的数据报文"""
+        try:
+            # 获取输入的十六进制字符串
+            hex_string = self.data_input.text().strip().replace(' ', '')
+            
+            if not hex_string:
+                QMessageBox.warning(self, "警告", "请输入数据报文")
+                return
+            
+            # 验证是否为有效的十六进制字符串（使用预编译正则表达式）
+            if not HEX_PATTERN.match(hex_string):
+                QMessageBox.warning(self, "警告", "请输入有效的十六进制数据")
+                return
+            
+            # 确保字符串长度为偶数（每两个字符代表一个字节）
+            if len(hex_string) % 2 != 0:
+                hex_string = '0' + hex_string
+            
+            # 转换为字节数据
+            byte_data = bytes.fromhex(hex_string)
+            
+            print(f"接收到数据报文: {hex_string.upper()}")
+            print(f"字节数据: {[hex(b) for b in byte_data]}")
+            
+            # 按字节位置分发数据
+            for byte_pos, byte_value in enumerate(byte_data):
+                if byte_pos in self.byte_groups:
+                    # 调用数据处理方法
+                    self.process_data(byte_pos, bytes([byte_value]))
+                    print(f"处理字节位置 {byte_pos}: 0x{byte_value:02X}")
+            
+            # 清空输入框
+            self.data_input.clear()
+            
+        except ValueError as e:
+            QMessageBox.critical(self, "错误", f"数据格式错误: {e}")
+        except Exception as e:
+            QMessageBox.critical(self, "错误", f"处理数据时发生错误: {e}")
+    
+    def send_data_packet(self, hex_data: str):
+        """发送数据包的公共接口
+        外部调用接口，用于发送十六进制数据包
+        
+        参数:
+            hex_data (str): 十六进制字符串，如 "ffff" 或 "ff 00"
+        
+        示例:
+            monitor.send_data_packet("ffff")  # 发送两个字节的数据
+            monitor.send_data_packet("ff00")  # 发送 0xFF 和 0x00
+        """
+        try:
+            # 清理输入字符串
+            hex_string = hex_data.strip().replace(' ', '')
+            
+            # 验证十六进制格式（使用预编译正则表达式）
+            if not HEX_PATTERN.match(hex_string):
+                raise ValueError("无效的十六进制数据")
+            
+            # 确保偶数长度
+            if len(hex_string) % 2 != 0:
+                hex_string = '0' + hex_string
+            
+            # 转换为字节并处理
+            byte_data = bytes.fromhex(hex_string)
+            
+            print(f"API调用 - 接收数据: {hex_string.upper()}")
+            
+            # 分发到各字节位置
+            for byte_pos, byte_value in enumerate(byte_data):
+                if byte_pos in self.byte_groups:
+                    self.process_data(byte_pos, bytes([byte_value]))
                     
-                    # 根据比特值确定状态
-                    if bit_value == bulb.active_value:
-                        new_state = BulbWidget.STATE_NORMAL
-                    elif bit_value == bulb.inactive_value:
-                        new_state = BulbWidget.STATE_OFFLINE
-                    else:
-                        new_state = BulbWidget.STATE_UNKNOWN
-                    
-                    bulb.set_state(new_state)
-    
-    def start_monitoring(self):
-        """开始监控"""
-        self.data_simulator.start_simulation()
-        self.start_btn.setEnabled(False)
-        self.stop_btn.setEnabled(True)
-        print("开始监控")
-    
-    def stop_monitoring(self):
-        """停止监控"""
-        self.data_simulator.stop_simulation()
-        self.start_btn.setEnabled(True)
-        self.stop_btn.setEnabled(False)
-        print("停止监控")
-    
-    def reload_config(self):
-        """重新加载配置"""
-        self.stop_monitoring()
-        self.load_config()
-        QMessageBox.information(self, "信息", "配置已重新加载")
+            return True
+            
+        except Exception as e:
+            print(f"发送数据包失败: {e}")
+            return False
 
 def main():
     """主函数"""
@@ -497,11 +597,11 @@ def main():
     # 设置应用图标
     try:
         icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                                "assets", "icon", "circle.ico")
+                                "assets", "icon", "灯泡主意创新.svg")
         if os.path.exists(icon_path):
             app.setWindowIcon(QIcon(icon_path))
-    except:
-        raise Exception("图标文件不存在")
+    except Exception as e:
+        print(f"设置图标失败: {e}")
     
     window = BulbStateMonitor()
     window.show()
