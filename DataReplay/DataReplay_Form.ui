@@ -13,57 +13,94 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="1,9" columnstretch="2,0,8">
-   <item row="1" column="2">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>数据回放</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <layout class="QGridLayout" name="gridLayout_plot"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QTreeWidget" name="treeWidget_datafile">
-     <column>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>80</y>
+     <width>541</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>数据回放</string>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QGridLayout" name="gridLayout_plot"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QTreeWidget" name="treeWidget_datafile">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>94</y>
+     <width>200</width>
+     <height>713</height>
+    </rect>
+   </property>
+   <column>
+    <property name="text">
+     <string>数据</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton_plot">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>90</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>回放</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>282</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label">
       <property name="text">
-       <string>数据</string>
+       <string>选择文件：</string>
       </property>
-     </column>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="3">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>选择文件：</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_filepath"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_selectfile">
-       <property name="text">
-        <string>选择</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="1" column="1">
-    <widget class="QPushButton" name="pushButton_plot">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-  </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit_filepath"/>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_selectfile">
+      <property name="text">
+       <string>选择</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QSlider" name="horizontalSlider">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>660</y>
+     <width>160</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

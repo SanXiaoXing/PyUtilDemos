@@ -273,6 +273,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
     def __init__(self):
         super(DataPlotForm,self).__init__()
         self.setupUi(self)
+        self.setWindowTitle('数据采集')
         self.data_buffer = {}  
         self.auto_y_scale = False  # 默认固定
         self.scroll_x_mode = False  # 默认固定
@@ -285,14 +286,13 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
     def init_plot_system(self):
         """初始化绘图系统"""
-        self.setWindowTitle('数据采集')
         self.plot_widget = pg.PlotWidget()
         self.plot_widget.setBackground('white')
         self.plot_widget.addLegend()
         self.plot_widget.showGrid(x=True, y=True, alpha=0.5)  # 显示网格
         self.plot_widget.setLabel('left', '数值')
         self.plot_widget.setLabel('bottom', '时间')
-        self.gridLayout_plot.addWidget(self.plot_widget)\
+        self.gridLayout_plot.addWidget(self.plot_widget)
 
 
         # 初始化组件
