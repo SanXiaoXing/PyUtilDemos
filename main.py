@@ -264,7 +264,7 @@ class ScrollCardList(QWidget):
                 "window_class": None  # 暂时不绑定窗口
             },
         ]
-
+        
         for data in card_data:
             card = CardWidget(
                 data["svg_path"],

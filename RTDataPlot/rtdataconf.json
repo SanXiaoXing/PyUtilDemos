@@ -39,7 +39,7 @@
     "name": "数据7",
     "color": "#ff5500",
     "unit": "/",
-    "visible": false
+    "visible": true
   },
   "data8": {
     "name": "数据8",

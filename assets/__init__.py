@@ -9,4 +9,8 @@ _BASE_PATH = Path(__file__).parent
 
 ICON_SQUARE = (_BASE_PATH / 'icon/square.svg').as_posix()
 ICON_CIRCLE = (_BASE_PATH / 'icon/circle.svg').as_posix()
+ICON_PLAY= (_BASE_PATH / 'icon/play.svg').as_posix()
+ICON_PAUSE= (_BASE_PATH / 'icon/pause.svg').as_posix()
+ICON_STOP= (_BASE_PATH / 'icon/stop.svg').as_posix()
+
 

@@ -24,25 +24,25 @@
      </property>
      <layout class="QGridLayout" name="gridLayout" rowstretch="1,8,1" columnstretch="9,1">
       <item row="1" column="1">
-       <layout class="QGridLayout" name="gridLayout_data"/>
+       <layout class="QGridLayout" name="gridLayout_dataview"/>
       </item>
       <item row="2" column="1">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="1">
-         <widget class="QPushButton" name="pushButton_yautoscale">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>固定Y轴</string>
+           <string>固定</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="1" column="1">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>固定Y轴</string>
+           <string>固定</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="1" column="2">
          <widget class="QSlider" name="horizontalSlider_Y">
           <property name="styleSheet">
            <string notr="true">
@@ -75,28 +75,21 @@ QSlider::handle:horizontal:hover {
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
+        <item row="1" column="3">
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>自动Y轴</string>
+           <string>自动</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="pushButton_xmode">
-          <property name="text">
-           <string>固定X轴</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
+        <item row="0" column="3">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>滚动X轴</string>
+           <string>滚动</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="0" column="2">
          <widget class="QSlider" name="horizontalSlider_X">
           <property name="styleSheet">
            <string notr="true">
@@ -129,44 +122,52 @@ QSlider::handle:horizontal:hover {
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>固定X轴</string>
+           <string>X轴：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Y轴：</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
       <item row="0" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
          <widget class="QPushButton" name="pushButton_select">
           <property name="text">
-           <string>选择监控数据</string>
+           <string>选择数据</string>
           </property>
          </widget>
         </item>
-        <item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pushButton_stop">
+          <property name="text">
+           <string>停止</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
          <widget class="QPushButton" name="pushButton_control">
           <property name="styleSheet">
            <string notr="true"/>
           </property>
           <property name="text">
            <string>开始</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="checkBox_savedata">
+          <property name="text">
+           <string>保存数据</string>
           </property>
          </widget>
         </item>
