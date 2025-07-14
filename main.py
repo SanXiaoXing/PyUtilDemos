@@ -11,13 +11,9 @@ from LogViewer.log_viewer_demo import LogCheckForm
 from BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
 
 
-
-
-
 class HoverFrame(QFrame):
     clicked = pyqtSignal()
 
-    
     def __init__(self):
         super().__init__()
         self.setMouseTracking(True)
@@ -44,7 +40,6 @@ class HoverFrame(QFrame):
             self.clicked.emit()
         super().mousePressEvent(event)
 
-
     def default_style(self):
         return """
             QFrame {
@@ -63,14 +58,14 @@ class HoverFrame(QFrame):
                 border: 1px solid #3399ff;
                 border-radius: 8px;
                 padding: 10px;
-  
             }
         """
 
 
-
-
 class CardWidget(HoverFrame):
+    # 用于跟踪已打开的窗口实例
+    _open_windows = {}
+    
     def __init__(self, svg_path: str, title: str, description: str, window_class=None, parent=None):
         super().__init__()
         self.title = title
@@ -81,7 +76,7 @@ class CardWidget(HoverFrame):
         layout.setSpacing(12)
 
         # 左侧 SVG 图标
-        svg_path=str(Path(__file__) .parent/ f'assets/icon/{svg_path}')
+        svg_path = str(Path(__file__).parent / f'assets/icon/{svg_path}')
         svg_widget = QSvgWidget(svg_path)
         svg_widget.setFixedSize(QSize(60, 60))
         layout.addWidget(svg_widget)
@@ -110,13 +105,59 @@ class CardWidget(HoverFrame):
     def on_click(self):
         print(f"点击了卡片: {self.title}")
         if self.window_class:
-            self._window = self.window_class()  # 保存引用
-            self._window.show()
-
-
-
-
-
+            # 检查该窗口类是否已经有实例打开
+            window_class_name = self.window_class.__name__
+            
+            if window_class_name in self._open_windows:
+                existing_window = self._open_windows[window_class_name]
+                # 检查窗口是否仍然存在且有效
+                try:
+                    # 尝试访问窗口属性来检查窗口是否仍然有效
+                    if existing_window and existing_window.isVisible():
+                        # 如果窗口已存在且可见，将其置于前台并激活
+                        existing_window.raise_()
+                        existing_window.activateWindow()
+                        print(f"{self.title} 窗口已经打开，将其置于前台")
+                        return
+                    elif existing_window and not existing_window.isVisible():
+                        existing_window.show()
+                        existing_window.raise_()
+                        existing_window.activateWindow()
+                        print(f"{self.title} 窗口已恢复显示")
+                        return
+                except RuntimeError:
+                    # 窗口对象已被删除，从字典中移除
+                    del self._open_windows[window_class_name]
+                    print(f"{self.title} 窗口对象已失效，将创建新窗口")
+            
+            # 创建新的窗口实例
+            new_window = self.window_class()
+            self._open_windows[window_class_name] = new_window
+            
+            # 连接窗口关闭信号，以便在窗口关闭时从字典中移除
+            def on_window_closed():
+                try:
+                    if window_class_name in self._open_windows:
+                        del self._open_windows[window_class_name]
+                        print(f"{self.title} 窗口已关闭并从管理器中移除")
+                except:
+                    pass
+            
+            # 连接多个信号以确保窗口关闭时能被正确检测
+            if hasattr(new_window, 'destroyed'):
+                new_window.destroyed.connect(on_window_closed)
+            if hasattr(new_window, 'finished'):
+                new_window.finished.connect(on_window_closed)
+            if hasattr(new_window, 'closeEvent'):
+                # 重写closeEvent来确保窗口关闭时清理引用
+                original_close_event = new_window.closeEvent
+                def custom_close_event(event):
+                    on_window_closed()
+                    original_close_event(event)
+                new_window.closeEvent = custom_close_event
+            
+            new_window.show()
+            print(f"打开了新的 {self.title} 窗口")
 
 
 class ScrollCardList(QWidget):
@@ -124,7 +165,7 @@ class ScrollCardList(QWidget):
         super().__init__()
         self.setWindowTitle("正经工具箱")
         self.resize(600, 800)
-        self.setWindowIcon(QIcon(str(Path(__file__) .parent/ 'assets/icon/fill-shit-ac.svg')))
+        self.setWindowIcon(QIcon(str(Path(__file__).parent / 'assets/icon/fill-shit-ac.svg')))
 
         # 主布局
         main_layout = QVBoxLayout(self)
@@ -179,7 +220,6 @@ class ScrollCardList(QWidget):
             }
         """)
 
-
         # 卡片容器 Widget + 布局
         content_widget = QWidget()
         content_layout = QVBoxLayout(content_widget)
@@ -228,7 +268,7 @@ class ScrollCardList(QWidget):
         for data in card_data:
             card = CardWidget(
                 data["svg_path"],
-                data["title"], 
+                data["title"],
                 data["description"],
                 data.get("window_class"))  # 传递窗口类)
             card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -239,19 +279,12 @@ class ScrollCardList(QWidget):
         main_layout.addWidget(scroll_area)
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     # 设置现代风格样式
-    #app.setStyle("Fusion")
+    # app.setStyle("Fusion")
     app.setFont(QFont("Segoe UI", 10))  # 设置现代字体
 
     window = ScrollCardList()
     window.show()
     sys.exit(app.exec_())
-
