@@ -292,7 +292,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         self.plot_widget.showGrid(x=True, y=True, alpha=0.5)  # 显示网格
         self.plot_widget.setLabel('left', '数值')
         self.plot_widget.setLabel('bottom', '时间')
-        self.gridLayout_plot.addWidget(self.plot_widget)\
+        self.gridLayout_plot.addWidget(self.plot_widget)
 
 
         # 初始化组件
