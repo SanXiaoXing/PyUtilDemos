@@ -9,13 +9,17 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from DataReplay.Ui_DataReplay_Form import *
-from assets import ICON_BACKWARD
+from assets import ICON_BACKWARD,ICON_PLUS,ICON_MINUS,ICON_ALLCHECK,ICON_ALLUNCHECK,ICON_BROOM
 
 
 
 
 def generate_color():
     return QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
+
+
+
 
 
 class LimitedViewBox(pg.ViewBox):
@@ -87,6 +91,11 @@ class LimitedViewBox(pg.ViewBox):
 
 
 
+
+
+
+
+
 class DataReplayForm(QWidget, Ui_DataReplay_Form):
     def __init__(self):
         super(DataReplayForm, self).__init__()
@@ -103,8 +112,6 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
         self.treeWidget_datafile.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.treeWidget_datafile.setContextMenuPolicy(Qt.CustomContextMenu)
         self.pushButton_plot.setIcon(QIcon(ICON_BACKWARD))
-   
-
 
 
 
@@ -159,25 +166,38 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
     def TreeContextMenuEvent(self, pos):
         self.item = self.treeWidget_datafile.itemAt(pos)
         TreeMenu = QMenu(parent=self.treeWidget_datafile)
-        CheckedAll = QAction('全选')
-        CheckedAll.triggered.connect(self.SelectedAll)
-        UncheckedAll = QAction('取消全选')
-        UncheckedAll.triggered.connect(self.SelectedClear)
-        OpenFile=QAction('添加文件')
+
+        # 文件操作类 
+        OpenFile = QAction('添加文件', self)
+        OpenFile.setIcon(QIcon(ICON_PLUS))
+        RemoveFile = QAction('移除文件', self)
+        RemoveFile.setIcon(QIcon(ICON_MINUS))
+        TreeMenu.addAction(OpenFile)
+        TreeMenu.addAction(RemoveFile)
+        TreeMenu.addSeparator()  # ──────────────
+
+        # 选择操作类
+        CheckedAll = QAction('全选', self)
+        CheckedAll.setIcon(QIcon(ICON_ALLCHECK))
+        UncheckedAll = QAction('取消全选', self)
+        UncheckedAll.setIcon(QIcon(ICON_ALLUNCHECK))
+        TreeMenu.addAction(CheckedAll)
+        TreeMenu.addAction(UncheckedAll)
+        TreeMenu.addSeparator()  # ──────────────
+
+        # 其他操作类
+        ClearAll = QAction('清空列表', self)
+        ClearAll.setIcon(QIcon(ICON_BROOM))
+        TreeMenu.addAction(ClearAll)
+
+        # 绑定信号
         OpenFile.triggered.connect(self.load_csv)
-        RemoveFIle=QAction('移除文件')
-        RemoveFIle.triggered.connect(self.remove_file)
-        ClearAll=QAction('清空列表')
+        RemoveFile.triggered.connect(self.remove_file)
+        CheckedAll.triggered.connect(self.SelectedAll)
+        UncheckedAll.triggered.connect(self.SelectedClear)
         ClearAll.triggered.connect(self.clear_all_files)
-        
-        
-        TreeMenu.addActions([OpenFile,
-                             RemoveFIle,
-                             CheckedAll, 
-                             UncheckedAll,
-                             ClearAll
-                             ])
-        
+
+        # 显示菜单
         TreeMenu.exec_(self.treeWidget_datafile.mapToGlobal(pos))
 
     def SelectedAll(self):
