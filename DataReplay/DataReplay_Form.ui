@@ -42,6 +42,35 @@
      </item>
      <item row="2" column="1">
       <widget class="QSlider" name="horizontalSlider">
+       <property name="styleSheet">
+        <string notr="true">QSlider::groove:horizontal {
+    border: 1px solid #bbb;
+    height: 16px;  /* 加宽 */
+    background: #eee;
+    border-radius: 8px;
+    margin: 4px 0;
+}
+
+QSlider::handle:horizontal {
+    background: #ffffff;
+    border: 1px solid #888;
+    width: 20px;
+    height: 20px;
+    margin: -3px 0;  /* 向上/下居中 */
+    border-radius: 10px;
+}
+
+QSlider::handle:horizontal:hover {
+    background: #cce6ff;
+    border: 1px solid #3399ff;
+}
+
+QSlider::handle:horizontal:pressed {
+    background: #3399ff;
+    border: 1px solid #267acc;
+}
+</string>
+       </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>

@@ -538,6 +538,10 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
                 header = ["时间戳"]+[v["name"] for k, v in _CONFIG.items()]
                 writer.writerow(header)
 
+                # 单位行（第2行）：单位
+                unit_row = ["ms"] + [v.get("unit", "") for k, v in _CONFIG.items()]
+                writer.writerow(unit_row)
+
                  # 写数据（为每行加时间戳）
                 start_time = datetime.datetime.now()
                 for i, row in enumerate(self.saved_rows):
