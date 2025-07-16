@@ -1,3 +1,12 @@
+'''
+数据回放工具
+
+Author: JIN && <jjyrealdeal@163.com>
+Date: 2025-7-16 08:43:14
+Copyright (c) 2025 by JIN, All Rights Reserved. 
+'''
+
+
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -9,13 +18,13 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from DataReplay.Ui_DataReplay_Form import *
-from assets import ICON_BACKWARD
-
+from assets import ICON_BACKWARD,ICON_PLUS,ICON_MINUS,ICON_ALLCHECK,ICON_ALLUNCHECK,ICON_BROOM
 
 
 
 def generate_color():
     return QColor(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
 
 
 class LimitedViewBox(pg.ViewBox):
@@ -87,12 +96,19 @@ class LimitedViewBox(pg.ViewBox):
 
 
 
+
+
 class DataReplayForm(QWidget, Ui_DataReplay_Form):
     def __init__(self):
         super(DataReplayForm, self).__init__()
         self.setupUi(self)
+        self.data = pd.DataFrame() 
         self.all_data = {}
         self.curves=[]
+        self.timestamps = np.array([])       # x轴时间戳
+        self.window_width = 0                # 当前窗口宽度
+        self.scroll_position = 0             # 当前滚动起始位置
+
         self.initUI()
         self.init_graph()
         self.init_connections()
@@ -103,7 +119,8 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
         self.treeWidget_datafile.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.treeWidget_datafile.setContextMenuPolicy(Qt.CustomContextMenu)
         self.pushButton_plot.setIcon(QIcon(ICON_BACKWARD))
-   
+        self.horizontalSlider.setAttribute(Qt.WA_Hover, True)
+        self.horizontalSlider.installEventFilter(self)
 
 
 
@@ -115,6 +132,11 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
         self.plot_widget.showGrid(x=True, y=True)
         self.plot_widget.addLegend()
         self.gridLayout_plot.addWidget(self.plot_widget)
+
+        # 设置标题和坐标轴标签
+        self.plot_widget.getPlotItem().setTitle(" ", color='k', size='15pt')
+        self.plot_widget.getPlotItem().setLabel('left', " ", units='', **{'color': 'black', 'font-size': '12pt'})
+        self.plot_widget.getPlotItem().setLabel('bottom', "时间", units='ms', **{'color': 'black', 'font-size': '12pt'})
 
         # 绑定鼠标移动事件（监听整个plot区域）
         self.proxy = pg.SignalProxy(self.plot_widget.scene().sigMouseMoved, rateLimit=60, slot=self.onMouseMoved)
@@ -159,25 +181,38 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
     def TreeContextMenuEvent(self, pos):
         self.item = self.treeWidget_datafile.itemAt(pos)
         TreeMenu = QMenu(parent=self.treeWidget_datafile)
-        CheckedAll = QAction('全选')
-        CheckedAll.triggered.connect(self.SelectedAll)
-        UncheckedAll = QAction('取消全选')
-        UncheckedAll.triggered.connect(self.SelectedClear)
-        OpenFile=QAction('添加文件')
+
+        # 文件操作类 
+        OpenFile = QAction('添加文件', self)
+        OpenFile.setIcon(QIcon(ICON_PLUS))
+        RemoveFile = QAction('移除文件', self)
+        RemoveFile.setIcon(QIcon(ICON_MINUS))
+        TreeMenu.addAction(OpenFile)
+        TreeMenu.addAction(RemoveFile)
+        TreeMenu.addSeparator()  # ──────────────
+
+        # 选择操作类
+        CheckedAll = QAction('全选', self)
+        CheckedAll.setIcon(QIcon(ICON_ALLCHECK))
+        UncheckedAll = QAction('取消全选', self)
+        UncheckedAll.setIcon(QIcon(ICON_ALLUNCHECK))
+        TreeMenu.addAction(CheckedAll)
+        TreeMenu.addAction(UncheckedAll)
+        TreeMenu.addSeparator()  # ──────────────
+
+        # 其他操作类
+        ClearAll = QAction('清空列表', self)
+        ClearAll.setIcon(QIcon(ICON_BROOM))
+        TreeMenu.addAction(ClearAll)
+
+        # 绑定信号
         OpenFile.triggered.connect(self.load_csv)
-        RemoveFIle=QAction('移除文件')
-        RemoveFIle.triggered.connect(self.remove_file)
-        ClearAll=QAction('清空列表')
+        RemoveFile.triggered.connect(self.remove_file)
+        CheckedAll.triggered.connect(self.SelectedAll)
+        UncheckedAll.triggered.connect(self.SelectedClear)
         ClearAll.triggered.connect(self.clear_all_files)
-        
-        
-        TreeMenu.addActions([OpenFile,
-                             RemoveFIle,
-                             CheckedAll, 
-                             UncheckedAll,
-                             ClearAll
-                             ])
-        
+
+        # 显示菜单
         TreeMenu.exec_(self.treeWidget_datafile.mapToGlobal(pos))
 
     def SelectedAll(self):
@@ -244,28 +279,34 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
         if not hasattr(self, "all_data"):
             self.all_data = {}
         self.col_counter = {}  # 统计所有列名出现次数
-        self.column_mapping = {}  # (filename, col) -> original_col
+        self.column_mapping = {}  # (filename, name) -> (name, unit)
 
         for path in paths:
             filename = os.path.basename(path)
-            #  避免重复加载文件
+
+            # 避免重复加载
             if filename in self.all_data:
                 QMessageBox.information(self, "提示", f"{filename} 已被加载，请勿重复操作")
                 continue
 
-            df = pd.read_csv(path)
+            try:
+                df = pd.read_csv(path, header=[0, 1])  # 两行标题（列名 + 单位）
+            except Exception as e:
+                QMessageBox.warning(self, "错误", f"读取文件失败：{filename}\n{str(e)}")
+                continue
 
-            date_col = df.columns[0]
-            df[date_col] = pd.to_datetime(df[date_col])
-            df.set_index(date_col, inplace=True)
+            date_col = df.columns[0][0]  # 第一个列名的第一部分是"时间戳"名称
+            df.index = pd.to_datetime(df[df.columns[0]])  # 将时间戳列设为 index
+            df.drop(columns=[df.columns[0]], inplace=True)  # 删除原时间列
 
             self.all_data[filename] = df
 
             for col in df.columns:
-                self.col_counter[col] = self.col_counter.get(col, 0) + 1
-                self.column_mapping[(filename, col)] = col
+                name, unit = col
+                self.col_counter[name] = self.col_counter.get(name, 0) + 1
+                self.column_mapping[(filename, name)] = (name, unit)
 
-        # TreeWidget 显示原始列名（不加后缀）
+        # TreeWidget 显示列名（不加单位），但内部保存完整映射
         for filename, df in self.all_data.items():
             exists = False
             for i in range(self.treeWidget_datafile.topLevelItemCount()):
@@ -275,22 +316,22 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
                     break
             if not exists:
                 root = QTreeWidgetItem([filename])
-                root.setFlags(Qt.ItemIsEnabled|Qt.ItemIsSelectable|Qt.ItemIsUserCheckable|Qt.ItemIsAutoTristate)
+                root.setToolTip(0, path)
+                root.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsUserCheckable | Qt.ItemIsAutoTristate)
                 root.setCheckState(0, Qt.Unchecked)
-                for col in df.columns:
-                    item = QTreeWidgetItem([col])
-                    item.setFlags(Qt.ItemIsEnabled|Qt.ItemIsSelectable|Qt.ItemIsUserCheckable|Qt.ItemIsAutoTristate)
+                for name, unit in df.columns:
+                    item = QTreeWidgetItem([name])  # 显示列名
+                    item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsUserCheckable | Qt.ItemIsAutoTristate)
                     item.setCheckState(0, Qt.Unchecked)
+                    item.setToolTip(0, f"单位: {unit}")
                     root.addChild(item)
                 self.treeWidget_datafile.addTopLevelItem(root)
                 root.setExpanded(True)
 
         if self.all_data:
-            # 更新滑动条范围
+            # 更新滑动条范围（取最后一个文件行数）
             last_df = list(self.all_data.values())[-1]
             self.horizontalSlider.setMaximum(len(last_df))
-
-
 
 
 
@@ -319,10 +360,11 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
                 col_item = file_item.child(j)
                 if col_item.checkState(0) == Qt.Checked:
                     col = col_item.text(0)  # 原始列名
+                    unit= col_item.toolTip(0).split("单位: ")[1]
                     if self.col_counter[col] > 1:
-                        legend_name = f"{col} ({filename})"
+                        legend_name = f"{col} {unit} ({filename})"
                     else:
-                        legend_name = col
+                        legend_name = f'{col} {unit}'
 
                     # 添加到绘图数据
                     combined_df[legend_name] = df[col]
@@ -330,57 +372,85 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
 
         if combined_df.empty:
             return
+        
         self.data = combined_df
-        x_float = np.arange(len(combined_df))
+        self.timestamps = np.arange(len(combined_df))  # 或改为时间戳：combined_df.index.astype(np.int64) / 1e6
+        self.window_width = max(10, int(len(self.timestamps) * 0.1))
+        self.scroll_position = 0  # 初始起点
 
         for i, (colname, legend_name) in enumerate(self.selected_columns):
             y = self.data[legend_name].to_numpy()
-            color = QColor.fromHsv((i * 30) % 255, 200, 230)  # 通过 HSV 生成协调色
-            curve = self.plot_widget.plot(x_float, y, pen=pg.mkPen(color=color, width=1), name=legend_name)
-            curve.default_pen = pg.mkPen(color=color, width=1)  # 保存默认画笔
-            self.curves.append((curve, x_float, y))
+            color = QColor.fromHsv((i * 30) % 255, 200, 230)
+            curve = self.plot_widget.plot(self.timestamps, y, pen=pg.mkPen(color=color, width=1), name=legend_name)
+            curve.default_pen = pg.mkPen(color=color, width=1)
+            self.curves.append((curve, self.timestamps, y))
 
-        
-
-        x_min, x_max = x_float[0], x_float[-1]
+        x_min = self.scroll_position
+        x_max = self.scroll_position + self.window_width
         y_min, y_max = combined_df.min().min(), combined_df.max().max()
-        x_range = x_max - x_min
         y_range = y_max - y_min
 
-        vb = self.view_box  # 你自定义的ViewBox实例
+        vb = self.view_box
         vb.setLimits(
-            xMin=x_min,
-            xMax=x_max,
+            xMin=0,
+            xMax=len(self.timestamps),
             yMin=y_min,
             yMax=y_max,
-            minXRange=x_range * 0.01,
-            maxXRange=x_range,
+            minXRange=10,
+            maxXRange=len(self.timestamps),
             minYRange=y_range * 0.01,
             maxYRange=y_range
         )
-
         vb.setXRange(x_min, x_max, padding=0)
         vb.setYRange(y_min, y_max, padding=0)
 
-
-
+        # 设置滑动条最大值为 100（百分比控制）
+        self.horizontalSlider.setMaximum(100)
+        self.horizontalSlider.setValue(0)
 
 
     def scroll_plot(self, value):
-        full_x = self.data.index
-        if full_x.empty:
+        if not hasattr(self, 'timestamps') or len(self.timestamps) == 0:
             return
 
-        total_points = len(self.data)
-        view_width = int(total_points * 0.1)
-        start_index = int(total_points * (value / 100.0))
-        end_index = start_index + view_width
+        total_points = len(self.timestamps)
+        if total_points <= self.window_width:
+            return
 
-        start_index = max(0, min(start_index, total_points - view_width))
-        end_index = min(total_points, end_index)
+        # 计算起始索引位置
+        max_start = total_points - self.window_width
+        self.scroll_position = int((value / 100.0) * max_start)
+        self.scroll_position = max(0, min(self.scroll_position, max_start))
 
         vb = self.plot_widget.getViewBox()
-        vb.setXRange(start_index, end_index, padding=0)
+        vb.setXRange(self.scroll_position,
+                     self.scroll_position + self.window_width,
+                     padding=0)
+
+
+    def eventFilter(self, source, event):
+        if source == self.horizontalSlider and event.type() == QEvent.HoverMove:
+            pos = event.pos()
+            val = self.horizontalSlider.minimum() + (
+                (self.horizontalSlider.maximum() - self.horizontalSlider.minimum())
+                * pos.x()
+                / self.horizontalSlider.width()
+            )
+            index = int(len(self.data) * (val / 100.0))
+            if 0 <= index < len(self.data):
+                try:
+                    timestamp = self.data.index[index]
+                    if isinstance(timestamp, pd.Timestamp):
+                        tip = timestamp.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+                    else:
+                        tip = str(timestamp)
+                    # ✅ 修复：显示在 horizontalSlider 上方
+                    QToolTip.showText(self.horizontalSlider.mapToGlobal(pos), tip)
+                except Exception:
+                    pass
+        return super().eventFilter(source, event)
+
+
 
 
     def onMouseMoved(self, evt):
@@ -455,7 +525,6 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
         self.h_line.show()
 
         # 显示数据浮窗
-
         text = f"{closest_curve.name()}\nX: {int(x_val)}\nY: {y_val:.3f}"
         self.text_item.setText(text)
         self.text_item.setPos(view_pos.x(), view_pos.y())
@@ -466,17 +535,13 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
     def highlight_curve(self, curve):
         """将曲线加粗高亮显示"""
         if curve:
-            curve.setPen(pg.mkPen(color=curve.default_pen.color(), width=3))
+            curve.setPen(pg.mkPen(color=curve.default_pen.color(), width=2))
 
 
     def restore_curve(self, curve):
         """恢复曲线原始样式"""
         if curve:
             curve.setPen(curve.default_pen)
-
-
-
-
 
 
 

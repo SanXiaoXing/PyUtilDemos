@@ -28,6 +28,33 @@ class Ui_DataReplay_Form(object):
         self.horizontalLayout_3.addWidget(self.pushButton_plot)
         self.gridLayout.addLayout(self.horizontalLayout_3, 0, 0, 1, 1)
         self.horizontalSlider = QtWidgets.QSlider(DataReplay_Form)
+        self.horizontalSlider.setStyleSheet("QSlider::groove:horizontal {\n"
+"    border: 1px solid #bbb;\n"
+"    height: 16px;  /* 加宽 */\n"
+"    background: #eee;\n"
+"    border-radius: 8px;\n"
+"    margin: 4px 0;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal {\n"
+"    background: #ffffff;\n"
+"    border: 1px solid #888;\n"
+"    width: 20px;\n"
+"    height: 20px;\n"
+"    margin: -3px 0;  /* 向上/下居中 */\n"
+"    border-radius: 10px;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:hover {\n"
+"    background: #cce6ff;\n"
+"    border: 1px solid #3399ff;\n"
+"}\n"
+"\n"
+"QSlider::handle:horizontal:pressed {\n"
+"    background: #3399ff;\n"
+"    border: 1px solid #267acc;\n"
+"}\n"
+"")
         self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider.setObjectName("horizontalSlider")
         self.gridLayout.addWidget(self.horizontalSlider, 2, 1, 1, 1)

@@ -2,37 +2,37 @@
   "data1": {
     "name": "数据1",
     "color": "#2bbfff",
-    "unit": "/",
+    "unit": "℃",
     "visible": true
   },
   "data2": {
     "name": "数据2",
     "color": "#ff55ff",
-    "unit": "/",
+    "unit": "V",
     "visible": true
   },
   "data3": {
     "name": "数据3",
     "color": "#0000ff",
-    "unit": "/",
+    "unit": "A",
     "visible": true
   },
   "data4": {
     "name": "数据4",
     "color": "#00ffff",
-    "unit": "/",
+    "unit": "Ω",
     "visible": true
   },
   "data5": {
     "name": "数据5",
     "color": "#00ff7f",
-    "unit": "/",
+    "unit": "Pa",
     "visible": true
   },
   "data6": {
     "name": "数据6",
     "color": "#917eff",
-    "unit": "/",
+    "unit": "m",
     "visible": true
   },
   "data7": {

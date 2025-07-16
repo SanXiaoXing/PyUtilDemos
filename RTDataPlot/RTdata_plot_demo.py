@@ -292,7 +292,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
         self.plot_widget.showGrid(x=True, y=True, alpha=0.5)  # 显示网格
         self.plot_widget.setLabel('left', '数值')
         self.plot_widget.setLabel('bottom', '时间')
-        self.gridLayout_plot.addWidget(self.plot_widget)\
+        self.gridLayout_plot.addWidget(self.plot_widget)
 
 
         # 初始化组件
@@ -537,6 +537,10 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
                 # 写表头
                 header = ["时间戳"]+[v["name"] for k, v in _CONFIG.items()]
                 writer.writerow(header)
+
+                # 单位行（第2行）：单位
+                unit_row = ["ms"] + [v.get("unit", "") for k, v in _CONFIG.items()]
+                writer.writerow(unit_row)
 
                  # 写数据（为每行加时间戳）
                 start_time = datetime.datetime.now()
