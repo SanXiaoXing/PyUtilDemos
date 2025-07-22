@@ -1,5 +1,6 @@
 '''
 数据回放工具
+- 支持csv类型数据回放,csv格式为首行数据名称,第二行为单位,后续为数值
 
 Author: JIN && <jjyrealdeal@163.com>
 Date: 2025-7-16 08:43:14
@@ -11,7 +12,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import pandas as pd
-import numpy as np
+import numpy as np 
 import pyqtgraph as pg
 import random
 from PyQt5.QtWidgets import *
@@ -525,7 +526,7 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
         self.h_line.show()
 
         # 显示数据浮窗
-        text = f"{closest_curve.name()}\nX: {int(x_val)}\nY: {y_val:.3f}"
+        text = f'{closest_curve.name()}\nX: {int(x_val)}\nY: {y_val:.3f}\nMIN: {min(closest_y_data):.3f}\nMAX: {max(closest_y_data):.3f}\nAVG: {np.mean(closest_y_data):.3f}\n'
         self.text_item.setText(text)
         self.text_item.setPos(view_pos.x(), view_pos.y())
         self.text_item.show()

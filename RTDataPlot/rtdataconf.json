@@ -15,31 +15,31 @@
     "name": "数据3",
     "color": "#0000ff",
     "unit": "A",
-    "visible": true
+    "visible": false
   },
   "data4": {
     "name": "数据4",
     "color": "#00ffff",
     "unit": "Ω",
-    "visible": true
+    "visible": false
   },
   "data5": {
     "name": "数据5",
     "color": "#00ff7f",
     "unit": "Pa",
-    "visible": true
+    "visible": false
   },
   "data6": {
     "name": "数据6",
     "color": "#917eff",
     "unit": "m",
-    "visible": true
+    "visible": false
   },
   "data7": {
     "name": "数据7",
     "color": "#ff5500",
     "unit": "/",
-    "visible": true
+    "visible": false
   },
   "data8": {
     "name": "数据8",
