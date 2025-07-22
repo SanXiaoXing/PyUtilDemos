@@ -1,3 +1,23 @@
+"""
+圆形仪表盘控件
+
+Author: JIN && <jjyrealdeal@163.com>
+Date: 2025-07-22 11:53:32
+Copyright (c) 2025 by JIN, All Rights Reserved. 
+"""
+
+"""
+圆形仪表盘控件
+
+参数接口说明：
+min_value:
+max_value:
+initial_value:
+unit: 
+precision: 
+thresholds:
+"""
+
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QDoubleSpinBox, QSizePolicy
 from PyQt5.QtCore import Qt, QRectF, QPointF
 from PyQt5.QtGui import QPainter, QPen, QColor, QFont, QPainterPath
@@ -5,6 +25,7 @@ import math
 
 
 class DialCanvas(QWidget):
+    """仪表盘控件"""
     def __init__(self, min_value=0, max_value=100, unit="", thresholds=None, precision=None,parent=None):
         super().__init__(parent)
         self.min_value = min_value
@@ -60,7 +81,7 @@ class DialCanvas(QWidget):
         painter.setBrush(bg_color)
         painter.drawEllipse(rect)
 
-        # ✅ 绘制蓝环（分段）
+        # 绘制蓝环（分段）
         outer_radius = radius
         ring_width = radius * 0.07
         inner_radius = radius - ring_width
@@ -188,13 +209,17 @@ class DialCanvas(QWidget):
         painter.drawPath(path)
 
 
+
 class GaugeWidget(QWidget):
+    """仪表盘控件使用示例"""
     def __init__(self, min_value=0, max_value=100, initial_value=50, unit="",precision=None, thresholds=None, parent=None):
         super().__init__(parent)
+        """创建仪表盘并传入设置参数"""
         self.dial = DialCanvas(min_value=min_value, max_value=max_value,
                                unit=unit,precision=precision,thresholds=thresholds)
         self.dial.set_value(initial_value)
 
+        """创建spinbox"""
         self.spinbox = QDoubleSpinBox()
         self.spinbox.setDecimals(precision)
         self.spinbox.setSingleStep(10 ** -precision)
@@ -203,7 +228,7 @@ class GaugeWidget(QWidget):
         self.spinbox.setFixedWidth(100)
         self.spinbox.valueChanged.connect(self.on_spin_changed)
 
-
+        """创建布局"""
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
         layout.setSpacing(10)
@@ -214,19 +239,14 @@ class GaugeWidget(QWidget):
 
 
     def on_spin_changed(self, value):
+        """spinbox值改变时更新dial"""
         self.dial.set_value(value)
 
 
     def set_value(self, value):
+        """设置仪表盘值"""
         self.spinbox.setValue(value)
         self.dial.set_value(value)
-
-
-    def set_precision(self, precision):
-        self.spinbox.setDecimals(precision)
-        self.spinbox.setSingleStep(10 ** -precision)
-        self.dial.set_precision(precision)
-
 
 
 
