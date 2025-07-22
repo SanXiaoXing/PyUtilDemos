@@ -53,8 +53,11 @@
 import sys
 import os
 import re
+from pathlib import Path
 from typing import Dict
 from functools import lru_cache
+
+from PyQt5.QtSvg import QSvgWidget
 
 try:
     import pandas as pd
@@ -66,7 +69,7 @@ from PyQt5.QtWidgets import (
     QApplication, QWidget, QGridLayout, QLabel, QVBoxLayout, QHBoxLayout,
     QGroupBox, QMessageBox, QLineEdit, QPushButton, QFrame, QScrollArea
 )
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import Qt, pyqtSignal, QSize
 from PyQt5.QtGui import QPixmap, QPainter, QColor, QIcon
 
 # 预编译正则表达式用于十六进制验证
@@ -201,6 +204,7 @@ class BulbStateMonitor(QWidget):
         self.setGeometry(100, 100, 1200, 800)
         
         # 主布局
+        window = QWidget()
         main_layout = QVBoxLayout()
         
         # 标题
@@ -215,6 +219,14 @@ class BulbStateMonitor(QWidget):
             }
         """)
         main_layout.addWidget(title_label)
+        # 设置应用图标
+        try:
+            icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                     "assets", "icon", "灯泡主意创新.svg")
+            if os.path.exists(icon_path):
+                self.setWindowIcon(QIcon(icon_path))
+        except Exception as e:
+            print(f"设置图标失败: {e}")
         
         # 滚动区域用于显示设备
         self.scroll_area = QScrollArea()
@@ -593,15 +605,6 @@ def main():
     """主函数"""
     app = QApplication(sys.argv)
     app.setApplicationName("灯泡状态监控工具")
-    
-    # 设置应用图标
-    try:
-        icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                                "assets", "icon", "灯泡主意创新.svg")
-        if os.path.exists(icon_path):
-            app.setWindowIcon(QIcon(icon_path))
-    except Exception as e:
-        print(f"设置图标失败: {e}")
     
     window = BulbStateMonitor()
     window.show()
