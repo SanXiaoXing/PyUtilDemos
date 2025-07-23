@@ -29,34 +29,6 @@ _SLIDER_QSS="""
             }"""
 
 
-# 自定义 QSlider 支持 tooltip hover 显示状态
-class HoverSlider(QSlider):
-    def __init__(self, labels=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.labels = labels or {}
-        self.setMouseTracking(True)
-        self.installEventFilter(self)
-
-    def eventFilter(self, source, event):
-        if event.type() == QEvent.MouseMove:
-            option = QStyleOptionSlider()
-            self.initStyleOption(option)
-            handle_pos = self.style().subControlRect(
-                self.style().CC_Slider,
-                option,
-                self.style().SC_SliderHandle,
-                self
-            )
-            if handle_pos.contains(event.pos()):
-                val = self.value()
-                label = self.labels.get(str(val), str(val))
-                QToolTip.showText(QCursor.pos(), label, self)
-            else:
-                QToolTip.hideText()
-        return super().eventFilter(source, event)
-
-
-
 class SwitchSliderForm(QWidget):
     def __init__(self):
         super().__init__()
@@ -71,7 +43,7 @@ class SwitchSliderForm(QWidget):
         self.main_layout = QVBoxLayout(self)
 
         # ✅ 控件布局参数
-        self.slider_per_row = 1   # 每行几个开关滑块
+        self.slider_per_row = 2   # 每行几个开关滑块
         switch_group=self.init_slider()
         self.main_layout.addWidget(switch_group)
 
@@ -80,55 +52,64 @@ class SwitchSliderForm(QWidget):
         # ▶ 开关区域 GroupBox
         switch_group = QGroupBox("开关设置")
         switch_layout = QGridLayout()
-        self.switch_widgets = []
+        switch_layout.setContentsMargins(10, 10, 10, 10)
+        switch_layout.setHorizontalSpacing(12)
+        switch_layout.setVerticalSpacing(8)
 
         for idx, item in enumerate(self.config.get("switch_area", [])):
             row = idx // self.slider_per_row
             col = idx % self.slider_per_row
 
             label = QLabel(item["label"])
-            label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
             label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-            # ✅ 提取"0"和"1"对应含义
+            # ✅ 提取状态含义
             state_labels = {
                 "0": item.get("0", "0"),
                 "1": item.get("1", "1")
             }
 
-            slider = HoverSlider(labels=state_labels, orientation=Qt.Horizontal)
+            # 状态 QLabel
+            status_label = QLabel(state_labels[str(item["default"])])
+            status_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+            status_label.setMinimumWidth(40)
+            status_label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+
+            # 滑块
+            slider = QSlider(Qt.Horizontal)
             slider.setObjectName(item['signame'])
             slider.setRange(0, 1)
             slider.setSingleStep(1)
             slider.setTickInterval(1)
             slider.setTickPosition(QSlider.TicksBelow)
             slider.setValue(item["default"])
-            slider.setMaximumWidth(150)
+            slider.setMinimumWidth(60)
+            slider.setMaximumWidth(80)
             slider.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
             slider.setStyleSheet(_SLIDER_QSS)
-            slider.valueChanged.connect(lambda _, it=item: self.switch_changed_value(it))
 
-            hbox = QHBoxLayout()
-            hbox.addWidget(label)
-            hbox.addWidget(slider)
-            wrapper = QWidget()
-            wrapper.setLayout(hbox)
+            # 绑定更新状态
+            slider.valueChanged.connect(lambda val, it=item, lb=status_label: self.switch_changed_value(it, val, lb))
 
-            switch_layout.addWidget(wrapper, row, col)
-            self.switch_widgets.append((label, slider))
+            # ⬇️ 直接按列添加到GridLayout（按列对齐）
+            base_col = col * 3
+            switch_layout.addWidget(label, row, base_col)
+            switch_layout.addWidget(slider, row, base_col + 1)
+            switch_layout.addWidget(status_label, row, base_col + 2)
 
         switch_group.setLayout(switch_layout)
-
         return switch_group
-    
 
-    def switch_changed_value(self,item):
+
+    def switch_changed_value(self, item, value, status_label):
         """slider状态改变时触发"""
-        slider=self.sender()
-        value=slider.value()
-        label=item['label']
-        
-        print(f'{label} changed:', value)
+        label = item['label']
+        state_label = item.get(str(value), str(value))
+        status_label.setText(state_label)
+
+        print(f'{label} changed: {state_label} ({value})')
+
 
 
 

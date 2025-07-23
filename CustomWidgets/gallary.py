@@ -2,7 +2,7 @@
 自定义控件集
 
 Author: JIN && <jjyrealdeal@163.com>
-Date: 2025-07-22 16:04:44 
+Date: 2025-07-23 10:02:05
 Copyright (c) 2025 by JIN, All Rights Reserved. 
 '''
 
@@ -22,6 +22,7 @@ from CustomWidgets.components.dashboard.circular_dashboard import GaugeWidget as
 from CustomWidgets.components.dashboard.sector_dashboard import GaugeWidget as SectorDashboard
 from CustomWidgets.components.conf2ui.input_spinbox import InputSpinxboForm
 from CustomWidgets.components.conf2ui.switch_slider import SwitchSliderForm
+from CustomWidgets.components.conf2ui.switch_checkbox import SwitchPanel
 
 
 class GallaryForm(QWidget, Ui_FormGallery): 
@@ -65,6 +66,7 @@ class GallaryForm(QWidget, Ui_FormGallery):
 
         self.input_spinbox = InputSpinxboForm()
         self.switch_slider = SwitchSliderForm()
+        self.switch_checkbox=SwitchPanel()
 
 
         # 添加到堆叠窗口
@@ -72,10 +74,7 @@ class GallaryForm(QWidget, Ui_FormGallery):
         self.stackedWidget.insertWidget(1, self.sector_dashboard)    # 第1页
         self.stackedWidget.insertWidget(2, self.input_spinbox)  
         self.stackedWidget.insertWidget(3, self.switch_slider)
-
-
-
- 
+        self.stackedWidget.insertWidget(4, self.switch_checkbox)
 
         # 默认显示第一页
         self.stackedWidget.setCurrentIndex(0)  # 显示第0页
@@ -88,7 +87,8 @@ class GallaryForm(QWidget, Ui_FormGallery):
             },
             "批量控件生成": {
                 "input_spinbox": 2,
-                "switch_slider": 3
+                "switch_slider": 3,
+                "switch_checkbox":4
             }
         }
 

@@ -1,3 +1,8 @@
+"""
+使用doublespinbox作为输入框
+
+"""
+
 import sys
 import json
 from pathlib import Path
@@ -45,6 +50,8 @@ class InputSpinxboForm(QWidget):
             spin.setSingleStep(item["step"])
             spin.setValue(item["default"])
             spin.setObjectName(item['signame'])
+            spin.setMinimumWidth(50)
+            spin.setMaximumWidth(100)
             label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
             label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
             spin.editingFinished.connect(lambda s=spin, l=item["label"]: self.on_spinbox_finished(s, l))
@@ -67,6 +74,8 @@ class InputSpinxboForm(QWidget):
 
     
     def on_spinbox_finished(self, spinbox, label):
+        """spinbox编辑完成时调用"""
+        """可在此自定义处理逻辑"""
         value = spinbox.value()
         signame=spinbox.objectName()
         print(f"{label} {signame} 当前值：{value}")
@@ -74,8 +83,6 @@ class InputSpinxboForm(QWidget):
 
 
     
-
-
 
 
 if __name__ == "__main__":
