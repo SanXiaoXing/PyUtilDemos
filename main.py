@@ -10,6 +10,7 @@ from RTDataPlot.RTdata_plot_demo import DataPlotForm
 from LogViewer.log_viewer_demo import LogCheckForm
 from BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
 from DataReplay.data_replay_demo import DataReplayForm
+from CustomWidgets.gallary import GallaryForm
 
 
 class HoverFrame(QFrame):
@@ -237,7 +238,7 @@ class ScrollCardList(QWidget):
             {
                 "svg_path": "分析统计.svg",
                 "title": "数据回放",
-                "description": "支持加载 CSV 文件并以图表形式回放历史数据，用户可以通过控制按钮实现播放、暂停、停止等操作",
+                "description": "支持加载 CSV 文件并以图表形式回放历史数据",
                 "window_class": DataReplayForm  
             },
             {
@@ -263,6 +264,12 @@ class ScrollCardList(QWidget):
                 "title": "总线数据解析",
                 "description": "这是一个总线数据解析工具",
                 "window_class": None  # 暂时不绑定窗口
+            },
+            {
+                "svg_path": "草稿便签编辑.svg",
+                "title": "自定义控件",
+                "description": "这是一个自定义绘制的控件集，有仪表盘等控件",
+                "window_class": GallaryForm  
             },
         ]
         

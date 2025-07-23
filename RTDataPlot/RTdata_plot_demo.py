@@ -1,9 +1,17 @@
 '''
 曲线实时绘制模块
+===============
+
+功能：
 - 可设置X轴(固定/滚动)和Y轴(固定/自动)模式
 - 可选择是否保存曲线数据
 - 可对待绘制数据进行选择并进行颜色配置
 - 可进行数据存储
+
+使用方法：
+- 该工具具有独立可运行的界面， 也可以将其作为模块嵌入到其他界面中
+- 数据源为实时数据，数据格式为字典，包含多个键值对，每个键值对表示一条曲线的数据
+- DataThread类为数据获取线程,负责从数据源获取数据并传递给主线程进行绘制,可在DataThread中替换真实数据源
 
 
 Author: JIN && <jjyrealdeal@163.com>
@@ -89,7 +97,7 @@ class DataThread(QThread):
             if not self._is_running:
                 break
             
-            # TIPS: 生成模拟数据（此处可替换为真实数据源）
+            """ 生成模拟数据（此处可替换为真实数据源）"""
             combined_data = {}
             for i, key in enumerate(keys):
                 angle = xtime * 0.1 
@@ -198,27 +206,37 @@ class CurveDialog(QDialog, Ui_Dialog_Select):
      
 
     def generate_checkbox_handler(self, row, key):
-        """生成checkbox事件处理函数"""
+        """
+        生成checkbox事件处理函数
+        
+        :param row: 行号，用于定位表格中的checkbox控件
+        :param key: 配置项的键值，用于更新对应的配置状态
+        :return: 返回一个处理checkbox状态变化的闭包函数
+        """
         def handler(state):
+            # 获取指定行和列的单元格控件，并查找其中的checkbox
             cell_widget = self.tableWidget_data.cellWidget(row, 0)
             checkbox = cell_widget.findChild(QCheckBox) if cell_widget else None
 
+            # 处理checkbox选中状态的变化
             if state == Qt.Checked:
-                # print(self.checked_count)
+                # 检查是否超过最大选中数量限制
                 if self.checked_count >= self.max_checked:
+                    # 超过限制时，阻止信号并取消选中状态
                     checkbox.blockSignals(True)
                     checkbox.setChecked(False)
                     checkbox.blockSignals(False)
                     return
                 self.checked_count += 1
             else:
+                # 取消选中时减少计数
                 self.checked_count -= 1
-            #print(self.checked_count)
 
+            # 更新配置文件中对应项的可见性设置
             _CONFIG[key]["visible"] = (state == Qt.Checked)
             save_config()
 
-            # 更新所有 checkbox 的可用状态
+            # 更新所有checkbox的可用状态
             self.update_checkbox_enabled_state()
 
         return handler
@@ -236,10 +254,26 @@ class CurveDialog(QDialog, Ui_Dialog_Select):
 
 
     def generate_color_button_handler(self, row, key):
-        """生成颜色按钮事件处理函数"""
+        """
+        生成颜色按钮事件处理函数
+        
+        该函数创建一个闭包，用于处理颜色选择按钮的点击事件。当按钮被点击时，
+        会打开颜色选择对话框，允许用户选择新的颜色。如果用户选择了有效颜色，
+        则更新配置文件中的颜色值，更新按钮图标，并保存配置。
+        
+        参数:
+            row (int): 表格中的行号，用于定位需要更新的按钮控件
+            key (str): 配置字典中的键名，用于访问和更新对应的配置项
+            
+        返回:
+            function: 返回一个无参的事件处理函数，该函数捕获row和key参数形成闭包
+        """
         def handler():
+            # 获取当前配置的颜色值，如果不存在则使用默认黑色
             current_color = QColor(_CONFIG[key].get("color", "#000000"))
+            # 打开颜色选择对话框，让用户选择新颜色
             new_color = QColorDialog.getColor(initial=current_color)
+            # 如果用户选择了有效颜色，则更新配置和界面
             if new_color.isValid():
                 _CONFIG[key]["color"] = new_color.name()
                 btn = self.tableWidget_data.cellWidget(row, 2)
@@ -414,7 +448,16 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
 
     def update_plot(self, data, xtime):
-        """更新 PyQtGraph 图表"""
+        """
+        更新 PyQtGraph 图表显示内容，包括曲线数据和相关控件状态。
+
+        参数:
+            data (dict): 包含各曲线键值对的字典，用于更新图表数据。
+            xtime (int): 当前时间戳，作为 X 轴最新数据点的时间基准。
+
+        返回值:
+            无
+        """
         # 如果需要保存数据，则将数据添加到 saved_rows 中
         if self.should_save_data:
             row = []
@@ -480,8 +523,16 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
 
     def start_plotting(self):
+        """
+        开始绘图功能
+        
+        该函数负责启动数据采集和绘图显示功能。如果当前处于停止状态，
+        则会清理历史数据并重新初始化绘图组件，然后启动数据采集线程；
+        如果当前处于暂停状态，则恢复数据采集线程的运行。
+        """
         self.should_save_data = self.checkBox_savedata.isChecked()
 
+        # 如果当前处于停止状态，需要重新初始化绘图环境
         if self.is_stopped:
             self.saved_rows.clear()
             self.data_buffer.clear()
@@ -495,13 +546,14 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
             self.plot_widget.enableAutoRange(axis='x', enable=False)
             self.plot_widget.setXRange(0, 100, padding=0)
 
-            # 启动新线程
+            # 启动新线程进行数据采集
             self.data_thread = DataThread()
             self.data_thread.data_updated.connect(self.update_plot)
             self.data_thread.start()
 
             self.is_stopped = False  # 标记为非停止
         else:
+            # 当前处于暂停状态，恢复数据采集线程
             self.data_thread.resume()
 
         self.pushButton_control.setText("暂停")
@@ -519,13 +571,23 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
 
     def stop_plotting(self):
-        """停止绘图"""
+        """
+        停止数据采集和绘图，并保存已收集的数据到CSV文件
+        
+        该函数执行以下操作：
+        1. 停止数据采集线程
+        2. 更新控制按钮状态为"开始"
+        3. 设置停止标志
+        4. 如果需要保存数据且存在已收集数据，则将数据保存到CSV文件
+        """
         self.data_thread.stop()
         self.pushButton_control.setText("开始")
         self.pushButton_control.setIcon(QIcon(ICON_PLAY))
         self.is_stopped = True
 
+        # 如果需要保存数据且存在已收集的数据，则保存到CSV文件
         if self.should_save_data and self.saved_rows:
+            # 生成带时间戳的文件名
             timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
             filename = f"试验数据_{timestamp}.csv"
             save_path = _BASE_PATH / f'saveddata/{filename}'
@@ -542,7 +604,7 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
                 unit_row = ["ms"] + [v.get("unit", "") for k, v in _CONFIG.items()]
                 writer.writerow(unit_row)
 
-                 # 写数据（为每行加时间戳）
+                # 写数据（为每行加时间戳）
                 start_time = datetime.datetime.now()
                 for i, row in enumerate(self.saved_rows):
                     row_time = start_time + datetime.timedelta(milliseconds=100 * i)  # 假设每100ms一条
@@ -554,9 +616,8 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
 
 
-
-
     def show_curve_selector(self):
+        """显示曲线选择对话框"""
         dialog = CurveDialog(self)  # 传入 parent，便于定位窗口
         dialog.setModal(True)
         dialog.config_updated.connect(self.on_config_updated)  # Connect the signal
@@ -564,16 +625,20 @@ class DataPlotForm(QWidget, Ui_RTDataPlotForm):
 
 
     def on_config_updated(self, updated_config):
-        # Synchronize data_buffer with the updated configuration
+        """
+        当配置更新时的回调函数，用于同步数据缓冲区并重新初始化曲线显示
+        
+        :param updated_config: 更新后的配置字典，包含各个曲线的配置信息
+        """
+        # 同步数据缓冲区与更新后的配置
         for key in list(self.data_buffer.keys()):
             if not updated_config.get(key, {}).get("visible", False):
-                del self.data_buffer[key]  # Remove hidden curve's data buffer
+                del self.data_buffer[key]  # 移除隐藏曲线的数据缓冲区
             else:
-                self.data_buffer.setdefault(key, [])  # Ensure visible curves have a buffer
+                self.data_buffer.setdefault(key, [])  # 确保可见曲线拥有数据缓冲区
 
-        self.init_curves()  # Reinitialize curves based on the new config
-        self.init_dataview()
-
+        self.init_curves()  # 根据新配置重新初始化曲线
+        self.init_dataview()  # 重新初始化数据视图
 
 
     def closeEvent(self, event):
