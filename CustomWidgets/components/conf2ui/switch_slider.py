@@ -1,3 +1,20 @@
+"""
+开关滑块控件模块
+
+该模块提供了一个基于QSlider的开关控制面板组件，具有以下特点：
+- 支持从JSON配置文件动态加载开关配置
+- 使用滑块形式的开关控件，提供更好的用户体验
+- 自动布局管理，可配置每行显示的开关数量
+- 支持为每个开关设置自定义标签和状态文本
+- 提供开关状态改变事件回调机制
+- 具有美观的自定义样式表(QSS)外观
+
+
+
+适用场景：设备控制面板、系统设置界面、功能开关管理等需要布尔型控制但希望有更好交互体验的场合。
+"""
+
+
 import sys
 import json
 from pathlib import Path
@@ -64,7 +81,7 @@ class SwitchSliderForm(QWidget):
             label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
             label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-            # ✅ 提取状态含义
+            # 提取状态含义
             state_labels = {
                 "0": item.get("0", "0"),
                 "1": item.get("1", "1")
@@ -92,7 +109,7 @@ class SwitchSliderForm(QWidget):
             # 绑定更新状态
             slider.valueChanged.connect(lambda val, it=item, lb=status_label: self.switch_changed_value(it, val, lb))
 
-            # ⬇️ 直接按列添加到GridLayout（按列对齐）
+            # 按列添加到GridLayout（按列对齐）
             base_col = col * 3
             switch_layout.addWidget(label, row, base_col)
             switch_layout.addWidget(slider, row, base_col + 1)

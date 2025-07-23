@@ -1,6 +1,15 @@
 """
-使用doublespinbox作为输入框
+DoubleSpinBox输入控件模块
+========================
 
+该模块提供了一个基于QDoubleSpinBox的参数输入界面组件，具有以下特点：
+- 支持从JSON配置文件动态加载输入参数配置
+- 自动布局管理，可配置每行显示的输入框数量
+- 提供输入完成事件回调机制
+
+
+
+适用场景：参数配置界面、设备控制面板、数据输入表单等需要数值输入的场合。
 """
 
 import sys
@@ -28,7 +37,7 @@ class InputSpinxboForm(QWidget):
     def init_ui(self):
         self.main_layout = QVBoxLayout(self)
 
-        # ✅ 控件布局参数
+        # 控件布局参数
         self.spinbox_per_row = 2  # 每行几个输入框
         input_group=self.init_doublespinbox()
         self.main_layout.addWidget(input_group)

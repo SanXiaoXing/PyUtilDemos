@@ -1,5 +1,25 @@
 '''
 校准工具
+=======
+
+该模块提供了一个图形化界面的校准工具，用于对硬件设备(如模拟量采集卡)进行校准配置。
+主要功能包括：
+- 支持多通道设备的独立校准配置
+- 提供校准数据表格编辑功能，包括添加、删除、修改校准点
+- 支持校准数据的存储和加载
+
+
+使用方法：
+需要定义板卡信息字典,该工具根据字典内容加载板卡信息,字典格式如下：
+cardinfo={
+        "name":"card_1",
+        "type":"模拟量",
+        "ch":2,
+        "mfr":"厂商_1",
+        "desc":"描述_1"
+    }
+
+
 
 Author: JIN && <jjyrealdeal@163.com>
 Date: 2025-05-14 11:28:51
@@ -20,6 +40,7 @@ from CalibTool.Ui_CalibrationForm import *
  
 CALIBCONF_PATH=str( Path(__file__).parent / 'calibconf.json')  # 插值表配置文件路径
 
+
 cardinfo={
         "name":"card_1",
         "type":"模拟量",
@@ -35,7 +56,7 @@ class CalibrationForm(QWidget,Ui_CalibrationForm):
         """
         super(CalibrationForm,self).__init__()
         self.setupUi(self)
-        self.cardname=cardinfo['name']
+        self.cardname=cardinfo['name']   
         self.cardch=cardinfo['ch']
         self.init_ui()
         self.load_calibconf()
