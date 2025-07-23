@@ -18,20 +18,21 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 from CustomWidgets.Ui_FormGallery import *
-from CustomWidgets.components.circular_dashborad import GaugeWidget as CircularDashboard
-from CustomWidgets.components.sector_dashborad import GaugeWidget as SectorDashboard
+from CustomWidgets.components.dashboard.circular_dashboard import GaugeWidget as CircularDashboard
+from CustomWidgets.components.dashboard.sector_dashboard import GaugeWidget as SectorDashboard
+from CustomWidgets.components.conf2ui.input_spinbox import InputSpinxboForm
+from CustomWidgets.components.conf2ui.switch_slider import SwitchSliderForm
 
 
 class GallaryForm(QWidget, Ui_FormGallery): 
     def __init__(self):
         super(GallaryForm, self).__init__()
         self.setupUi(self)
-        self.init_ui()  # 别忘了调用 init_ui()
+        self.init_ui()  
+        self.init_treelist()
+
 
     def init_ui(self):
-        
-        self.treeWidget.itemClicked.connect(self.on_tree_item_clicked)
-
         # 圆形仪表盘阈值设置
         circular_thresholds = [
             (210, (0, 128, 255, 120)),     # 蓝色：正常区
@@ -62,18 +63,53 @@ class GallaryForm(QWidget, Ui_FormGallery):
             thresholds=sector_thresholds
         )
 
-        self.page_map={
-            "圆形仪表盘":0,
-            "扇形仪表盘":1
-        }
-        
+        self.input_spinbox = InputSpinxboForm()
+        self.switch_slider = SwitchSliderForm()
+
+
         # 添加到堆叠窗口
         self.stackedWidget.insertWidget(0, self.circular_dashboard)  # 第0页
         self.stackedWidget.insertWidget(1, self.sector_dashboard)    # 第1页
+        self.stackedWidget.insertWidget(2, self.input_spinbox)  
+        self.stackedWidget.insertWidget(3, self.switch_slider)
+
+
+
+ 
 
         # 默认显示第一页
         self.stackedWidget.setCurrentIndex(0)  # 显示第0页
 
+    def init_treelist(self):
+        data = {
+            "仪表盘": {
+                "圆形仪表盘": 0,
+                "扇形仪表盘": 1
+            },
+            "批量控件生成": {
+                "input_spinbox": 2,
+                "switch_slider": 3
+            }
+        }
+
+        self.page_map = {}  # 用于存储页面名称和索引的映射
+
+        # 隐藏 treeWidget 的列名（表头）
+        self.treeWidget.header().setVisible(False)
+        self.treeWidget.setColumnCount(1)  # 确保设置了一列
+        self.treeWidget.setIndentation(20)  # 可选：设置缩进
+
+        for top_key, sub_items in data.items():
+            top_item = QTreeWidgetItem(self.treeWidget)
+            top_item.setText(0, top_key)
+
+            for sub_key, index in sub_items.items():
+                sub_item = QTreeWidgetItem(top_item)
+                sub_item.setText(0, sub_key)
+                self.page_map[sub_key] = index  # 建立子项与页面索引的映射
+
+        self.treeWidget.expandAll()  # 展开所有项
+        self.treeWidget.itemClicked.connect(self.on_tree_item_clicked)
 
 
     def on_tree_item_clicked(self, item, column):

@@ -14,13 +14,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_FormGallery(object):
     def setupUi(self, FormGallery):
         FormGallery.setObjectName("FormGallery")
-        FormGallery.resize(665, 397)
+        FormGallery.resize(751, 451)
         self.horizontalLayout = QtWidgets.QHBoxLayout(FormGallery)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.treeWidget = QtWidgets.QTreeWidget(FormGallery)
         self.treeWidget.setObjectName("treeWidget")
-        item_0 = QtWidgets.QTreeWidgetItem(self.treeWidget)
-        item_0 = QtWidgets.QTreeWidgetItem(self.treeWidget)
+        self.treeWidget.headerItem().setText(0, "1")
         self.horizontalLayout.addWidget(self.treeWidget)
         self.stackedWidget = QtWidgets.QStackedWidget(FormGallery)
         self.stackedWidget.setObjectName("stackedWidget")
@@ -31,8 +30,8 @@ class Ui_FormGallery(object):
         self.page_circledash.setObjectName("page_circledash")
         self.stackedWidget.addWidget(self.page_circledash)
         self.horizontalLayout.addWidget(self.stackedWidget)
-        self.horizontalLayout.setStretch(0, 2)
-        self.horizontalLayout.setStretch(1, 8)
+        self.horizontalLayout.setStretch(0, 3)
+        self.horizontalLayout.setStretch(1, 7)
 
         self.retranslateUi(FormGallery)
         QtCore.QMetaObject.connectSlotsByName(FormGallery)
@@ -40,9 +39,3 @@ class Ui_FormGallery(object):
     def retranslateUi(self, FormGallery):
         _translate = QtCore.QCoreApplication.translate
         FormGallery.setWindowTitle(_translate("FormGallery", "Form"))
-        self.treeWidget.headerItem().setText(0, _translate("FormGallery", "仪表盘"))
-        __sortingEnabled = self.treeWidget.isSortingEnabled()
-        self.treeWidget.setSortingEnabled(False)
-        self.treeWidget.topLevelItem(0).setText(0, _translate("FormGallery", "扇形仪表盘"))
-        self.treeWidget.topLevelItem(1).setText(0, _translate("FormGallery", "圆形仪表盘"))
-        self.treeWidget.setSortingEnabled(__sortingEnabled)

@@ -56,10 +56,10 @@ class HoverSlider(QSlider):
         return super().eventFilter(source, event)
 
 
-class ConfigurableUI(QWidget):
+
+class SwitchSliderForm(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("动态界面生成")
         self.load_config(_CONFIG_PATH)
         self.init_ui()
 
@@ -71,59 +71,9 @@ class ConfigurableUI(QWidget):
         self.main_layout = QVBoxLayout(self)
 
         # ✅ 控件布局参数
-        self.spinbox_per_row = 2  # 每行几个输入框
         self.slider_per_row = 1   # 每行几个开关滑块
-        input_group=self.init_doublespinbox()
         switch_group=self.init_slider()
-        
-        self.main_layout.addWidget(input_group)
         self.main_layout.addWidget(switch_group)
-
-
-
-    def init_doublespinbox(self):
-        # ▶ 输入区域 GroupBox
-        input_group = QGroupBox("参数输入")
-        input_layout = QGridLayout()
-        self.input_widgets = []
-
-        for idx, item in enumerate(self.config.get("input_area", [])):
-            row = idx // self.spinbox_per_row
-            col = idx % self.spinbox_per_row
-
-            label = QLabel(item["label"])
-            spin = QDoubleSpinBox()
-            spin.setRange(item["min"], item["max"])
-            spin.setSingleStep(item["step"])
-            spin.setValue(item["default"])
-            spin.setObjectName(item['signame'])
-            label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-            label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            spin.editingFinished.connect(lambda s=spin, l=item["label"]: self.on_spinbox_finished(s, l))
-
-            # 小横排，保持 label 和控件紧凑
-            hbox = QHBoxLayout()
-            hbox.addWidget(label)
-            hbox.addWidget(spin)
-            spin.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-            wrapper = QWidget()
-            wrapper.setLayout(hbox)
-
-            input_layout.addWidget(wrapper, row, col)
-            self.input_widgets.append((label, spin))
-
-        input_group.setLayout(input_layout)
-
-        return input_group
-    
-
-    
-    def on_spinbox_finished(self, spinbox, label):
-        value = spinbox.value()
-        signame=spinbox.objectName()
-        print(f"{label} {signame} 当前值：{value}")
-
-
 
     
     def init_slider(self):
@@ -147,6 +97,7 @@ class ConfigurableUI(QWidget):
             }
 
             slider = HoverSlider(labels=state_labels, orientation=Qt.Horizontal)
+            slider.setObjectName(item['signame'])
             slider.setRange(0, 1)
             slider.setSingleStep(1)
             slider.setTickInterval(1)
@@ -155,6 +106,7 @@ class ConfigurableUI(QWidget):
             slider.setMaximumWidth(150)
             slider.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
             slider.setStyleSheet(_SLIDER_QSS)
+            slider.valueChanged.connect(lambda _, it=item: self.switch_changed_value(it))
 
             hbox = QHBoxLayout()
             hbox.addWidget(label)
@@ -168,14 +120,22 @@ class ConfigurableUI(QWidget):
         switch_group.setLayout(switch_layout)
 
         return switch_group
+    
 
+    def switch_changed_value(self,item):
+        """slider状态改变时触发"""
+        slider=self.sender()
+        value=slider.value()
+        label=item['label']
+        
+        print(f'{label} changed:', value)
 
 
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = ConfigurableUI()
+    window = SwitchSliderForm()
     window.resize(600, 400)
     window.show()
     sys.exit(app.exec_())
