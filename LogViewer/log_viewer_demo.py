@@ -61,17 +61,23 @@ class LogCheckForm(QWidget,Ui_log_viewer):
         except Exception as e:
             print(f"设置图标失败: {e}")
 
-
-
     def Set_Log_Date(self):
-        log_files=glob.glob(os.path.join(LOG_FILES,"*.log"))
-        for logfile in log_files: 
-            date = os.path.basename(logfile)
-            date = date.split('_')[1].split('.')[0]
-            date = datetime.strptime(date, '%Y-%m-%d').date()
-            format = QTextCharFormat()
-            format.setBackground(QColor(180,238,180))
-            self.calendarWidget.setDateTextFormat(date, format)
+        log_files = glob.glob(os.path.join(LOG_FILES, "*.log"))
+        date_format = '%Y-%m-%d'  # 提取为常量，便于维护
+        for logfile in log_files:
+            try:
+                date_str = os.path.basename(logfile)
+                date_parts = date_str.split('_')
+                if len(date_parts) < 2:
+                    continue  # 跳过不符合格式的文件名
+                date_str = date_parts[1].split('.')[0]
+                date = datetime.strptime(date_str, date_format).date()
+                date_format_obj = QTextCharFormat()  # 重命名避免覆盖内置函数
+                date_format_obj.setBackground(QColor(180, 238, 180))
+                self.calendarWidget.setDateTextFormat(date, date_format_obj)
+            except (IndexError, ValueError, AttributeError):
+                # 忽略无法解析的文件名或日期格式错误
+                continue
             
         
 
