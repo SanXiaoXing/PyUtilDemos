@@ -11,6 +11,7 @@ from LogViewer.log_viewer_demo import LogCheckForm
 from BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
 from DataReplay.data_replay_demo import DataReplayForm
 from CustomWidgets.gallary import GallaryForm
+from ResourceQuery.ResourceQueryTool import ResourceQueryTool
 
 
 class HoverFrame(QFrame):
@@ -264,6 +265,12 @@ class ScrollCardList(QWidget):
                 "title": "总线数据解析",
                 "description": "这是一个总线数据解析工具",
                 "window_class": None  # 暂时不绑定窗口
+            },
+            {
+                "svg_path": "中央处理器.svg",
+                "title": "资源索引查询",
+                "description": "多维度测试资源索引查询",
+                "window_class": ResourceQueryTool
             },
             {
                 "svg_path": "草稿便签编辑.svg",

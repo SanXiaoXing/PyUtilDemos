@@ -51,6 +51,12 @@
        </item>
        <item>
         <widget class="QComboBox" name="comboBox_logType">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <item>
           <property name="text">
            <string>全部</string>
@@ -77,21 +83,21 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_deleteSelected">
-         <property name="text">
-          <string>删除选中</string>
-         </property>
          <property name="visible">
           <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>删除选中</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_cancelBatch">
-         <property name="text">
-          <string>取消</string>
-         </property>
          <property name="visible">
           <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>取消</string>
          </property>
         </widget>
        </item>
