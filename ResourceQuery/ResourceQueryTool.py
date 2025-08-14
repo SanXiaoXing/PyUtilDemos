@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont, QIcon
 import pandas as pd
 
-from Ui_ResourceQueryTool import Ui_ResourceQueryTool
+from ResourceQuery.Ui_ResourceQueryTool import Ui_ResourceQueryTool
 from pypinyin import lazy_pinyin, Style
 
 PINYIN_AVAILABLE = True
