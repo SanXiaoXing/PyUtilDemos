@@ -11,10 +11,7 @@ from LogViewer.log_viewer_demo import LogCheckForm
 from BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
 from DataReplay.data_replay_demo import DataReplayForm
 from CustomWidgets.gallary import GallaryForm
-<<<<<<< HEAD
-=======
 from ResourceQuery.ResourceQueryTool import ResourceQueryTool
->>>>>>> main
 
 
 class HoverFrame(QFrame):
@@ -277,19 +274,11 @@ class ScrollCardList(QWidget):
             },
             {
                 "svg_path": "草稿便签编辑.svg",
-<<<<<<< HEAD
-                "title": "自定义控件",
-                "description": "这是一个自定义绘制的控件集，有仪表盘等控件",
-                "window_class": GallaryForm  
-            },
-        ]
-=======
                 "title": "自定义控件",  
                 "description": "这是一个自定义绘制的控件集，有仪表盘等控件",
                 "window_class": GallaryForm  
             },
         ]   
->>>>>>> main
         
         for data in card_data:
             card = CardWidget(
