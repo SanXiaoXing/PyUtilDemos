@@ -1,15 +1,160 @@
 import sys
 import os
-from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QComboBox, QSizePolicy, QTableWidgetItem
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QWidget, QApplication, QFileDialog, QComboBox, QSizePolicy,
+                             QTableWidgetItem, QHeaderView, QMenu, QAction, QCheckBox,
+                             QVBoxLayout, QDialog, QPushButton, QHBoxLayout, QLabel,
+                             QScrollArea, QFrame)
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont, QIcon
 import pandas as pd
 
-from ResourceQuery.Ui_ResourceQueryTool import Ui_ResourceQueryTool
+from Ui_ResourceQueryTool import Ui_ResourceQueryTool
 from pypinyin import lazy_pinyin, Style
 
-
 PINYIN_AVAILABLE = True
+
+
+class FilterDialog(QDialog):
+    """表头筛选对话框"""
+    filterChanged = pyqtSignal(str, list)  # column_name, selected_values
+
+    def __init__(self, column_name, unique_values, selected_values=None, parent=None):
+        super().__init__(parent)
+        self.column_name = column_name
+        self.unique_values = unique_values
+        self.selected_values = selected_values or []
+        self.checkboxes = []
+
+        self.setWindowTitle(f"筛选 - {column_name}")
+        self.setFixedSize(300, 400)
+        self.setupUI()
+
+    def setupUI(self):
+        layout = QVBoxLayout(self)
+
+        # 全选/取消全选按钮
+        button_layout = QHBoxLayout()
+        self.select_all_btn = QPushButton("全选")
+        self.deselect_all_btn = QPushButton("取消全选")
+        self.select_all_btn.clicked.connect(self.select_all)
+        self.deselect_all_btn.clicked.connect(self.deselect_all)
+        button_layout.addWidget(self.select_all_btn)
+        button_layout.addWidget(self.deselect_all_btn)
+        layout.addLayout(button_layout)
+
+        # 滚动区域包含筛选项
+        scroll = QScrollArea()
+        scroll_widget = QWidget()
+        scroll_layout = QVBoxLayout(scroll_widget)
+
+        # 添加"全部"选项
+        all_checkbox = QCheckBox("(全部)")
+        all_checkbox.setChecked(len(self.selected_values) == 0 or len(self.selected_values) == len(self.unique_values))
+        all_checkbox.stateChanged.connect(self.all_checkbox_changed)
+        scroll_layout.addWidget(all_checkbox)
+        self.all_checkbox = all_checkbox
+
+        # 添加分隔线
+        line = QFrame()
+        line.setFrameShape(QFrame.HLine)
+        line.setFrameShadow(QFrame.Sunken)
+        scroll_layout.addWidget(line)
+
+        # 添加各个值的选项
+        for value in sorted(self.unique_values, key=lambda x: str(x)):
+            if pd.isna(value):
+                continue
+            checkbox = QCheckBox(str(value))
+            checkbox.setChecked(len(self.selected_values) == 0 or str(value) in self.selected_values)
+            scroll_layout.addWidget(checkbox)
+            self.checkboxes.append(checkbox)
+
+        scroll.setWidget(scroll_widget)
+        layout.addWidget(scroll)
+
+        # 确定/取消按钮
+        button_layout2 = QHBoxLayout()
+        self.ok_btn = QPushButton("确定")
+        self.cancel_btn = QPushButton("取消")
+        self.ok_btn.clicked.connect(self.accept)
+        self.cancel_btn.clicked.connect(self.reject)
+        button_layout2.addWidget(self.ok_btn)
+        button_layout2.addWidget(self.cancel_btn)
+        layout.addLayout(button_layout2)
+
+    def all_checkbox_changed(self, state):
+        """全部选项变化时的处理"""
+        checked = state == Qt.Checked
+        for checkbox in self.checkboxes:
+            checkbox.setChecked(checked)
+
+    def select_all(self):
+        """全选"""
+        self.all_checkbox.setChecked(True)
+        for checkbox in self.checkboxes:
+            checkbox.setChecked(True)
+
+    def deselect_all(self):
+        """取消全选"""
+        self.all_checkbox.setChecked(False)
+        for checkbox in self.checkboxes:
+            checkbox.setChecked(False)
+
+    def get_selected_values(self):
+        """获取选中的值"""
+        if self.all_checkbox.isChecked():
+            return []  # 空列表表示全选
+        selected = []
+        for checkbox in self.checkboxes:
+            if checkbox.isChecked():
+                selected.append(checkbox.text())
+        return selected
+
+    def accept(self):
+        """确定按钮点击"""
+        selected = self.get_selected_values()
+        self.filterChanged.emit(self.column_name, selected)
+        super().accept()
+
+
+class CustomHeaderView(QHeaderView):
+    """自定义表头，支持筛选功能"""
+    filterClicked = pyqtSignal(int, str)  # column_index, column_name
+
+    def __init__(self, orientation, parent=None):
+        super().__init__(orientation, parent)
+        self.setSectionsClickable(True)
+        self.filters = {}  # 存储每列的筛选条件
+
+    def set_filter(self, column_name, selected_values):
+        """设置列筛选条件"""
+        if not selected_values or len(selected_values) == 0:
+            # 空列表表示无筛选或全选
+            if column_name in self.filters:
+                del self.filters[column_name]
+        else:
+            self.filters[column_name] = selected_values
+
+    def mousePressEvent(self, event):
+        """鼠标点击事件"""
+        if event.button() in (Qt.RightButton, Qt.LeftButton):
+            # 点击显示筛选菜单
+            index = self.logicalIndexAt(event.pos())
+            if index >= 0:
+                if isinstance(self.parent(), QWidget):
+                    try:
+                        column_name = self.parent().horizontalHeaderItem(index).text()
+                    except Exception:
+                        column_name = f"Column {index}"
+                else:
+                    column_name = f"Column {index}"
+                # 移除筛选指示符
+                if column_name.endswith(" ⏷"):
+                    column_name = column_name[:-2].strip()
+                self.filterClicked.emit(index, column_name)
+                return
+        super().mousePressEvent(event)
+
 
 class ResourceQueryTool(QWidget):
     def __init__(self, parent=None):
@@ -20,7 +165,13 @@ class ResourceQueryTool(QWidget):
         self.df = pd.DataFrame()
         self.filtered_df = pd.DataFrame()
         self.current_excel_path = None  # 启动时不设置默认文件
-        self.combo_dims = []
+        self.column_filters = {}  # 存储每列的筛选条件
+
+        # 设置自定义表头
+        self.header = CustomHeaderView(Qt.Horizontal, self.ui.table)
+        self.ui.table.setHorizontalHeader(self.header)
+        self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.header.filterClicked.connect(self.show_column_filter)
 
         # 信号绑定
         self.ui.edit_search.textChanged.connect(self._apply_filter)
@@ -30,15 +181,7 @@ class ResourceQueryTool(QWidget):
 
         # 初始化，用户选择文件
         self._update_window_title()
-        self._init_filters()
         self._apply_filter()
-        try:
-            icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                                     "assets", "icon", "中央处理器.svg")
-            if os.path.exists(icon_path):
-                self.setWindowIcon(QIcon(icon_path))
-        except Exception as e:
-            print(f"设置图标失败: {e}")
 
     def _update_window_title(self):
         if self.current_excel_path:
@@ -64,49 +207,75 @@ class ResourceQueryTool(QWidget):
 
     def _reload_data(self):
         self._load_data()
-        self._init_filters()
+        self._reset_filters()
         self._apply_filter()
 
-    def _init_filters(self):
-        # 清空已有维度控件
-        layout = self.ui.dim_layout
-        while layout.count():
-            item = layout.takeAt(0)
-            w = item.widget()
-            if w:
-                w.deleteLater()
-        self.combo_dims.clear()
-
-        # 按Excel列动态创建维度选择
-        if self.df.empty:
+    def show_column_filter(self, column_index, column_name):
+        """显示列筛选对话框"""
+        if self.df.empty or column_name not in self.df.columns:
             return
 
-        max_cols = 5
-        row = 0
-        col_idx = 0
-        for col in self.df.columns:
-            combo = QComboBox(self)
-            combo.setEditable(False)
-            combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-            combo.addItem(f'{col}: 全部')
-            unique_vals = pd.unique(self.df[col]).tolist()
-            for v in unique_vals:
-                if pd.isna(v):
-                    continue
-                combo.addItem(f'{col}: {str(v)}')
-            combo.currentIndexChanged.connect(self._apply_filter)
-            self.combo_dims.append(combo)
-            layout.addWidget(combo, row, col_idx)
+        # 基于当前过滤结果（排除本列的筛选）计算唯一值，保证用户可以多次精炼筛选
+        df_temp = self.df.copy()
+        # 应用除当前列外的列头筛选
+        for col, vals in self.column_filters.items():
+            if col == column_name:
+                continue
+            if col in df_temp.columns and vals:
+                df_temp = df_temp[df_temp[col].astype(str).isin(vals)]
+        # 应用关键字过滤
+        kw = self.ui.edit_search.text().strip()
+        if kw and not df_temp.empty:
+            mask = pd.Series([False] * len(df_temp))
+            kw_py_full = self._to_pinyin(kw)
+            kw_py_init = self._to_pinyin_initials(kw)
+            for c in df_temp.columns:
+                series = df_temp[c].astype(str)
+                col_mask = series.str.contains(kw, case=False, na=False)
+                if PINYIN_AVAILABLE:
+                    def cell_match(cell):
+                        if pd.isna(cell):
+                            return False
+                        s = str(cell)
+                        if any('\u4e00' <= ch <= '\u9fff' for ch in s):
+                            py_full = ''.join(lazy_pinyin(s)).lower()
+                            if kw.lower() in py_full or kw_py_full in py_full:
+                                return True
+                            py_init = ''.join(lazy_pinyin(s, style=Style.FIRST_LETTER)).lower()
+                            if kw.lower() in py_init or kw_py_init in py_init:
+                                return True
+                        return False
 
-            col_idx += 1
-            if col_idx >= max_cols:
-                col_idx = 0
-                row += 1
+                    col_mask |= series.apply(cell_match)
+                mask |= col_mask
+            df_temp = df_temp[mask]
+
+        unique_values = pd.unique(df_temp[column_name]).tolist() if column_name in df_temp.columns else []
+        selected_values = self.column_filters.get(column_name, [])
+
+        dialog = FilterDialog(column_name, unique_values, selected_values, self)
+        dialog.filterChanged.connect(self.apply_column_filter)
+        dialog.exec_()
+
+    def apply_column_filter(self, column_name, selected_values):
+        """应用列筛选"""
+        if not selected_values or len(selected_values) == 0:
+            # 移除筛选
+            if column_name in self.column_filters:
+                del self.column_filters[column_name]
+        else:
+            self.column_filters[column_name] = selected_values
+
+        # 更新表头样式（可选：显示筛选状态）
+        self.header.set_filter(column_name, selected_values)
+
+        # 重新应用筛选
+        self._apply_filter()
 
     def _reset_filters(self):
         self.ui.edit_search.clear()
-        for combo in self.combo_dims:
-            combo.setCurrentIndex(0)
+        self.column_filters.clear()
+        self.header.filters.clear()
         self._apply_filter()
 
     def _to_pinyin(self, text: str) -> str:
@@ -122,7 +291,7 @@ class ResourceQueryTool(QWidget):
         return ''.join(pys).lower()
 
     def _to_pinyin_initials(self, text: str) -> str:
-        """将文本转换为拼音首字母组合，例如“中文”->"zw"。"""
+        """将文本转换为拼音首字母组合，例如"中文"->"zw"。"""
         if not isinstance(text, str):
             text = str(text)
         if not PINYIN_AVAILABLE:
@@ -159,18 +328,8 @@ class ResourceQueryTool(QWidget):
         """
         应用筛选条件到数据框并更新显示表格
 
-        该函数根据界面中的筛选条件对原始数据进行过滤，包括维度精确筛选和关键字模糊匹配，
+        该函数根据界面中的筛选条件对原始数据进行过滤，包括列头筛选和关键字模糊匹配，
         然后将筛选结果保存到filtered_df属性中并重新渲染表格显示。
-
-        参数:
-            self: 类实例，包含以下属性：
-                - df: 原始数据框
-                - combo_dims: 维度筛选下拉框列表
-                - ui.edit_search: 关键字搜索输入框
-                - filtered_df: 筛选后的数据框（输出）
-
-        返回值:
-            无
         """
         if self.df.empty:
             self.filtered_df = pd.DataFrame()
@@ -179,14 +338,10 @@ class ResourceQueryTool(QWidget):
 
         df = self.df.copy()
 
-        # 维度精确筛选
-        for combo in self.combo_dims:
-            text = combo.currentText()
-            if ': ' in text:
-                col, val = text.split(': ', 1)
-                col = col.strip()
-                if val != '全部':
-                    df = df[df[col].astype(str) == val]
+        # 应用列头筛选
+        for column_name, selected_values in self.column_filters.items():
+            if column_name in df.columns and selected_values:
+                df = df[df[column_name].astype(str).isin(selected_values)]
 
         # 关键字模糊匹配（任意列包含），扩展支持拼音
         kw = self.ui.edit_search.text().strip()
@@ -215,6 +370,7 @@ class ResourceQueryTool(QWidget):
                             if kw.lower() in py_init or kw_py_init in py_init:
                                 return True
                         return False
+
                     col_mask |= series.apply(cell_match)
                 mask |= col_mask
             df = df[mask]
@@ -222,35 +378,27 @@ class ResourceQueryTool(QWidget):
         self.filtered_df = df
         self._render_table()
 
-
     def _render_table(self):
         """
         渲染表格数据到UI界面
-
-        该函数将处理后的DataFrame数据渲染到QT表格控件中，并更新状态标签。
-        根据数据是否存在和过滤条件，显示相应的表格内容或提示信息。
-
-        参数:
-            self: 类实例本身，包含以下属性：
-                - filtered_df: 过滤后的DataFrame数据
-                - df: 原始DataFrame数据
-                - ui.table: QT表格控件
-                - ui.label_status: 状态标签控件
-                - current_excel_path: 当前Excel文件路径
-
-        返回值:
-            无
         """
         df = self.filtered_df
         table = self.ui.table
-        table.clear()
+        table.clearContents()
 
         # 处理空数据情况
         if df.empty:
             table.setRowCount(0)
             if not self.df.empty:
                 table.setColumnCount(len(self.df.columns))
-                table.setHorizontalHeaderLabels(self.df.columns.astype(str).tolist())
+                # 设置表头并标识过滤状态
+                headers = []
+                for col in self.df.columns.astype(str).tolist():
+                    if col in self.column_filters:
+                        headers.append(f"{col} ⏷")
+                    else:
+                        headers.append(col)
+                table.setHorizontalHeaderLabels(headers)
                 self.ui.label_status.setText('共 0 条')
             else:
                 table.setColumnCount(0)
@@ -263,7 +411,14 @@ class ResourceQueryTool(QWidget):
         # 设置表格行列数和表头
         table.setColumnCount(len(df.columns))
         table.setRowCount(len(df))
-        table.setHorizontalHeaderLabels(df.columns.astype(str).tolist())
+        # 设置表头并标识过滤状态
+        headers = []
+        for col in df.columns.astype(str).tolist():
+            if col in self.column_filters:
+                headers.append(f"{col} ⏷")
+            else:
+                headers.append(col)
+        table.setHorizontalHeaderLabels(headers)
 
         # 填充表格数据
         for i, (_, row) in enumerate(df.iterrows()):
@@ -279,7 +434,6 @@ class ResourceQueryTool(QWidget):
         table.resizeColumnsToContents()
         self.ui.label_status.setText(f'共 {len(df)} 条')
 
-
     def _choose_excel(self):
         if self.current_excel_path:
             start_dir = os.path.dirname(self.current_excel_path)
@@ -287,7 +441,7 @@ class ResourceQueryTool(QWidget):
             start_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'configFiles')
             if not os.path.exists(start_dir):
                 start_dir = os.getcwd()
-        
+
         path, _ = QFileDialog.getOpenFileName(self, '选择资源表 Excel 文件', start_dir, 'Excel 文件 (*.xlsx *.xls)')
         if not path:
             return
