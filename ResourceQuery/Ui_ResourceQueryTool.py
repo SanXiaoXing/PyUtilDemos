@@ -34,10 +34,13 @@ class Ui_ResourceQueryTool(object):
         self.filter_layout.addWidget(self.btn_reload)
         self.main_layout.addLayout(self.filter_layout)
 
+<<<<<<< HEAD
         self.dim_layout = QtWidgets.QGridLayout()
         self.dim_layout.setObjectName("dim_layout")
         self.main_layout.addLayout(self.dim_layout)
 
+=======
+>>>>>>> main
         self.table = QtWidgets.QTableWidget(ResourceQueryTool)
         self.table.setObjectName("table")
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
