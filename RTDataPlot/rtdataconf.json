@@ -15,7 +15,7 @@
     "name": "数据3",
     "color": "#0000ff",
     "unit": "A",
-    "visible": false
+    "visible": true
   },
   "data4": {
     "name": "数据4",

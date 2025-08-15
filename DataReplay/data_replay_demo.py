@@ -439,7 +439,7 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
         
         self.data = combined_df
         self.timestamps = np.arange(len(combined_df))  
-        self.window_width = max(10, int(len(self.timestamps)))
+        self.window_width = max(100, int(len(self.timestamps) * 0.1))
         self.scroll_position = 0  # 初始起点
 
         # 遍历所有选中的列

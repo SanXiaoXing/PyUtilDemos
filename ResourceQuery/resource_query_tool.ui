@@ -54,6 +54,12 @@
     </layout>
    </item>
    <item>
+<<<<<<< HEAD
+    <layout class="QGridLayout" name="dim_layout"/>
+   </item>
+   <item>
+=======
+>>>>>>> main
     <widget class="QTableWidget" name="table">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>

@@ -370,7 +370,6 @@ class ResourceQueryTool(QWidget):
                             if kw.lower() in py_init or kw_py_init in py_init:
                                 return True
                         return False
-
                     col_mask |= series.apply(cell_match)
                 mask |= col_mask
             df = df[mask]
@@ -441,7 +440,6 @@ class ResourceQueryTool(QWidget):
             start_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'configFiles')
             if not os.path.exists(start_dir):
                 start_dir = os.getcwd()
-
         path, _ = QFileDialog.getOpenFileName(self, '选择资源表 Excel 文件', start_dir, 'Excel 文件 (*.xlsx *.xls)')
         if not path:
             return
