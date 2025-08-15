@@ -368,6 +368,7 @@ commit_parsers = [
     { message = "^refactor", group = "♻️ Refactor" },
     { message = "^style", group = "🎨 Styling" },
     { message = "^test", group = "🧪 Testing" },
+    { message = "^build", group = "📦 Build" },
     { message = "^chore\\(release\\): prepare for", skip = true },
     { message = "^chore\\(deps.*\\)", skip = true },
     { message = "^chore|^ci", group = "⚙️ Miscellaneous Tasks" },
