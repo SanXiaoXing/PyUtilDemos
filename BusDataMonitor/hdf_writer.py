@@ -28,7 +28,7 @@ class HDFWriter:
 
             raw_dset = grp.require_dataset(
                 "raw", shape=(0,), maxshape=(None,), dtype=h5py.vlen_dtype(bytes), exact=False
-            )
+            ) 
             ts_dset = grp.require_dataset(
                 "timestamp", shape=(0,), maxshape=(None,), dtype='f8', exact=False
             )
