@@ -55,7 +55,7 @@ class LogCheckForm(QWidget,Ui_log_viewer):
         # 设置应用图标
         try:
             icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                                     "assets", "icon", "文件文档.svg")
+                                        "assets", "icon", "文件文档.svg")
             if os.path.exists(icon_path):
                 self.setWindowIcon(QIcon(icon_path))
         except Exception as e:

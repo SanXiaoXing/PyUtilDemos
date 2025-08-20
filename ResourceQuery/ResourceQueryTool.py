@@ -183,6 +183,14 @@ class ResourceQueryTool(QWidget):
         self._update_window_title()
         self._apply_filter()
 
+        try:
+            icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                        "assets", "icon", "中央处理器.svg")
+            if os.path.exists(icon_path):
+                self.setWindowIcon(QIcon(icon_path))
+        except Exception as e:
+            print(f"设置图标失败: {e}")
+
     def _update_window_title(self):
         if self.current_excel_path:
             base = os.path.basename(self.current_excel_path)
