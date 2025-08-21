@@ -18,9 +18,10 @@ from PyQt5.QtWidgets import (
     QWidget, QApplication, QHBoxLayout, QLineEdit, QComboBox, 
     QPushButton, QMessageBox, QFileDialog, QTextEdit, QDialog,
     QVBoxLayout, QLabel, QSpacerItem, QSizePolicy, QTreeWidget,
-    QTreeWidgetItem, QFrame, QSplitter, QHeaderView, QCheckBox
+    QTreeWidgetItem, QFrame, QSplitter, QHeaderView, QCheckBox,
+    QProgressBar
 )
-from PyQt5.QtCore import Qt, pyqtSignal, QSize
+from PyQt5.QtCore import Qt, pyqtSignal, QSize, QTimer
 from PyQt5.QtGui import QFont, QIcon
 
 try:
@@ -585,8 +586,16 @@ class XmlEditor(QWidget):
         self.ui.setupUi(self)
         self.config = XmlEditorConfig()
         
+        # 异步加载相关属性
+        self.loading_timer = QTimer()
+        self.loading_queue = []
+        self.current_loading_item = None
+        self.total_elements = 0
+        self.processed_elements = 0
+        
         self.setup_tree_editor()
         self.setup_connections()
+        self.setup_async_loading()
     
     def setup_tree_editor(self):
         """设置树形编辑器"""
@@ -641,6 +650,16 @@ class XmlEditor(QWidget):
         title.setFont(self.config.TITLE_FONT)
         layout.addWidget(title)
         
+        # 添加进度条和状态标签
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setVisible(False)
+        self.progress_bar.setTextVisible(True)
+        layout.addWidget(self.progress_bar)
+        
+        self.status_label = QLabel("")
+        self.status_label.setVisible(False)
+        layout.addWidget(self.status_label)
+        
         # 预览文本框
         self.preview_text = QTextEdit()
         self.preview_text.setReadOnly(True)
@@ -668,6 +687,11 @@ class XmlEditor(QWidget):
         
         # 修改按钮文本
         self.ui.btn_add_element.setText("添加根级元素")
+    
+    def setup_async_loading(self):
+        """设置异步加载机制"""
+        self.loading_timer.timeout.connect(self.process_loading_batch)
+        self.loading_timer.setSingleShot(False)
     
     def open_xml_file(self):
         """打开并加载XML文件"""
@@ -697,18 +721,8 @@ class XmlEditor(QWidget):
             # 解析XML内容
             root = ET.fromstring(content)
             
-            # 清空现有数据并加载新数据
-            self.xml_tree.clear()
-            self.xml_tree.add_root_item()
-            
-            # 加载XML数据
-            if self.xml_tree.topLevelItemCount() > 0:
-                root_item = self.xml_tree.topLevelItem(0)
-                if isinstance(root_item, XmlTreeItem):
-                    root_item.from_element(root)
-            
-            self.update_preview()
-            QMessageBox.information(self, "成功", f"XML文件已加载: {os.path.basename(file_path)}")
+            # 使用异步加载机制
+            self.start_async_loading(root)
             
         except ET.ParseError as e:
             QMessageBox.critical(self, "XML解析错误", f"XML文件格式错误: {str(e)}")
@@ -716,6 +730,121 @@ class XmlEditor(QWidget):
             QMessageBox.critical(self, "文件错误", "找不到指定的文件")
         except Exception as e:
             QMessageBox.critical(self, "错误", f"加载XML文件时发生错误: {str(e)}")
+    
+    def start_async_loading(self, root_element):
+        """开始异步加载XML数据"""
+        try:
+            # 停止之前的加载
+            if self.loading_timer.isActive():
+                self.loading_timer.stop()
+            
+            # 清空现有数据
+            self.xml_tree.clear()
+            self.xml_tree.add_root_item()
+            
+            # 计算总元素数量
+            self.total_elements = self._count_elements(root_element)
+            self.processed_elements = 0
+            
+            # 准备加载队列
+            self.loading_queue = []
+            root_item = self.xml_tree.topLevelItem(0)
+            if isinstance(root_item, XmlTreeItem):
+                self._prepare_loading_queue(root_element, root_item)
+            
+            # 显示进度条和状态
+            self.progress_bar.setVisible(True)
+            self.progress_bar.setMaximum(self.total_elements)
+            self.progress_bar.setValue(0)
+            self.status_label.setVisible(True)
+            self.status_label.setText(f"正在加载XML文件... (0/{self.total_elements})")
+            
+            # 禁用加载按钮
+            self.btn_load.setEnabled(False)
+            
+            # 开始定时器
+            self.loading_timer.start(10)  # 每10ms处理一批
+            
+        except Exception as e:
+            QMessageBox.critical(self, "错误", f"准备加载时发生错误：{str(e)}")
+            self._finish_loading()
+    
+    def _count_elements(self, element):
+        """递归计算XML元素总数"""
+        count = 1
+        for child in element:
+            count += self._count_elements(child)
+        return count
+    
+    def _prepare_loading_queue(self, xml_element, tree_item):
+        """准备加载队列"""
+        # 添加当前元素到队列
+        self.loading_queue.append((xml_element, tree_item, 'self'))
+        
+        # 添加子元素到队列
+        for child_element in xml_element:
+            child_item = XmlTreeItem(tree_item)
+            tree_item.addChild(child_item)
+            self.loading_queue.append((child_element, child_item, 'child'))
+            # 递归添加子元素的子元素
+            self._prepare_loading_queue(child_element, child_item)
+    
+    def process_loading_batch(self):
+        """处理一批加载任务"""
+        batch_size = 5  # 每批处理5个元素
+        processed_in_batch = 0
+        
+        while self.loading_queue and processed_in_batch < batch_size:
+            xml_element, tree_item, load_type = self.loading_queue.pop(0)
+            
+            try:
+                if load_type == 'self':
+                    # 加载元素自身的属性和文本
+                    tree_item.tag_name = xml_element.tag
+                    tree_item.tag_edit.setText(tree_item.tag_name)
+                    
+                    # 加载属性
+                    tree_item.attributes = dict(xml_element.attrib)
+                    tree_item.update_attributes_display()
+                    
+                    # 加载文本内容
+                    if xml_element.text and xml_element.text.strip():
+                        tree_item.text_content = xml_element.text.strip()
+                        tree_item.text_edit.setText(tree_item.text_content)
+                
+                self.processed_elements += 1
+                processed_in_batch += 1
+                
+                # 更新进度
+                self.progress_bar.setValue(self.processed_elements)
+                self.status_label.setText(
+                    f"正在加载XML文件... ({self.processed_elements}/{self.total_elements}) - {xml_element.tag}"
+                )
+                
+            except Exception as e:
+                print(f"加载元素时出错: {e}")
+                self.processed_elements += 1
+        
+        # 检查是否完成
+        if not self.loading_queue:
+            self._finish_loading()
+    
+    def _finish_loading(self):
+        """完成加载"""
+        self.loading_timer.stop()
+        self.progress_bar.setVisible(False)
+        self.status_label.setVisible(False)
+        self.btn_load.setEnabled(True)
+        
+        # 展开根节点
+        if self.xml_tree.topLevelItemCount() > 0:
+            root_item = self.xml_tree.topLevelItem(0)
+            self.xml_tree.expandItem(root_item)
+        
+        # 更新预览
+        self.update_preview()
+        
+        QMessageBox.information(self, "成功", f"XML文件加载完成！共处理 {self.processed_elements} 个元素。")
     
     def on_tree_changed(self):
         """树形结构改变时更新预览"""
@@ -752,12 +881,9 @@ class XmlEditor(QWidget):
         return self.xml_tree.get_xml_data()
     
     def load_xml_data(self, xml_element):
-        """加载XML数据"""
-        if self.xml_tree.topLevelItemCount() > 0:
-            root_item = self.xml_tree.topLevelItem(0)
-            if isinstance(root_item, XmlTreeItem):
-                root_item.from_element(xml_element)
-        self.update_preview()
+        """加载XML数据 - 已弃用，使用start_async_loading替代"""
+        # 重定向到异步加载方法
+        self.start_async_loading(xml_element)
     
     def preview_xml(self):
         """预览XML"""
