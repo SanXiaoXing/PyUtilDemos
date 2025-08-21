@@ -13,6 +13,10 @@ from DataReplay.data_replay_demo import DataReplayForm
 from CustomWidgets.gallary import GallaryForm
 from ResourceQuery.ResourceQueryTool import ResourceQueryTool
 from BusDataMonitor.busdata_monitor_main import BUsDataMonitorForm
+from DataReplay.data_replay_demo import DataReplayForm
+from CustomWidgets.gallary import GallaryForm
+from ResourceQuery.ResourceQueryTool import ResourceQueryTool
+from BusDataMonitor.busdata_monitor_main import BUsDataMonitorForm
 
 
 class HoverFrame(QFrame):
@@ -241,7 +245,7 @@ class ScrollCardList(QWidget):
                 "svg_path": "分析统计.svg",
                 "title": "数据回放",
                 "description": "支持加载 CSV 文件并以图表形式回放历史数据",
-                "window_class": DataReplayForm  
+                "window_class": DataReplayForm 
             },
             {
                 "svg_path": "仪表盘.svg",
@@ -265,7 +269,7 @@ class ScrollCardList(QWidget):
                 "svg_path": "数据线.svg",
                 "title": "总线数据监控",
                 "description": "这是一个总线数据监工具,支持对总线数据进行实时解析、显示及存储,存储格式为HDF5",
-                "window_class": BUsDataMonitorForm  
+                "window_class": BUsDataMonitorForm  # 暂时不绑定窗口
             },   
             {
                 "svg_path": "中央处理器.svg",
@@ -278,8 +282,9 @@ class ScrollCardList(QWidget):
                 "title": "自定义控件",  
                 "description": "这是一个自定义绘制的控件集，有仪表盘等控件",
                 "window_class": GallaryForm  
-            },
+            }
         ]   
+           
         
         for data in card_data:
             card = CardWidget(
@@ -287,6 +292,7 @@ class ScrollCardList(QWidget):
                 data["title"],
                 data["description"],
                 data.get("window_class"))  # 传递窗口类)    
+  
             card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
             content_layout.addWidget(card)
 
