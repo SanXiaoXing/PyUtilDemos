@@ -128,10 +128,9 @@ class RxMonitor(QWidget, Ui_DataTableForm):
 
 
 # ===================== 主窗口（改为 QMainWindow） =====================
-class BUsDataMonitorForm(QMainWindow, Ui_BusDataMonitor):
+class BUsDataMonitorForm(QMainWindow):
     def __init__(self):  
         super().__init__()
-        self.setupUi(self)
         self.init_ui()
 
         # 创建共享队列（外部模块往里写数据）
@@ -151,7 +150,9 @@ class BUsDataMonitorForm(QMainWindow, Ui_BusDataMonitor):
     
     def init_ui(self):
         self.setWindowTitle("总线数据监控")
-
+        self.resize(1000, 800)
+         # 创建工具栏
+        self.toolBar = self.addToolBar("Main Toolbar")
         self.toolBar.setMovable(False)  # 不允许拖动
         self.toolBar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         # 添加按钮（QAction）
