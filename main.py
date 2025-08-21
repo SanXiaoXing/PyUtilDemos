@@ -245,15 +245,12 @@ class ScrollCardList(QWidget):
                 "svg_path": "分析统计.svg",
                 "title": "数据回放",
                 "description": "支持加载 CSV 文件并以图表形式回放历史数据",
-                "window_class": DataReplayForm  
-                "description": "支持加载 CSV 文件并以图表形式回放历史数据",
-                "window_class": DataReplayForm  
+                "window_class": DataReplayForm 
             },
             {
                 "svg_path": "仪表盘.svg",
                 "title": "实时曲线",
                 "description": "实时接收来自串口、网络或其他传感器接口的数据流，并以图形化方式展示其变化趋势",
-                "window_class": DataPlotForm  
                 "window_class": DataPlotForm  
             },
             {
@@ -261,13 +258,11 @@ class ScrollCardList(QWidget):
                 "title": "日志查看",
                 "description": "支持按日期查看历史日志以及按类型分类查看，支持选择对应期限的文件删除",
                 "window_class": LogCheckForm  
-                "window_class": LogCheckForm  
             },
             {
                 "svg_path": "灯泡主意创新.svg",
                 "title": "状态监控",
                 "description": "这是一个状态监控工具。",
-                "window_class": BulbStateMonitor  
                 "window_class": BulbStateMonitor  
             },
             {
@@ -287,9 +282,9 @@ class ScrollCardList(QWidget):
                 "title": "自定义控件",  
                 "description": "这是一个自定义绘制的控件集，有仪表盘等控件",
                 "window_class": GallaryForm  
-            },
+            }
         ]   
-        ]   
+           
         
         for data in card_data:
             card = CardWidget(
@@ -297,7 +292,7 @@ class ScrollCardList(QWidget):
                 data["title"],
                 data["description"],
                 data.get("window_class"))  # 传递窗口类)    
-                data.get("window_class"))  # 传递窗口类)    
+  
             card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
             content_layout.addWidget(card)
 
