@@ -265,7 +265,7 @@ class ScrollCardList(QWidget):
                 "svg_path": "数据线.svg",
                 "title": "总线数据监控",
                 "description": "这是一个总线数据监工具,支持对总线数据进行实时解析、显示及存储,存储格式为HDF5",
-                "window_class": BUsDataMonitorForm  # 暂时不绑定窗口
+                "window_class": BUsDataMonitorForm  
             },   
             {
                 "svg_path": "中央处理器.svg",

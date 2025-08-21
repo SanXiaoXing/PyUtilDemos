@@ -77,7 +77,7 @@ class DataThread(QThread):
         self._mutex = QMutex() # 互斥锁
         self._condition = QWaitCondition() # 条件变量
         self._is_paused = False # 暂停标志
-        self._is_running = True  ## 运行标志
+        self._is_running = True  # 运行标志
         self._is_stopped = False  # 新增停止标志
         self.xtime = 0  # 将 xtime 移到类级别以便重置
 
