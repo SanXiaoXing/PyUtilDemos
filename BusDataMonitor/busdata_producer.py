@@ -70,7 +70,7 @@ class RS422SimProducer(RS422ProducerBase):
         # 获取当前时间并格式化为 "时:分:秒.毫秒" 的字符串格式
         return datetime.now().strftime("%H:%M:%S.%f")[:-3]
 
-    def _rand_frame(self, length=8):
+    def _rand_frame(self, length):
         # 生成指定长度的随机字节序列，默认长度为8字节
         return bytes(random.randint(0, 255) for _ in range(length))
 
@@ -84,7 +84,7 @@ class RS422SimProducer(RS422ProducerBase):
             # 获取当前时间戳
             ts = self._now_str()
             # 生成随机数据帧
-            frame = self._rand_frame()
+            frame = self._rand_frame(64)  # 数据局长度为64字节
             # 将数据帧格式化为十六进制字符串
             hex_str = self._format_hex(frame)
             try:
@@ -102,7 +102,7 @@ class RS422SimProducer(RS422ProducerBase):
             # 获取当前时间戳
             ts = self._now_str()
             # 生成随机数据帧
-            frame = self._rand_frame()
+            frame = self._rand_frame(128) #数据长度为128字节
             # 将数据帧格式化为十六进制字符串
             hex_str = self._format_hex(frame)
             try:

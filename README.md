@@ -9,6 +9,7 @@
 ├── BusDataMonitor      # 总线数据监控工具
 ├── CalibTool           # 计量校准工具
 ├── CustomWidgets       # 自定义控件集
+├── CustomWidgets       # 自定义控件集
 ├── DataReplay          # 数据回放工具
 ├── LogViewer           # 日志查看器
 ├── RTDataPlot          # 实时数据绘图工具
@@ -60,9 +61,16 @@
 ### 📋 TODO 待开发模块
 
 - [ ] **BusDataMonitor** 总线数据监控工具
+- [ ] **BusDataMonitor** 总线数据监控工具
   - 定义总线数据的配置文件（没想好使用哪种形式的配置文件，之前用的excel对于代码来说通用性差，但是编辑又很方便）
   - 实时进行数据解析与展示
 
+- [ ] **CustomWidgets** 自定义控件集
+  - [ ] **Dashboard** 各类仪表盘
+  - [ ] **Cfg2UI** 配置转UI工具
+    - 从配置文件自动生成UI界面
+    - 支持常用的简单控件类型（如文本框、下拉框、复选框等）
+    - 双向数据绑定
 - [ ] **CustomWidgets** 自定义控件集
   - [ ] **Dashboard** 各类仪表盘
   - [ ] **Cfg2UI** 配置转UI工具
