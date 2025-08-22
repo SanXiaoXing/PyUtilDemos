@@ -77,7 +77,6 @@ class BusDataMonitorForm(QMainWindow):
             self.tx_dock.setFeatures(QDockWidget.DockWidgetMovable | 
                                      QDockWidget.DockWidgetClosable | 
                                      QDockWidget.DockWidgetFloatable)
-            self.tx_dock.setStyleSheet(DOCK_QSS)
             self.addDockWidget(Qt.LeftDockWidgetArea, self.tx_dock)
             self.tx_dock.destroyed.connect(lambda: setattr(self, "tx_monitor", None))
             self.tx_dock.show()
@@ -94,7 +93,6 @@ class BusDataMonitorForm(QMainWindow):
             self.rx_dock.setFeatures(QDockWidget.DockWidgetMovable | 
                                      QDockWidget.DockWidgetClosable | 
                                      QDockWidget.DockWidgetFloatable)
-            self.rx_dock.setStyleSheet(DOCK_QSS)
             self.addDockWidget(Qt.RightDockWidgetArea, self.rx_dock)
             self.rx_dock.destroyed.connect(lambda: setattr(self, "rx_monitor", None))
             self.rx_dock.show()
