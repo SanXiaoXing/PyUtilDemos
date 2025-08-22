@@ -12,11 +12,11 @@ from BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
 from DataReplay.data_replay_demo import DataReplayForm
 from CustomWidgets.gallary import GallaryForm
 from ResourceQuery.ResourceQueryTool import ResourceQueryTool
-from BusDataMonitor.busdata_monitor_main import BUsDataMonitorForm
+from BusDataMonitor.monitor_main import BUsDataMonitorForm
 from DataReplay.data_replay_demo import DataReplayForm
 from CustomWidgets.gallary import GallaryForm
 from ResourceQuery.ResourceQueryTool import ResourceQueryTool
-from BusDataMonitor.busdata_monitor_main import BUsDataMonitorForm
+from BusDataMonitor.monitor_main import BUsDataMonitorForm
 
 
 class HoverFrame(QFrame):
@@ -293,7 +293,7 @@ class ScrollCardList(QWidget):
                 data["description"],
                 data.get("window_class"))  # 传递窗口类)    
   
-            card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+            card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)   
             content_layout.addWidget(card)
 
         content_layout.addStretch()  # 防止最后一个卡片贴底部
@@ -309,4 +309,5 @@ if __name__ == "__main__":
 
     window = ScrollCardList()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())    
+  
