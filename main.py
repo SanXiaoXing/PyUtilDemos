@@ -12,11 +12,7 @@ from BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
 from DataReplay.data_replay_demo import DataReplayForm
 from CustomWidgets.gallary import GallaryForm
 from ResourceQuery.ResourceQueryTool import ResourceQueryTool
-from BusDataMonitor.busdata_monitor_main import BUsDataMonitorForm
-from DataReplay.data_replay_demo import DataReplayForm
-from CustomWidgets.gallary import GallaryForm
-from ResourceQuery.ResourceQueryTool import ResourceQueryTool
-from BusDataMonitor.busdata_monitor_main import BUsDataMonitorForm
+from BusDataMonitor.monitor_main import BusDataMonitorForm
 
 
 class HoverFrame(QFrame):
@@ -257,19 +253,19 @@ class ScrollCardList(QWidget):
                 "svg_path": "文件文档.svg",
                 "title": "日志查看",
                 "description": "支持按日期查看历史日志以及按类型分类查看，支持选择对应期限的文件删除",
-                "window_class": LogCheckForm  
+                "window_class": LogCheckForm   
             },
             {
                 "svg_path": "灯泡主意创新.svg",
                 "title": "状态监控",
                 "description": "这是一个状态监控工具。",
-                "window_class": BulbStateMonitor  
+                "window_class": BulbStateMonitor 
             },
             {
                 "svg_path": "数据线.svg",
                 "title": "总线数据监控",
                 "description": "这是一个总线数据监工具,支持对总线数据进行实时解析、显示及存储,存储格式为HDF5",
-                "window_class": BUsDataMonitorForm  # 暂时不绑定窗口
+                "window_class": BusDataMonitorForm  # 暂时不绑定窗口
             },   
             {
                 "svg_path": "中央处理器.svg",
@@ -284,6 +280,8 @@ class ScrollCardList(QWidget):
                 "window_class": GallaryForm  
             }
         ]   
+           
+               
            
         
         for data in card_data:
@@ -309,4 +307,5 @@ if __name__ == "__main__":
 
     window = ScrollCardList()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())    
+  
