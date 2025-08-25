@@ -8,21 +8,18 @@ Copyright (c) 2025 by JIN, All Rights Reserved.
 
 import sys
 import os
+
+from src.components.CustomWidgets.Ui_FormGallery import Ui_FormGallery
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-import numpy as np
-import json
-from pathlib import Path
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 
-from CustomWidgets.Ui_FormGallery import *
-from CustomWidgets.components.dashboard.circular_dashboard import GaugeWidget as CircularDashboard
-from CustomWidgets.components.dashboard.sector_dashboard import GaugeWidget as SectorDashboard
-from CustomWidgets.components.conf2ui.input_spinbox import InputSpinxboForm
-from CustomWidgets.components.conf2ui.switch_slider import SwitchSliderForm
-from CustomWidgets.components.conf2ui.switch_checkbox import SwitchPanel
+from src.components.CustomWidgets.components.dashboard.circular_dashboard import GaugeWidget as CircularDashboard
+from src.components.CustomWidgets.components.dashboard.sector_dashboard import GaugeWidget as SectorDashboard
+from src.components.CustomWidgets.components.conf2ui.input_spinbox import InputSpinxboForm
+from src.components.CustomWidgets.components.conf2ui.switch_slider import SwitchSliderForm
+from src.components.CustomWidgets.components.conf2ui.switch_checkbox import SwitchPanel
 
 
 class GallaryForm(QWidget, Ui_FormGallery): 

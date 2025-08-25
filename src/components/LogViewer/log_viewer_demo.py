@@ -1,5 +1,8 @@
 import os 
 import sys
+
+from src.components.LogViewer.Ui_log_viewer import Ui_log_viewer
+from PyQt5 import QtWidgets
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from pathlib import Path
 from PyQt5.QtWidgets import *
@@ -8,9 +11,6 @@ from PyQt5.QtCore import *
 import glob
 from datetime import datetime, timedelta
 import re
-
-from LogViewer.Ui_log_viewer import *
-
 
 LOG_FILES=str( Path(__file__).parent / 'logs')  # 插值表配置文件路径
 print(LOG_FILES)

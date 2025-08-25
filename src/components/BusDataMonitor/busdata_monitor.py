@@ -1,11 +1,13 @@
 import sys
 import os
+
+from src.components.BusDataMonitor.Ui_DataTableForm import Ui_DataTableForm
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import queue
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from BusDataMonitor.Ui_DataTableForm import * 
 from assets import ICON_PLAY, ICON_PAUSE, ICON_STOP
 
 DEFAULT_MAX_ROWS = 500

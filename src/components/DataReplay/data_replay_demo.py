@@ -31,15 +31,16 @@ Copyright (c) 2025 by JIN, All Rights Reserved.
 
 import sys
 import os
+
+from src.components.DataReplay.Ui_DataReplay_Form import Ui_DataReplay_Form
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import pandas as pd
 import numpy as np 
 import pyqtgraph as pg
-import random
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from DataReplay.Ui_DataReplay_Form import *
 from assets import ICON_BACKWARD,ICON_PLUS,ICON_MINUS,ICON_ALLCHECK,ICON_ALLUNCHECK,ICON_BROOM
 
 

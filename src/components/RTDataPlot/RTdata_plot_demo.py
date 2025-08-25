@@ -22,6 +22,9 @@ Copyright (c) 2025 by JIN, All Rights Reserved.
 
 import sys
 import os
+
+from src.components.RTDataPlot.Ui_Dialog_Select import Ui_Dialog_Select
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import json
 import math
@@ -33,8 +36,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import pyqtgraph as pg
-from RTDataPlot.Ui_Form_RTdata_plot import *
-from RTDataPlot.Ui_Dialog_Select import *
+from src.components.RTDataPlot.Ui_Form_RTdata_plot import *
 from assets import ICON_PLAY,ICON_PAUSE,ICON_STOP
 
 

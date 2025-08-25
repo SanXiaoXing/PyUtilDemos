@@ -1,14 +1,12 @@
 import sys
 import os
-from PyQt5.QtWidgets import (QWidget, QApplication, QFileDialog, QComboBox, QSizePolicy,
-                             QTableWidgetItem, QHeaderView, QMenu, QAction, QCheckBox,
-                             QVBoxLayout, QDialog, QPushButton, QHBoxLayout, QLabel,
-                             QScrollArea, QFrame)
+from PyQt5.QtWidgets import (QWidget, QApplication, QFileDialog, QTableWidgetItem, QHeaderView, QCheckBox,
+                             QVBoxLayout, QDialog, QPushButton, QHBoxLayout, QScrollArea, QFrame)
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont, QIcon
 import pandas as pd
 
-from ResourceQuery.Ui_ResourceQueryTool import Ui_ResourceQueryTool
+from src.components.ResourceQuery.Ui_ResourceQueryTool import Ui_ResourceQueryTool
 from pypinyin import lazy_pinyin, Style
 
 PINYIN_AVAILABLE = True

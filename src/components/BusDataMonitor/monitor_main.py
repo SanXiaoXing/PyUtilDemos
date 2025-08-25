@@ -14,9 +14,8 @@ import queue
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from BusDataMonitor.Ui_DataTableForm import *
-from BusDataMonitor.busdata_producer import RS422SimProducer  
-from BusDataMonitor.busdata_monitor import DataMonitor
+from src.components.BusDataMonitor.busdata_producer import RS422SimProducer
+from src.components.BusDataMonitor.busdata_monitor import DataMonitor
 from assets import ICON_TABLE,ICON_R,ICON_T
 
 DEFAULT_MAX_ROWS = 500

@@ -25,8 +25,9 @@ from PyQt5.QtCore import Qt, pyqtSignal, QSize, QTimer
 from PyQt5.QtGui import QFont, QIcon
 
 try:
-    from component.XmlEditor.UI_xml_editor import Ui_XmlEditor
+    from .UI_xml_editor import Ui_XmlEditor
 except ImportError:
+    # 兼容直接运行本文件的场景
     from UI_xml_editor import Ui_XmlEditor
 
 

@@ -1,18 +1,17 @@
 import sys
-import os
 from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtSvg import QSvgWidget
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from CalibTool.calib_tool_demo import CalibrationForm
-from RTDataPlot.RTdata_plot_demo import DataPlotForm
-from LogViewer.log_viewer_demo import LogCheckForm
-from BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
-from DataReplay.data_replay_demo import DataReplayForm
-from CustomWidgets.gallary import GallaryForm
-from ResourceQuery.ResourceQueryTool import ResourceQueryTool
-from BusDataMonitor.monitor_main import BusDataMonitorForm
+from src.components.CalibTool.calib_tool_demo import CalibrationForm
+from src.components.RTDataPlot.RTdata_plot_demo import DataPlotForm
+from src.components.LogViewer.log_viewer_demo import LogCheckForm
+from src.components.BulbStateMonitor.bulb_statemonitor_demo import BulbStateMonitor
+from src.components.DataReplay.data_replay_demo import DataReplayForm
+from src.components.CustomWidgets.gallary import GallaryForm
+from src.components.ResourceQuery import ResourceQueryTool
+from src.components.BusDataMonitor.monitor_main import BusDataMonitorForm
 
 
 class HoverFrame(QFrame):

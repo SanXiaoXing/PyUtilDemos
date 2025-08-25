@@ -7,7 +7,7 @@
 - 数据过滤：实时过滤和搜索功能
 """
 
-from ResourceQuery.ResourceQueryTool import ResourceQueryTool
+from src.components.ResourceQuery.ResourceQueryTool import ResourceQueryTool
 
 __all__ = [
     'ResourceQueryTool'

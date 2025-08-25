@@ -35,7 +35,7 @@ from pathlib import Path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from CalibTool.Ui_CalibrationForm import *
+from src.components.CalibTool.Ui_CalibrationForm import *
 
  
 CALIBCONF_PATH=str( Path(__file__).parent / 'calibconf.json')  # 插值表配置文件路径
