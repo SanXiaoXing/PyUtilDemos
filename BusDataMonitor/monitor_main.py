@@ -17,7 +17,7 @@ from PyQt5.QtCore import *
 from BusDataMonitor.Ui_DataTableForm import *
 from BusDataMonitor.busdata_producer import RS422SimProducer  
 from BusDataMonitor.busdata_monitor import DataMonitor
-from assets import ICON_PLAY, ICON_PAUSE, ICON_STOP
+from assets import ICON_TABLE,ICON_R,ICON_T
 
 DEFAULT_MAX_ROWS = 500
 MAX_ALLOWED_ROWS = 200000  # 设置最大行数限制
@@ -50,13 +50,13 @@ class BusDataMonitorForm(QMainWindow):
         self.setWindowTitle("总线数据监控")
         self.resize(1000, 800)
          # 创建工具栏
-        self.toolBar = self.addToolBar("Main Toolbar")
+        self.toolBar = self.addToolBar("Main Toolbar")  
         self.toolBar.setMovable(False)  # 不允许拖动
         self.toolBar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         # 添加按钮（QAction）
-        self.btn_txshow = QAction(QIcon(ICON_PLAY), "发送数据监控", self)
-        self.btn_rxshow = QAction(QIcon(ICON_PLAY), "采集数据监控", self)
-        self.btn_layout=QAction(QIcon(ICON_PLAY), "默认布局", self)
+        self.btn_txshow = QAction(QIcon(ICON_T), "发送数据监控", self)
+        self.btn_rxshow = QAction(QIcon(ICON_R), "采集数据监控", self)
+        self.btn_layout=QAction(QIcon(ICON_TABLE), "默认布局", self)
 
         # 信号槽：显示 Dock 窗口
         self.btn_txshow.triggered.connect(self.show_tx_monitor)
