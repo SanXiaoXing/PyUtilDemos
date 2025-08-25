@@ -52,7 +52,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=6.0",
     "pytest-qt>=4.0.0",
     "black>=22.0",
     "flake8>=4.0",
@@ -62,7 +61,11 @@ dev = [
 docs = [
     "sphinx>=4.0",
     "sphinx-rtd-theme>=1.0",
-    "myst-parser>=0.15.0"
+    "myst-parser>=0.15.0",
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "pymdown-extensions"
 ]
 test = [
     "pytest>=6.0",

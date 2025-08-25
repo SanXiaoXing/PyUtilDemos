@@ -1,0 +1,52 @@
+site_name: py-util-demos
+site_description: 基于 Python 与 PyQt5 的实用工具集合
+repo_url: https://gitee.com/jjycode/py-util-demos
+site_dir: site
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.instant
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: ["."]
+          options:
+            show_source: true
+            show_root_heading: true
+            show_signature: true
+            separate_signature: false
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed
+  - pymdownx.critic
+  - pymdownx.snippets
+  - pymdownx.tasklist
+
+nav:
+  - 首页: index.md
+  - API:
+    - 总览: API/index.md
+    - 组件:
+      - 日志查看器 LogViewer: API/log_viewer.md
+      - 校准工具 CalibTool: API/calib_tool.md
+      - 实时数据绘图 RTDataPlot: API/rt_data_plot.md
+      - 灯泡状态监控 BulbStateMonitor: API/bulb_statemonitor.md
+      - 数据回放 DataReplay: API/data_replay.md
+      - 资源索引查询 ResourceQuery: API/resource_query.md
+      - 总线数据监控 BusDataMonitor: API/bus_data_monitor.md
+      - 自定义控件集 CustomWidgets: API/custom_widgets.md
+      - 网络设备管理 NetManager: API/net_manager.md
+      - Xml编辑器 XmlEditor: API/xml_editor.md
