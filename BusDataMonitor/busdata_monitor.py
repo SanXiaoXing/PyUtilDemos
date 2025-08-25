@@ -16,6 +16,7 @@ DEFAULT_REFRESH_MS = 300   # 默认刷新周期(ms)，与采集无关
 
 # ===================== 监控窗口 =====================
 class DataMonitor(QWidget, Ui_DataTableForm):
+    row_double_clicked = pyqtSignal(str)
     def __init__(self, title="数据监控窗口", data_queue=None, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -23,6 +24,8 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         self.data_queue = data_queue or queue.Queue(maxsize=10000)
         self._max_rows = DEFAULT_MAX_ROWS
         self.frame_count = 0
+        self.stop_tag=False
+
 
         # 控制区
         self.spin_max_rows.setRange(50, MAX_ALLOWED_ROWS)
@@ -40,6 +43,10 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setStretchLastSection(True)
         self.tableView.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableView.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.tableView.doubleClicked.connect(self.on_row_double_clicked)
+        self.row_double_clicked = pyqtSignal(str)  
 
         # 定时器用于从队列拉取数据
         self.timer = QTimer(self)
@@ -58,11 +65,17 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         elif self.btn_start.text() == "暂停":
             self.on_pause()
 
-    def on_start(self):  
+    def on_start(self): 
+        if self.stop_tag==True:
+            self.model.removeRows(0, self.model.rowCount())
+            self.frame_count = 0
+            self.label_count.setText("数据量: 0") 
+            self.stop_tag=False
         if not self.timer.isActive():  
             self.timer.start(self.spin_refresh.value())  
             self.btn_start.setText("暂停")  
             self.btn_start.setIcon(QIcon(ICON_PAUSE))
+            
 
     def on_pause(self):
         if self.timer.isActive():
@@ -76,9 +89,8 @@ class DataMonitor(QWidget, Ui_DataTableForm):
             self.data_queue.queue.clear()  # 清空队列
         self.btn_start.setText("开始")
         self.btn_start.setIcon(QIcon(ICON_PLAY))
-        self.model.removeRows(0, self.model.rowCount())
-        self.frame_count = 0
-        self.label_count.setText("数据量: 0")
+        self.stop_tag=True
+        
 
     def on_max_rows_changed(self, v):
         self._max_rows = v
@@ -88,6 +100,14 @@ class DataMonitor(QWidget, Ui_DataTableForm):
     def on_refresh_changed(self, v):
         if self.timer.isActive():
             self.timer.start(v)
+
+    # 在类末尾添加：
+    def on_row_double_clicked(self, index):
+        # 第二列为数据内容
+        hex_str = self.model.item(index.row(), 1).text()
+        self.row_double_clicked.emit(hex_str)
+
+
 
     def flush_data(self):
         """从队列拉数据批量刷新"""
