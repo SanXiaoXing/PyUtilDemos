@@ -3,7 +3,7 @@
 """
 @Project ：631_ZHCLTest 
 @File    ：NetManager.py
-@Author  ：AutoGen
+@Author  ：SanXiaoXing
 @Date    ：2025/8/16
 @Description: 网络设备管理器 - 读取 NetDevice.json 并直接扫描 IP 地址状态/名称/IP/MAC
 """
