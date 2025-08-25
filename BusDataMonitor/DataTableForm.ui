@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>584</height>
+    <height>634</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,7 +68,7 @@
        <item>
         <widget class="QPushButton" name="btn_conf">
          <property name="text">
-          <string>协议配置</string>
+          <string>通讯配置</string>
          </property>
         </widget>
        </item>
@@ -124,6 +124,13 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>通道号：0</string>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label">
