@@ -14,8 +14,8 @@
 ## 如何安装
 
 1. 安装依赖库：`pip install mkdocs`
-2. 安装 mkdocs-material 主题包： `pip install mkdocs-material`
-3. Python 代码的自动文档生成：`pip install mkdocstrings[python]`
+2. Python 代码的自动文档生成：`pip install mkdocstrings[python]`
+3. 安装 mkdocs-material 主题包： `pip install mkdocs-material`
 4. 启动文档服务：`mkdocs serve`
 
 ## 如何使用

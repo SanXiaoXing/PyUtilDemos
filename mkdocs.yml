@@ -16,6 +16,10 @@ plugins:
       default_handler: python
       handlers:
         python:
+          selection:
+            filters:
+              - "!^_"  # 排除以_开头的私有函数
+              - "![iI][nN][iI][tT]"
           paths: ["."]
           options:
             show_source: true
