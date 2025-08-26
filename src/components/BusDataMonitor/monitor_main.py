@@ -15,7 +15,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from src.components.BusDataMonitor.monitor.busdata_producer import RS422SimProducer
-from src.components.BusDataMonitor.monitor.busdata_monitor import DataMonitor
+from src.components.BusDataMonitor.monitor.dock_monitor import DataMonitor
+from src.components.BusDataMonitor.monitor.dock_parser import DockParser
 from assets import ICON_TABLE,ICON_R,ICON_T
 
 DEFAULT_MAX_ROWS = 500
@@ -43,6 +44,13 @@ class BusDataMonitorForm(QMainWindow):
         self.rx_monitor = None
         self.tx_dock = None
         self.rx_dock = None
+        self.tx_parsed_dock = None
+        self.rx_parsed_dock = None
+
+        # 初始显示发送+接收窗口
+        self.show_tx_monitor()
+        self.show_rx_monitor()
+        self.reset_layout()
 
     
     def init_ui(self):
@@ -63,7 +71,15 @@ class BusDataMonitorForm(QMainWindow):
         self.btn_layout.triggered.connect(self.reset_layout)
         
         self.toolBar.addActions([self.btn_txshow, self.btn_rxshow, self.btn_layout])
-        
+    
+
+    def add_or_restore_dock(self, dock, area):
+        """如果dock已存在，则只raise；否则添加到指定区域"""
+        if dock.isHidden():
+            dock.show()
+        if dock.parent() is None:  # 未被添加
+            self.addDockWidget(area, dock)
+        dock.raise_()
 
 
     def show_tx_monitor(self):
@@ -82,6 +98,9 @@ class BusDataMonitorForm(QMainWindow):
             self.tx_dock.raise_()
             self.tx_dock.show()
 
+        if self.tx_monitor:
+            self.tx_monitor.row_double_clicked.connect(self.show_parsed_dock)
+
     def show_rx_monitor(self):
         if self.rx_monitor is None:
             self.rx_monitor = DataMonitor("采集数据监控", data_queue=self.rx_queue)
@@ -98,72 +117,80 @@ class BusDataMonitorForm(QMainWindow):
             self.rx_dock.raise_()
             self.rx_dock.show()
 
+        if self.rx_monitor:
+            self.rx_monitor.row_double_clicked.connect(self.show_parsed_dock)
+        
 
 
+    def show_parsed_dock(self, hex_str, protocol,index,source):
+        # source 参数可传 "tx" 或 "rx"
+        parser = DockParser(protocol, index,self)
+        self.parserdock = QDockWidget(f"{source.upper()} 解析", self)
+        self.parserdock.setWidget(parser)
+        self.parserdock.setFeatures(QDockWidget.DockWidgetMovable | 
+                                     QDockWidget.DockWidgetClosable | 
+                                     QDockWidget.DockWidgetFloatable)
+        if source == "tx":
+            self.tx_parsed_dock = self.parserdock
+        else:
+            self.rx_parsed_dock = self.parserdock
+        
+        self.addDockWidget(Qt.BottomDockWidgetArea, self.parserdock)
+        
+        self.parserdock.update_data(hex_str)
+        self.parserdock.show()
+
+  
     
 
     def reset_layout(self):
-        """根据现有 dockwidget 数量恢复布局"""
+        """恢复 Dock 窗口布局：
+        2 个窗口 → 左右布局
+        3 或 4 个窗口 → 2×2 布局（左2个，右2个）
+        """
+        # 收集现有的 dock（保持顺序）
         docks = []
+        if self.tx_dock: docks.append(self.tx_dock)
+        if self.tx_parsed_dock: docks.append(self.tx_parsed_dock)
+        if self.rx_dock: docks.append(self.rx_dock)
+        if self.rx_parsed_dock: docks.append(self.rx_parsed_dock)
 
-        # 先收集存在的窗口
-        if self.tx_dock:
-            docks.append(self.tx_dock)
-        if hasattr(self, "tx_parsed_dock") and self.tx_parsed_dock:
-            docks.append(self.tx_parsed_dock)
-        if self.rx_dock:
-            docks.append(self.rx_dock)
-        if hasattr(self, "rx_parsed_dock") and self.rx_parsed_dock:
-            docks.append(self.rx_parsed_dock)
+        if not docks:
+            return  # 没有任何窗口
 
-        count = len(docks)
-        if count == 0:
-            return  # 没有窗口，直接返回
+        # 先都放回主窗口并取消浮动
+        for d in docks:
+            d.setFloating(False)
 
-        # 1个窗口：占满主界面
-        if count == 1:
+        # 只有1个 → 占满
+        if len(docks) == 1:
             self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
-            self.tabifyDockWidget(docks[0], docks[0])  # 确保独占（无实际tab）
             return
 
-        # 2个窗口：左右布局
-        if count == 2:
+        # 只有2个 → 左右布局
+        if len(docks) == 2:
             self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
             self.addDockWidget(Qt.RightDockWidgetArea, docks[1])
             return
 
-        # 3个窗口：左中右布局
-        if count == 3:
-            self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
-            self.addDockWidget(Qt.RightDockWidgetArea, docks[1])
-            self.splitDockWidget(docks[0], docks[2], Qt.Horizontal)
-            return
+        # 3或4个 → 强制 2×2 布局
+        # 分成左右两列
+        left_col = []
+        right_col = []
+        for i, dock in enumerate(docks):
+            (left_col if i % 2 == 0 else right_col).append(dock)
 
-        # 4个窗口：强制 2x2 布局（固定顺序）
-        # 左上: send窗口, 左下: send解析窗口
-        # 右上: recv窗口, 右下: recv解析窗口
-        if count == 4:
-            # 保证引用存在，即使为空也不报错
-            send = self.tx_dock
-            send_parsed = getattr(self, "tx_parsed_dock", None)
-            recv = self.rx_dock
-            recv_parsed = getattr(self, "rx_parsed_dock", None)
+        # 左列
+        if left_col:
+            self.addDockWidget(Qt.LeftDockWidgetArea, left_col[0])
+            for d in left_col[1:]:
+                self.splitDockWidget(left_col[0], d, Qt.Vertical)
 
-            if not (send and recv and send_parsed and recv_parsed):
-                # 如果4个窗口不全，就直接左右布局备用
-                self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
-                self.addDockWidget(Qt.RightDockWidgetArea, docks[1])
-                if len(docks) > 2:
-                    self.splitDockWidget(docks[0], docks[2], Qt.Horizontal)
-                return
-
-            # 左侧布局
-            self.addDockWidget(Qt.LeftDockWidgetArea, send)
-            self.splitDockWidget(send, send_parsed, Qt.Vertical)
-
-            # 右侧布局
-            self.addDockWidget(Qt.RightDockWidgetArea, recv)
-            self.splitDockWidget(recv, recv_parsed, Qt.Vertical)
+        # 右列
+        if right_col:
+            self.addDockWidget(Qt.RightDockWidgetArea, right_col[0])
+            for d in right_col[1:]:
+                self.splitDockWidget(right_col[0], d, Qt.Vertical)
 
 
  

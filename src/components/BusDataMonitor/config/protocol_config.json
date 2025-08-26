@@ -1,0 +1,14 @@
+{
+    "send422": {
+        "channel": 0,
+        "length": 64,
+        "version": "1.1",
+        "desc": "RS422发送数据通讯协议"
+    },
+    "recv422": {
+        "channel": 1,
+        "length": 128,
+        "version": "1.1",
+        "desc": "RS422接收数据通讯协议"
+    }
+}

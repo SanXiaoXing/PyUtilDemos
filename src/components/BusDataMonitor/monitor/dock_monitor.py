@@ -1,13 +1,8 @@
-import sys
-import os
-
-from  src.components.BusDataMonitor.monitor.Ui_DataTableForm import Ui_DataTableForm
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import queue
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from src.components.BusDataMonitor.monitor.Ui_dock_monitor import Ui_dockmonitor
 from assets import ICON_PLAY, ICON_PAUSE, ICON_STOP
 
 DEFAULT_MAX_ROWS = 500
@@ -17,8 +12,8 @@ DEFAULT_REFRESH_MS = 300   # 默认刷新周期(ms)，与采集无关
 
 
 # ===================== 监控窗口 =====================
-class DataMonitor(QWidget, Ui_DataTableForm):
-    row_double_clicked = pyqtSignal(str)
+class DataMonitor(QWidget, Ui_dockmonitor):
+    row_double_clicked = pyqtSignal(str,str,int)
     def __init__(self, title="数据监控窗口", data_queue=None, parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -26,8 +21,9 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         self.data_queue = data_queue or queue.Queue(maxsize=10000)
         self._max_rows = DEFAULT_MAX_ROWS
         self.frame_count = 0
+        self.protocol_name = ""
+        self.protocol_file = None
         self.stop_tag=False
-
 
         # 控制区
         self.spin_max_rows.setRange(50, MAX_ALLOWED_ROWS)
@@ -38,6 +34,9 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         self.ctrl_area.addStretch(1)
         self.btn_start.setIcon(QIcon(ICON_PLAY))
         self.btn_stop.setIcon(QIcon(ICON_STOP))
+
+        # 状态栏
+        self.label_protocol.setText(f"协议文件:{self.protocol_name}")
 
         # 表格
         self.model = QStandardItemModel(0, 2, self)
@@ -107,7 +106,7 @@ class DataMonitor(QWidget, Ui_DataTableForm):
     def on_row_double_clicked(self, index):
         # 第二列为数据内容
         hex_str = self.model.item(index.row(), 1).text()
-        self.row_double_clicked.emit(hex_str)
+        self.row_double_clicked.emit(hex_str,self.protocol_file,index)
 
 
 

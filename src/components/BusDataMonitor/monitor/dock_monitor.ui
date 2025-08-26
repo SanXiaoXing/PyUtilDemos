@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DataTableForm</class>
- <widget class="QWidget" name="DataTableForm">
+ <class>dockmonitor</class>
+ <widget class="QWidget" name="dockmonitor">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -133,7 +133,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_protocol">
          <property name="text">
           <string>通讯协议：</string>
          </property>
