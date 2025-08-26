@@ -8,10 +8,8 @@ Copyright (c) 2025 by JIN, All Rights Reserved.
 
 import sys
 import os
-
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 from src.components.CustomWidgets.Ui_FormGallery import Ui_FormGallery
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from PyQt5.QtWidgets import *
 

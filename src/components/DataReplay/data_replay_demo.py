@@ -31,16 +31,14 @@ Copyright (c) 2025 by JIN, All Rights Reserved.
 
 import sys
 import os
-
-from src.components.DataReplay.Ui_DataReplay_Form import Ui_DataReplay_Form
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 import pandas as pd
 import numpy as np 
 import pyqtgraph as pg
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from src.components.DataReplay.Ui_DataReplay_Form import Ui_DataReplay_Form
 from assets import ICON_BACKWARD,ICON_PLUS,ICON_MINUS,ICON_ALLCHECK,ICON_ALLUNCHECK,ICON_BROOM
 
 
@@ -670,7 +668,7 @@ class DataReplayForm(QWidget, Ui_DataReplay_Form):
 
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     Tool = DataReplayForm()
     Tool.show()
     sys.exit(app.exec())

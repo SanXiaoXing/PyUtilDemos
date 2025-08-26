@@ -1,7 +1,7 @@
 import sys
 import os
 
-from src.components.BusDataMonitor.Ui_DataTableForm import Ui_DataTableForm
+from  src.components.BusDataMonitor.monitor.Ui_DataTableForm import Ui_DataTableForm
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import queue
@@ -48,7 +48,7 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         self.tableView.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableView.doubleClicked.connect(self.on_row_double_clicked)
-        self.row_double_clicked = pyqtSignal(str)  
+        
 
         # 定时器用于从队列拉取数据
         self.timer = QTimer(self)
@@ -111,7 +111,7 @@ class DataMonitor(QWidget, Ui_DataTableForm):
 
 
 
-    def flush_data(self):
+    def flush_data(self): 
         """从队列拉数据批量刷新"""
         rows_to_add = []
         while not self.data_queue.empty():

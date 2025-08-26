@@ -6,7 +6,7 @@ from openpyxl import load_workbook
 
 EXCEL_FILE =  Path(__file__).parent / 'protocol_template.xlsx'
 HASH_FILE =  Path(__file__).parent /"protocol_hashes.json"
-JSON_DIR =   Path(__file__).parent /"protocol"
+JSON_DIR =   Path(__file__).parent.parent /"protocol"
 
 
 class ProtocolManager:

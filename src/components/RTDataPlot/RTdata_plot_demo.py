@@ -22,10 +22,8 @@ Copyright (c) 2025 by JIN, All Rights Reserved.
 
 import sys
 import os
-
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 from src.components.RTDataPlot.Ui_Dialog_Select import Ui_Dialog_Select
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import json
 import math
 import csv

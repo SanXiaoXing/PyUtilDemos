@@ -9,13 +9,13 @@ Copyright (c) 2025 by JIN, All Rights Reserved.
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 import queue
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from src.components.BusDataMonitor.busdata_producer import RS422SimProducer
-from src.components.BusDataMonitor.busdata_monitor import DataMonitor
+from src.components.BusDataMonitor.monitor.busdata_producer import RS422SimProducer
+from src.components.BusDataMonitor.monitor.busdata_monitor import DataMonitor
 from assets import ICON_TABLE,ICON_R,ICON_T
 
 DEFAULT_MAX_ROWS = 500
@@ -97,6 +97,10 @@ class BusDataMonitorForm(QMainWindow):
         else:
             self.rx_dock.raise_()
             self.rx_dock.show()
+
+
+
+    
 
     def reset_layout(self):
         """根据现有 dockwidget 数量恢复布局"""
