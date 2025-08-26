@@ -2,7 +2,8 @@ import os
 import sys
 
 from src.components.LogViewer.Ui_log_viewer import Ui_log_viewer
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from pathlib import Path
 from PyQt5.QtWidgets import *
@@ -12,16 +13,38 @@ import glob
 from datetime import datetime, timedelta
 import re
 
-LOG_FILES=str( Path(__file__).parent / 'logs')  # 插值表配置文件路径
+LOG_FILES=str( Path(__file__).parent.parent.parent / 'logs')  # 插值表配置文件路径
 print(LOG_FILES)
 
 class LogCheckForm(QWidget,Ui_log_viewer):
     def __init__(self):
         super(LogCheckForm,self).__init__()
         self.setupUi(self)
+        self._log_files_cache = None  # 日志文件缓存
+        self._cache_timestamp = 0     # 缓存时间戳
         self.InitUI()
 
 
+
+    def Get_Log_Files(self, force_refresh=False):
+        """获取日志文件列表，带缓存机制"""
+        current_time = datetime.now().timestamp()
+        
+        # 如果缓存存在且未过期（5秒内），直接返回缓存
+        if (not force_refresh and 
+            self._log_files_cache is not None and 
+            current_time - self._cache_timestamp < 5):
+            return self._log_files_cache
+        
+        # 重新获取文件列表并更新缓存
+        self._log_files_cache = glob.glob(os.path.join(LOG_FILES, "*.log"))
+        self._cache_timestamp = current_time
+        return self._log_files_cache
+    
+    def Invalidate_Log_Files_Cache(self):
+        """使日志文件缓存失效"""
+        self._log_files_cache = None
+        self._cache_timestamp = 0
 
     def InitUI(self):
         self.setWindowTitle('历史日志')
@@ -64,7 +87,7 @@ class LogCheckForm(QWidget,Ui_log_viewer):
 
 
     def Set_Log_Date(self):
-        log_files=glob.glob(os.path.join(LOG_FILES,"*.log"))
+        log_files = self.Get_Log_Files()
         for logfile in log_files: 
             date = os.path.basename(logfile)
             date = date.split('_')[1].split('.')[0]
@@ -76,7 +99,7 @@ class LogCheckForm(QWidget,Ui_log_viewer):
         
 
     def Get_Log_File_By_Date(self,date):
-        log_files=glob.glob(os.path.join(LOG_FILES,"*.log"))
+        log_files = self.Get_Log_Files()
         for logfile in log_files:
             if date in logfile:
                 with open(logfile,'r',encoding='utf-8') as file:
@@ -234,7 +257,7 @@ class LogCheckForm(QWidget,Ui_log_viewer):
         """加载历史日志文件列表 - 优化版本"""
         try:
             self.listWidget_historyLogs.clear()
-            log_files = glob.glob(os.path.join(LOG_FILES, "*.log"))
+            log_files = self.Get_Log_Files()
             log_files.sort()  # 按文件名排序
             
             # 先快速加载文件名，后续异步加载详细信息
@@ -376,7 +399,8 @@ class LogCheckForm(QWidget,Ui_log_viewer):
                         self.plainTextEdit_log.clear()
                         self.Update_Log_Types()
                     
-                    # 更新日历显示
+                    # 使缓存失效并更新日历显示
+                    self.Invalidate_Log_Files_Cache()
                     self.Set_Log_Date()
                     
                     QMessageBox.information(self, '删除成功', f'日志文件 "{date}" 已删除')
@@ -433,7 +457,8 @@ class LogCheckForm(QWidget,Ui_log_viewer):
                     except Exception as e:
                         failed_files.append(f'{item.data(Qt.UserRole)} (删除失败: {str(e)})')
                 
-                # 重新加载列表
+                # 使缓存失效并重新加载列表
+                self.Invalidate_Log_Files_Cache()
                 self.Load_History_Log_List()
                 
                 # 清空当前显示（如果需要）
@@ -504,7 +529,7 @@ class LogCheckForm(QWidget,Ui_log_viewer):
             cutoff_date_str = cutoff_date.strftime('%Y-%m-%d')
             
             # 查找符合条件的日志文件
-            log_files = glob.glob(os.path.join(LOG_FILES, "*.log"))
+            log_files = self.Get_Log_Files()
             files_to_delete = []
             
             for logfile in log_files:
@@ -557,7 +582,8 @@ class LogCheckForm(QWidget,Ui_log_viewer):
                     except Exception as e:
                         failed_files.append(f'{date_str} (删除失败: {str(e)})')
                 
-                # 重新加载列表
+                # 使缓存失效并重新加载列表
+                self.Invalidate_Log_Files_Cache()
                 self.Load_History_Log_List()
                 
                 # 清空当前显示（如果需要）
