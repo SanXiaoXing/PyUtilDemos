@@ -22,6 +22,8 @@ from assets import ICON_TABLE,ICON_R,ICON_T
 DEFAULT_MAX_ROWS = 500
 MAX_ALLOWED_ROWS = 200000  # 设置最大行数限制
 DEFAULT_REFRESH_MS = 300   # 默认刷新周期(ms)，与采集无关
+TX_CHANNEL_ID = 0
+RX_CHANNEL_ID = 1
 
 
 
@@ -84,7 +86,7 @@ class BusDataMonitorForm(QMainWindow):
 
     def show_tx_monitor(self):
         if self.tx_monitor is None:
-            self.tx_monitor = DataMonitor("发送数据监控", data_queue=self.tx_queue)
+            self.tx_monitor = DataMonitor("发送数据监控", data_queue=self.tx_queue, channel_id=TX_CHANNEL_ID)
             self.tx_dock = QDockWidget("发送数据监控", self)
             self.tx_dock.setWidget(self.tx_monitor)
             self.tx_dock.setObjectName("DockTx")
@@ -103,7 +105,7 @@ class BusDataMonitorForm(QMainWindow):
 
     def show_rx_monitor(self):
         if self.rx_monitor is None:
-            self.rx_monitor = DataMonitor("采集数据监控", data_queue=self.rx_queue)
+            self.rx_monitor = DataMonitor("采集数据监控", data_queue=self.rx_queue, channel_id=RX_CHANNEL_ID)
             self.rx_dock = QDockWidget("采集数据监控", self)
             self.rx_dock.setWidget(self.rx_monitor)
             self.rx_dock.setObjectName("DockRx")

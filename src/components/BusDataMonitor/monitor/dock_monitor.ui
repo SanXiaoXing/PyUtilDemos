@@ -126,7 +126,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_ch">
          <property name="text">
           <string>通道号：0</string>
          </property>

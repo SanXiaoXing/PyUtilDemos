@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from src.components.BusDataMonitor.monitor.Ui_dock_monitor import Ui_dockmonitor
+from src.components.BusDataMonitor.monitor.dialog_setting import ChannelConfigDialog
 from assets import ICON_PLAY, ICON_PAUSE, ICON_STOP
 
 DEFAULT_MAX_ROWS = 500
@@ -14,11 +15,12 @@ DEFAULT_REFRESH_MS = 300   # 默认刷新周期(ms)，与采集无关
 # ===================== 监控窗口 =====================
 class DataMonitor(QWidget, Ui_dockmonitor):
     row_double_clicked = pyqtSignal(str,str,int)
-    def __init__(self, title="数据监控窗口", data_queue=None, parent=None):
+    def __init__(self, title="数据监控窗口", data_queue=None, channel_id=0,parent=None):
         super().__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(title)
         self.data_queue = data_queue or queue.Queue(maxsize=10000)
+        self.channel_id = channel_id
         self._max_rows = DEFAULT_MAX_ROWS
         self.frame_count = 0
         self.protocol_name = ""
@@ -37,6 +39,7 @@ class DataMonitor(QWidget, Ui_dockmonitor):
 
         # 状态栏
         self.label_protocol.setText(f"协议文件:{self.protocol_name}")
+        self.label_ch.setText(f"通道号:{self.channel_id}")
 
         # 表格
         self.model = QStandardItemModel(0, 2, self)
@@ -58,7 +61,7 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         self.btn_stop.clicked.connect(self.on_stop)
         self.spin_max_rows.valueChanged.connect(self.on_max_rows_changed)
         self.spin_refresh.valueChanged.connect(self.on_refresh_changed)
-
+        self.btn_conf.clicked.connect(self.show_settings)
 
     def start_ctrl(self):
         if self.btn_start.text() == "开始":
@@ -102,13 +105,6 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         if self.timer.isActive():
             self.timer.start(v)
 
-    # 在类末尾添加：
-    def on_row_double_clicked(self, index):
-        # 第二列为数据内容
-        hex_str = self.model.item(index.row(), 1).text()
-        self.row_double_clicked.emit(hex_str,self.protocol_file,index)
-
-
 
     def flush_data(self): 
         """从队列拉数据批量刷新"""
@@ -131,3 +127,23 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         if excess > 0:
             self.model.removeRows(0, excess)
         self.tableView.scrollToBottom()
+
+
+    def on_row_double_clicked(self, index):
+        # 第二列为数据内容
+        hex_str = self.model.item(index.row(), 1).text()
+        self.row_double_clicked.emit(hex_str,self.protocol_file,index)
+
+
+    def show_settings(self):
+        # 创建并显示通道配置对话框
+        dlg = ChannelConfigDialog(channel_id=self.channel_id, parent=self)
+        if dlg.exec_() == QDialog.Accepted:
+            # 对话框点击“确定”会自动写回 channel_config.json
+            # 此处可根据需要更新界面显示，例如：
+            new_protocol = dlg.get_selected_protocol()
+            self.label_protocol.setText(f"协议文件: {new_protocol}")
+            self.protocol_file = new_protocol
+
+    
+    

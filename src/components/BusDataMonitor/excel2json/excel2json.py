@@ -78,7 +78,6 @@ class ProtocolManager:
         for _, row in df.iterrows():
             sheet = str(row["sheet"])
             cfg[sheet] = {
-                "channel": int(row["ch"]),
                 "length": int(row["length"]),
                 "version": str(row["version"]),
                 "desc": str(row["desc"]),

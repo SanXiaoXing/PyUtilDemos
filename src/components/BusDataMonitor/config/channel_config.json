@@ -1,0 +1,26 @@
+{
+    "0": {
+        "TorR": "Tx",
+        "freq": 20,
+        "settings": {
+            "baudrate": 9600,
+            "bytesize": 8,
+            "stopbits": 1,
+            "parity": "N"
+        },
+        "store": "true",
+        "protocol": "send422"
+    },
+    "1": {
+        "TorR": "Rx",
+        "freq": 20,
+        "settings": {
+            "baudrate": 9600,
+            "bytesize": 8,
+            "stopbits": 1,
+            "parity": "N"
+        },
+        "store": "false",
+        "protocol": "recv422"
+    }
+}
