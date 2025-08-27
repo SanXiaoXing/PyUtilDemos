@@ -1,178 +1,120 @@
-import threading
-import time
-import random
-import queue
+import threading, time, random, queue, json
 from datetime import datetime
 from abc import ABC, abstractmethod
 
 class RS422ProducerBase(ABC):
-    """
-    RS422数据生产者抽象基类
-    所有数据源必须实现 start/stop 接口
-    """
-    def __init__(self, tx_queue: queue.Queue, rx_queue: queue.Queue):
-        self.tx_queue = tx_queue
-        self.rx_queue = rx_queue
+    """RS422 数据生产者抽象基类（一个方向：Tx 或 Rx）"""
+    def __init__(self, ch_id: str, q: queue.Queue, tor: str, freq: float):
+        self.ch_id = ch_id
+        self.queue = q
+        self.tor = tor  # "Tx" 或 "Rx"
+        self.period = 1.0 / freq
+        self._stop_event = threading.Event()
+        self.thread = None
 
     @abstractmethod
+    def _loop(self):
+        pass
+
     def start(self):
-        """启动数据生产（线程/硬件驱动）"""
-        pass
+        self._stop_event.clear()
+        self.thread = threading.Thread(target=self._loop, daemon=True)
+        self.thread.start()
 
-    @abstractmethod
     def stop(self):
-        """停止数据生产"""
-        pass
+        self._stop_event.set()
+        if self.thread:
+            self.thread.join(timeout=1.0)
 
 
 class RS422SimProducer(RS422ProducerBase):
-    """
-    模拟 RS422 数据采集线程 和 发送线程
-    继承自 RS422ProducerBase 基类，实现了模拟 RS422 通信的发送和接收功能
-    """
-    def __init__(self, tx_queue, rx_queue, tx_period_ms=50, rx_period_ms=30):
-        # 调用父类的初始化方法
-        super().__init__(tx_queue, rx_queue)
-        # 将发送周期从毫秒转换为秒
-        self.tx_period = tx_period_ms / 1000.0
-        # 将接收周期从毫秒转换为秒
-        self.rx_period = rx_period_ms / 1000.0
-        # 创建停止事件，用于控制线程的运行状态
-        self._stop_event = threading.Event()
-        # 初始化发送线程为 None
-        self.tx_thread = None
-        # 初始化接收线程为 None
-        self.rx_thread = None
-
-    def start(self):
-        # 清除停止事件，表示线程可以运行
-        self._stop_event.clear()
-        # 创建发送线程，设置为守护线程
-        self.tx_thread = threading.Thread(target=self._tx_loop, daemon=True)
-        # 创建接收线程，设置为守护线程
-        self.rx_thread = threading.Thread(target=self._rx_loop, daemon=True)
-        # 启动发送线程
-        self.tx_thread.start()
-        # 启动接收线程
-        self.rx_thread.start()
-
-    def stop(self):
-        # 设置停止事件，通知线程应该停止运行
-        self._stop_event.set()
-        # 如果发送线程存在，则等待其结束，最多等待1秒
-        if self.tx_thread:
-            self.tx_thread.join(timeout=1.0)
-        # 如果接收线程存在，则等待其结束，最多等待1秒
-        if self.rx_thread:
-            self.rx_thread.join(timeout=1.0)
-
+    """模拟 RS422 通信通道"""
     def _now_str(self):
-        # 获取当前时间并格式化为 "时:分:秒.毫秒" 的字符串格式
         return datetime.now().strftime("%H:%M:%S.%f")[:-3]
 
     def _rand_frame(self, length):
-        # 生成指定长度的随机字节序列，默认长度为8字节
         return bytes(random.randint(0, 255) for _ in range(length))
 
     def _format_hex(self, data: bytes):
-        # 将字节数据格式化为十六进制字符串表示，每个字节用两个十六进制数表示，字节间用空格分隔
         return " ".join(f"{b:02X}" for b in data)
 
-    def _tx_loop(self):
-        # 发送线程的主循环，直到停止事件被设置
+    def _loop(self):
+        frame_len = 64 if self.tor.lower() == "tx" else 128
         while not self._stop_event.is_set():
-            # 获取当前时间戳
             ts = self._now_str()
-            # 生成随机数据帧
-            frame = self._rand_frame(64)  # 数据局长度为64字节
-            # 将数据帧格式化为十六进制字符串
+            frame = self._rand_frame(frame_len)
             hex_str = self._format_hex(frame)
             try:
-                # 尝试将数据放入发送队列，不阻塞
-                self.tx_queue.put_nowait((ts, hex_str))
+                self.queue.put_nowait((ts, self.tor, hex_str))
             except queue.Full:
-                # 如果队列已满，则忽略异常
                 pass
-            # 按照设定的发送周期休眠
-            time.sleep(self.tx_period)
-
-    def _rx_loop(self):
-        # 接收线程的主循环，直到停止事件被设置
-        while not self._stop_event.is_set():
-            # 获取当前时间戳
-            ts = self._now_str()
-            # 生成随机数据帧
-            frame = self._rand_frame(128) #数据长度为128字节
-            # 将数据帧格式化为十六进制字符串
-            hex_str = self._format_hex(frame)
-            try:
-                # 尝试将数据放入接收队列，不阻塞
-                self.rx_queue.put_nowait((ts, hex_str))
-            except queue.Full:
-                # 如果队列已满，则忽略异常
-                pass
-            # 按照设定的接收周期休眠
-            time.sleep(self.rx_period)
+            time.sleep(self.period)
 
 
 class RS422RealProducer(RS422ProducerBase):
-    """
-    未来接入真实RS422硬件时使用此类
-    在start()中启动硬件读写线程，在stop()中释放资源
-    """
-    def __init__(self, tx_queue, rx_queue, device_config):
-        super().__init__(tx_queue, rx_queue)
-        self.device_config = device_config
-        self._stop_event = threading.Event()
-        self.rx_thread = None
-        self.tx_thread = None
-        # 根据实际需求保存句柄，例如 self.dev = open_device(device_config)
+    """真实板卡 RS422 通信通道（占位示例）"""
+    def __init__(self, ch_id, q, tor, freq, settings):
+        super().__init__(ch_id, q, tor, freq)
+        self.settings = settings
+        # self.dev = open_device(settings) # 实际硬件初始化
 
-    def start(self):
-
-        """
-        启动通信线程
-        此方法用于启动接收和发送数据的线程
-        """
-        self._stop_event.clear()  # 清除停止事件，允许线程运行
-        # 启动实际硬件接收线程
-        self.rx_thread = threading.Thread(target=self._rx_loop, daemon=True)  # 创建接收数据线程，设置为守护线程
-        self.tx_thread = threading.Thread(target=self._tx_loop, daemon=True)  # 创建发送数据线程，设置为守护线程
-        self.rx_thread.start()  # 启动接收线程
-        self.tx_thread.start()  # 启动发送线程
-
-    def stop(self):
-        self._stop_event.set()
-        if self.rx_thread:
-            self.rx_thread.join(timeout=1.0)
-        if self.tx_thread:
-            self.tx_thread.join(timeout=1.0)
-        # 释放硬件资源
-        # close_device(self.dev)
-
-    def _rx_loop(self):
-        """从真实硬件读取数据"""
+    def _loop(self):
+        data = bytes([0xAA]*8) if self.tor.lower()=="tx" else bytes([0x55]*8)
         while not self._stop_event.is_set():
-            # 这里替换为实际DLL或串口读取
-            # data = read_from_device()
             ts = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-            data = bytes([0x55]*8)  # 占位：真实数据
             hex_str = " ".join(f"{b:02X}" for b in data)
             try:
-                self.rx_queue.put_nowait((ts, hex_str))
+                self.queue.put_nowait((ts, self.tor, hex_str))
             except queue.Full:
                 pass
-            time.sleep(0.05)  # 模拟硬件延迟
+            time.sleep(self.period)
 
-    def _tx_loop(self):
-        """从应用层获取发送帧并写入硬件"""
-        while not self._stop_event.is_set():
-            # 如果有独立的发送数据通道，可在此读取应用待发送帧
-            ts = datetime.now().strftime("%H:%M:%S.%f")[:-3]
-            data = bytes([0xAA]*8)  # 占位：真实发送数据
-            hex_str = " ".join(f"{b:02X}" for b in data)
-            try:
-                self.tx_queue.put_nowait((ts, hex_str))
-            except queue.Full:
-                pass
-            time.sleep(0.05)
+
+class RS422Manager:
+    """管理所有 RS422 通道：自动读取配置文件并启动对应 Producer"""
+    def __init__(self, config: str, use_sim=True):
+        
+        self.config = config
+
+        self.use_sim = use_sim
+        self.producers = {}  # ch_id -> list of producers
+        self.queues = {}     # ch_id -> queue.Queue
+
+        ProducerClass = RS422SimProducer if self.use_sim else RS422RealProducer
+
+        for ch_id, cfg in self.config.items():
+            q = queue.Queue(maxsize=10000)
+            self.queues[ch_id] = q
+            self.producers[ch_id] = []
+
+            tor_cfg = cfg["TorR"]
+            freq = cfg["freq"]
+
+            # 如果是单方向
+            if tor_cfg in ("Tx", "Rx"):
+                if self.use_sim:
+                    p = ProducerClass(ch_id, q, tor_cfg, freq)
+                else:
+                    p = ProducerClass(ch_id, q, tor_cfg, freq, cfg["settings"])
+                self.producers[ch_id].append(p)
+
+            # 如果是双向（Tx/Rx）
+            elif tor_cfg == "Tx/Rx":
+                for tor in ("Tx", "Rx"):
+                    if self.use_sim:
+                        p = ProducerClass(ch_id, q, tor, freq)
+                    else:
+                        p = ProducerClass(ch_id, q, tor, freq, cfg["settings"])
+                    self.producers[ch_id].append(p)
+            else:
+                raise ValueError(f"Invalid TorR: {tor_cfg}")
+
+    def start_all(self):
+        for plist in self.producers.values():
+            for p in plist:
+                p.start()
+
+    def stop_all(self):
+        for plist in self.producers.values():
+            for p in plist:
+                p.stop()

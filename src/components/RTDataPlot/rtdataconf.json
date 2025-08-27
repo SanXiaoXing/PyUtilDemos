@@ -27,7 +27,7 @@
     "name": "数据5",
     "color": "#00ff7f",
     "unit": "Pa",
-    "visible": false
+    "visible": true
   },
   "data6": {
     "name": "数据6",

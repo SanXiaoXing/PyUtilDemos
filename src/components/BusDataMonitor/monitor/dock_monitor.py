@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from src.components.BusDataMonitor.monitor.Ui_dock_monitor import Ui_dockmonitor
 from src.components.BusDataMonitor.monitor.dialog_setting import ChannelConfigDialog
+from src.components.BusDataMonitor.config import channel_config
 from assets import ICON_PLAY, ICON_PAUSE, ICON_STOP
 
 DEFAULT_MAX_ROWS = 500
@@ -23,8 +24,8 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         self.channel_id = channel_id
         self._max_rows = DEFAULT_MAX_ROWS
         self.frame_count = 0
-        self.protocol_name = ""
-        self.protocol_file = None
+        self.protocol_file = channel_config[str(channel_id)]["protocol"]
+        self.TorR=channel_config[str(channel_id)]["TorR"]
         self.stop_tag=False
 
         # 控制区
@@ -38,18 +39,20 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         self.btn_stop.setIcon(QIcon(ICON_STOP))
 
         # 状态栏
-        self.label_protocol.setText(f"协议文件:{self.protocol_name}")
+        self.label_protocol.setText(f"协议文件:{self.protocol_file}")
         self.label_ch.setText(f"通道号:{self.channel_id}")
-
+        self.label_TR.setText(f"传输方向:{self.TorR}")
+        
+        
         # 表格
         self.model = QStandardItemModel(0, 2, self)
-        self.model.setHorizontalHeaderLabels(["时间戳", "数据内容"])
+        self.model.setHorizontalHeaderLabels(["时间戳", "传输方向","数据内容"])
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setStretchLastSection(True)
         self.tableView.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableView.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.tableView.doubleClicked.connect(self.on_row_double_clicked)
+        #self.tableView.doubleClicked.connect(self.on_row_double_clicked)
         
 
         # 定时器用于从队列拉取数据
@@ -101,6 +104,7 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         while self.model.rowCount() > self._max_rows:
             self.model.removeRow(0)
 
+
     def on_refresh_changed(self, v):
         if self.timer.isActive():
             self.timer.start(v)
@@ -115,8 +119,8 @@ class DataMonitor(QWidget, Ui_dockmonitor):
             except queue.Empty:
                 break
 
-        for ts, hex_str in rows_to_add:
-            self.model.appendRow([QStandardItem(ts), QStandardItem(hex_str)])
+        for ts, tor,hex_str in rows_to_add:
+            self.model.appendRow([QStandardItem(ts), QStandardItem(tor),QStandardItem(hex_str)])
         
         # 更新计数
         self.frame_count += len(rows_to_add)
@@ -129,10 +133,10 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         self.tableView.scrollToBottom()
 
 
-    def on_row_double_clicked(self, index):
-        # 第二列为数据内容
-        hex_str = self.model.item(index.row(), 1).text()
-        self.row_double_clicked.emit(hex_str,self.protocol_file,index)
+    # def on_row_double_clicked(self, index):
+    #     # 第二列为数据内容
+    #     hex_str = self.model.item(index.row(), 1).text()
+    #     self.row_double_clicked.emit(hex_str,self.protocol_file,index)
 
 
     def show_settings(self):

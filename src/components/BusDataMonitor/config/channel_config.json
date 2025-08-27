@@ -9,7 +9,8 @@
             "parity": "N"
         },
         "store": "true",
-        "protocol": "send422"
+        "protocol": "send422",
+        "desc":"info"
     },
     "1": {
         "TorR": "Rx",
@@ -21,6 +22,39 @@
             "parity": "N"
         },
         "store": "false",
-        "protocol": "recv422"
+        "protocol": "recv422",
+        "desc":"info"
+    },
+    "2": {
+        "TorR": "Tx/Rx",
+        "freq": 20,
+        "settings": {
+            "baudrate": 9600,
+            "bytesize": 8,
+            "stopbits": 1,
+            "parity": "N"
+        },
+        "store": "false",
+        "protocol": {
+            "Tx": "send422",
+            "Rx": "recv422"
+        },
+        "desc":"info"
+    },
+    "3": {
+        "TorR": "Tx/Rx",
+        "freq": 20,
+        "settings": {
+            "baudrate": 9600,
+            "bytesize": 8,
+            "stopbits": 1,
+            "parity": "N"
+        },
+        "store": "false",
+        "protocol": {
+            "Tx": "send422",
+            "Rx": "recv422"
+        },
+        "desc":"info"
     }
 }
