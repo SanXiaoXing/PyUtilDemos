@@ -5,16 +5,21 @@
 ## 项目结构
 
 ```
-├── BulbStateMonitor    # 灯泡状态监控工具
-├── BusDataMonitor      # 总线数据监控工具
-├── CalibTool           # 计量校准工具
-├── CustomWidgets       # 自定义控件集
-├── CustomWidgets       # 自定义控件集
-├── DataReplay          # 数据回放工具
-├── LogViewer           # 日志查看器
-├── RTDataPlot          # 实时数据绘图工具
-├── resource            # 资源文件（图标、图片、样式表等）
-└── main.py             # 主程序入口
+.
+├── assets/                 # 静态资源文件
+├── dist/                   # 打包后的文件
+├── build/                  # 构建文件
+├── src/                    # 源代码
+│   ├── components/         # 组件
+│   ├── drivers/            # 驱动
+│   ├── machine/            # 上下位机
+│   ├── utils/              # 工具类
+│   ├── configFiles/        # 配置文件
+│   └── logs/               # 日志文件
+├── Report/                 # 测试报告
+├── Test/                   # 测试用例
+├── pyproject.toml          # 项目配置文件
+└── RADME.md                # 项目说明
 ```
 
 ## 功能模块
@@ -80,23 +85,7 @@
 
 - [ ] **系统框架** 更改系统框架
     - 为使得组件复用性更高，减少不必要的路径更改以及配置文件路径，考虑对其系统框架进行重新构建
-```
-.
-├── assets/                 # 静态资源文件
-├── dist/                   # 打包后的文件
-├── build/                  # 构建文件
-├── src/                    # 源代码
-│   ├── components/         # 组件
-│   ├── drivers/            # 驱动
-│   ├── machine/            # 上下位机
-│   ├── utils/              # 工具类
-│   ├── configFiles/        # 配置文件
-│   └── logs/               # 日志文件
-├── Report/                 # 测试报告
-├── Test/                   # 测试用例
-├── pyproject.toml          # 项目配置文件
-└── RADME.md                # 项目说明
-```
+
 
 ## 使用方法
 
@@ -129,7 +118,6 @@ python main.py
 
 - PyQt5
 - NumPy
-- Matplotlib (用于绘图功能)
 - 其他依赖将在各模块开发过程中添加
 
 ## 贡献者

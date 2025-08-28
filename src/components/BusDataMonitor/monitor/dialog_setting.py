@@ -176,7 +176,7 @@ class ChannelConfigDialog(QDialog):
         }
 
         TorR = self.channel_conf.get("TorR", "Tx")
-        if TorR == "Tx/Rx":
+        if TorR == "Tx/Rx": 
             channel_config[self.channel_id]["protocol"] = self.selected_protocol.copy()
         else:
             channel_config[self.channel_id]["protocol"] = self.selected_protocol

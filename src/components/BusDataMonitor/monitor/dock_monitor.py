@@ -52,7 +52,7 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         self.tableView.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableView.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
-        #self.tableView.doubleClicked.connect(self.on_row_double_clicked)
+        self.tableView.doubleClicked.connect(self.on_row_double_clicked)
         
 
         # 定时器用于从队列拉取数据
@@ -133,10 +133,10 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         self.tableView.scrollToBottom()
 
 
-    # def on_row_double_clicked(self, index):
-    #     # 第二列为数据内容
-    #     hex_str = self.model.item(index.row(), 1).text()
-    #     self.row_double_clicked.emit(hex_str,self.protocol_file,index)
+    def on_row_double_clicked(self, index):
+        # 第二列为数据内容
+        hex_str = self.model.item(index.row(), 2).text()
+        self.row_double_clicked.emit(hex_str,self.protocol_file,index)
 
 
     def show_settings(self):
