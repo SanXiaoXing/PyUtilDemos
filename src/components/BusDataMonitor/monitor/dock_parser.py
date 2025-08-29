@@ -1,9 +1,10 @@
 # parsed_data_dock.py
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTableView, QPushButton, QDockWidget
+from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import Qt, QThread, pyqtSignal, QObject
-from src.components.BusDataMonitor.monitor.Ui_dock_parser import Ui_dock_parser 
+from src.components.BusDataMonitor.monitor.gui.Ui_dock_parser import Ui_dock_parser 
 from src.components.BusDataMonitor.monitor.busdata_parser import BusDataParser
+from src.components.BusDataMonitor.protocol import ProtocolLoader
 
 class ParserWorker(QObject):
     finished = pyqtSignal(dict)  # 解析完成后发出结果
@@ -19,9 +20,10 @@ class ParserWorker(QObject):
 
 
 class DockParser(QWidget, Ui_dock_parser):
-    def __init__(self, protocol,index, parent=None):
+    def __init__(self, protocol_name,index, parent=None):
         super().__init__( parent)
-        self.protocol = protocol
+        self.setupUi(self)
+        self.protocol_name = protocol_name
         self.curr_index=index
         self.hex_display = False  # 默认显示解析值
         self.init_ui()
@@ -43,8 +45,10 @@ class DockParser(QWidget, Ui_dock_parser):
     def update_data(self, hex_str):
         """ 启动线程解析数据 """
         self.current_hex = hex_str
+        protocol_loader = ProtocolLoader()
+        protocol = protocol_loader.get(self.protocol_name)
         self.thread = QThread()
-        self.worker = ParserWorker(self.protocol, hex_str)
+        self.worker = ParserWorker(protocol, hex_str)
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.run)
         self.worker.finished.connect(self.on_parsed)

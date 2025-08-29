@@ -48,8 +48,8 @@ class BusDataParser:
         for field in self.protocol["fields"]:
             raw_value = self._extract_bits(
                 data_bytes,
-                field["start_bit"],
-                field["length"]
+                field["byte_offset"],
+                field["bit_length"]
             )
 
             ftype = field["type"]

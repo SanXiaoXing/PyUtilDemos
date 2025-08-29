@@ -2,7 +2,7 @@ import queue
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from src.components.BusDataMonitor.monitor.Ui_dock_monitor import Ui_dockmonitor
+from src.components.BusDataMonitor.monitor.gui.Ui_dock_monitor import Ui_dockmonitor
 from src.components.BusDataMonitor.monitor.dialog_setting import ChannelConfigDialog
 from src.components.BusDataMonitor.config import channel_config
 from assets import ICON_PLAY, ICON_PAUSE, ICON_STOP
@@ -15,7 +15,7 @@ DEFAULT_REFRESH_MS = 300   # 默认刷新周期(ms)，与采集无关
 
 # ===================== 监控窗口 =====================
 class DataMonitor(QWidget, Ui_dockmonitor):
-    row_double_clicked = pyqtSignal(str,str,int)
+    row_double_clicked = pyqtSignal(str, str, int, str)
     def __init__(self, title="数据监控窗口", data_queue=None, channel_id=0,parent=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -24,7 +24,7 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         self.channel_id = channel_id
         self._max_rows = DEFAULT_MAX_ROWS
         self.frame_count = 0
-        self.protocol_file = channel_config[str(channel_id)]["protocol"]
+        self.protocol_config = channel_config[str(channel_id)]["protocol"]
         self.TorR=channel_config[str(channel_id)]["TorR"]
         self.stop_tag=False
 
@@ -39,7 +39,7 @@ class DataMonitor(QWidget, Ui_dockmonitor):
         self.btn_stop.setIcon(QIcon(ICON_STOP))
 
         # 状态栏
-        self.label_protocol.setText(f"协议文件:{self.protocol_file}")
+        self.label_protocol.setText(f"协议文件:{self.protocol_config}")
         self.label_ch.setText(f"通道号:{self.channel_id}")
         self.label_TR.setText(f"传输方向:{self.TorR}")
         
@@ -135,8 +135,11 @@ class DataMonitor(QWidget, Ui_dockmonitor):
 
     def on_row_double_clicked(self, index):
         # 第二列为数据内容
+        row_TorR = self.model.item(index.row(), 1).text()
         hex_str = self.model.item(index.row(), 2).text()
-        self.row_double_clicked.emit(hex_str,self.protocol_file,index)
+        protocol_name=self.protocol_config[row_TorR]
+        # 发射完整参数：hex_str, 协议dict, 行号, 通道方向
+        self.row_double_clicked.emit(hex_str, protocol_name, index.row(), row_TorR)
 
 
     def show_settings(self):
@@ -147,7 +150,7 @@ class DataMonitor(QWidget, Ui_dockmonitor):
             # 此处可根据需要更新界面显示，例如：
             new_protocol = dlg.get_selected_protocol()
             self.label_protocol.setText(f"协议文件: {new_protocol}")
-            self.protocol_file = new_protocol
+            self.protocol_config = new_protocol
 
     
     

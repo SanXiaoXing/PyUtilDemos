@@ -9,7 +9,9 @@
             "parity": "N"
         },
         "store": "true",
-        "protocol": "send422",
+        "protocol": {
+            "Tx":"send422"
+        },
         "desc":"info"
     },
     "1": {
@@ -22,7 +24,9 @@
             "parity": "N"
         },
         "store": "false",
-        "protocol": "recv422",
+        "protocol": {
+            "Rx":"recv422"
+        },
         "desc":"info"
     },
     "2": {
