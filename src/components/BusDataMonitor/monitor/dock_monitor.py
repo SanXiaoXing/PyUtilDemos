@@ -1,13 +1,10 @@
-import sys
-import os
-
-from src.components.BusDataMonitor.Ui_DataTableForm import Ui_DataTableForm
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import queue
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from src.components.BusDataMonitor.monitor.Ui_dock_monitor import Ui_dockmonitor
+from src.components.BusDataMonitor.monitor.dialog_setting import ChannelConfigDialog
+from src.components.BusDataMonitor.config import channel_config
 from assets import ICON_PLAY, ICON_PAUSE, ICON_STOP
 
 DEFAULT_MAX_ROWS = 500
@@ -17,17 +14,19 @@ DEFAULT_REFRESH_MS = 300   # 默认刷新周期(ms)，与采集无关
 
 
 # ===================== 监控窗口 =====================
-class DataMonitor(QWidget, Ui_DataTableForm):
-    row_double_clicked = pyqtSignal(str)
-    def __init__(self, title="数据监控窗口", data_queue=None, parent=None):
+class DataMonitor(QWidget, Ui_dockmonitor):
+    row_double_clicked = pyqtSignal(str,str,int)
+    def __init__(self, title="数据监控窗口", data_queue=None, channel_id=0,parent=None):
         super().__init__(parent)
         self.setupUi(self)
         self.setWindowTitle(title)
         self.data_queue = data_queue or queue.Queue(maxsize=10000)
+        self.channel_id = channel_id
         self._max_rows = DEFAULT_MAX_ROWS
         self.frame_count = 0
+        self.protocol_file = channel_config[str(channel_id)]["protocol"]
+        self.TorR=channel_config[str(channel_id)]["TorR"]
         self.stop_tag=False
-
 
         # 控制区
         self.spin_max_rows.setRange(50, MAX_ALLOWED_ROWS)
@@ -39,16 +38,22 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         self.btn_start.setIcon(QIcon(ICON_PLAY))
         self.btn_stop.setIcon(QIcon(ICON_STOP))
 
+        # 状态栏
+        self.label_protocol.setText(f"协议文件:{self.protocol_file}")
+        self.label_ch.setText(f"通道号:{self.channel_id}")
+        self.label_TR.setText(f"传输方向:{self.TorR}")
+        
+        
         # 表格
         self.model = QStandardItemModel(0, 2, self)
-        self.model.setHorizontalHeaderLabels(["时间戳", "数据内容"])
+        self.model.setHorizontalHeaderLabels(["时间戳", "传输方向","数据内容"])
         self.tableView.setModel(self.model)
         self.tableView.horizontalHeader().setStretchLastSection(True)
         self.tableView.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableView.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tableView.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tableView.doubleClicked.connect(self.on_row_double_clicked)
-        self.row_double_clicked = pyqtSignal(str)  
+        
 
         # 定时器用于从队列拉取数据
         self.timer = QTimer(self)
@@ -59,7 +64,7 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         self.btn_stop.clicked.connect(self.on_stop)
         self.spin_max_rows.valueChanged.connect(self.on_max_rows_changed)
         self.spin_refresh.valueChanged.connect(self.on_refresh_changed)
-
+        self.btn_conf.clicked.connect(self.show_settings)
 
     def start_ctrl(self):
         if self.btn_start.text() == "开始":
@@ -99,19 +104,13 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         while self.model.rowCount() > self._max_rows:
             self.model.removeRow(0)
 
+
     def on_refresh_changed(self, v):
         if self.timer.isActive():
             self.timer.start(v)
 
-    # 在类末尾添加：
-    def on_row_double_clicked(self, index):
-        # 第二列为数据内容
-        hex_str = self.model.item(index.row(), 1).text()
-        self.row_double_clicked.emit(hex_str)
 
-
-
-    def flush_data(self):
+    def flush_data(self): 
         """从队列拉数据批量刷新"""
         rows_to_add = []
         while not self.data_queue.empty():
@@ -120,8 +119,8 @@ class DataMonitor(QWidget, Ui_DataTableForm):
             except queue.Empty:
                 break
 
-        for ts, hex_str in rows_to_add:
-            self.model.appendRow([QStandardItem(ts), QStandardItem(hex_str)])
+        for ts, tor,hex_str in rows_to_add:
+            self.model.appendRow([QStandardItem(ts), QStandardItem(tor),QStandardItem(hex_str)])
         
         # 更新计数
         self.frame_count += len(rows_to_add)
@@ -132,3 +131,23 @@ class DataMonitor(QWidget, Ui_DataTableForm):
         if excess > 0:
             self.model.removeRows(0, excess)
         self.tableView.scrollToBottom()
+
+
+    def on_row_double_clicked(self, index):
+        # 第二列为数据内容
+        hex_str = self.model.item(index.row(), 2).text()
+        self.row_double_clicked.emit(hex_str,self.protocol_file,index)
+
+
+    def show_settings(self):
+        # 创建并显示通道配置对话框
+        dlg = ChannelConfigDialog(channel_id=self.channel_id, parent=self)
+        if dlg.exec_() == QDialog.Accepted:
+            # 对话框点击“确定”会自动写回 channel_config.json
+            # 此处可根据需要更新界面显示，例如：
+            new_protocol = dlg.get_selected_protocol()
+            self.label_protocol.setText(f"协议文件: {new_protocol}")
+            self.protocol_file = new_protocol
+
+    
+    

@@ -6,7 +6,8 @@ from openpyxl import load_workbook
 
 EXCEL_FILE =  Path(__file__).parent / 'protocol_template.xlsx'
 HASH_FILE =  Path(__file__).parent /"protocol_hashes.json"
-JSON_DIR =   Path(__file__).parent /"protocol"
+JSON_DIR =   Path(__file__).parent.parent /"protocol"
+CONF_FILE= Path(__file__).parent.parent /"config/protocol_config.json"
 
 
 class ProtocolManager:
@@ -77,12 +78,17 @@ class ProtocolManager:
         for _, row in df.iterrows():
             sheet = str(row["sheet"])
             cfg[sheet] = {
-                "channel": int(row["ch"]),
                 "length": int(row["length"]),
                 "version": str(row["version"]),
                 "desc": str(row["desc"]),
             }
         return cfg
+    
+    def _export_config_json(self, cfg_dict):
+        """将 config 信息导出为 json 文件"""
+        out_file = CONF_FILE
+        out_file.write_text(json.dumps(cfg_dict, indent=4, ensure_ascii=False), encoding="utf-8")
+        print(f"协议 config JSON 已生成：{out_file}")
 
     def _parse_enum_map(self, enum_str):
         """解析 '0:Idle,1:Active' → dict"""
@@ -140,6 +146,8 @@ class ProtocolManager:
 
     def _excel_to_json(self, changed_sheets):
         cfg = self._load_config_info()
+        self._export_config_json(cfg)  # 每次都更新 config.json
+
         for sheet_name in changed_sheets:
             if sheet_name not in cfg:
                 print(f"警告：config 中未找到 {sheet_name} 的配置信息，跳过")
@@ -155,7 +163,10 @@ class ProtocolManager:
             print("检测到以下 sheet 发生变化：", changed_sheets)
             self._excel_to_json(changed_sheets)
         else:
-            print("没有协议变化，无需更新 JSON")
+            # 即使没有变化，也确保 config.json 是最新的
+            cfg = self._load_config_info()
+            self._export_config_json(cfg)
+            print("没有协议变化，仅更新 config.json")
 
 
 # ---------------- 使用示例 ----------------

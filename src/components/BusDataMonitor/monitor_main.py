@@ -1,172 +1,136 @@
-'''
-总线数据监控及解析工具
-=======
-
-Author: JIN && <jjyrealdeal@163.com>
-Date: 2025-08-19 16:28:46
-Copyright (c) 2025 by JIN, All Rights Reserved. 
-'''
-
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import queue
+import json
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from src.components.BusDataMonitor.busdata_producer import RS422SimProducer
-from src.components.BusDataMonitor.busdata_monitor import DataMonitor
-from assets import ICON_TABLE,ICON_R,ICON_T
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
+
+from src.components.BusDataMonitor.monitor.busdata_producer import RS422Manager
+from src.components.BusDataMonitor.monitor.dock_monitor import DataMonitor
+from src.components.BusDataMonitor.monitor.dock_parser import DockParser
+from src.components.BusDataMonitor.config import channel_config
+from assets import ICON_TABLE
 
 DEFAULT_MAX_ROWS = 500
-MAX_ALLOWED_ROWS = 200000  # 设置最大行数限制
-DEFAULT_REFRESH_MS = 300   # 默认刷新周期(ms)，与采集无关
+MAX_ALLOWED_ROWS = 200000
+DEFAULT_REFRESH_MS = 300
 
 
-
-# ===================== 主窗口（ =====================
 class BusDataMonitorForm(QMainWindow):
     def __init__(self):  
         super().__init__()
         self.init_ui()
+        self.channel_config=channel_config
+        # >>> 使用 RS422Manager 创建所有 producer/queue
+        self.manager = RS422Manager(self.channel_config, use_sim=True)
+        self.manager.start_all()
 
-        # 创建共享队列（外部模块往里写数据）
-        self.tx_queue = queue.Queue(maxsize=10000)
-        self.rx_queue = queue.Queue(maxsize=10000)
-        # 换成真实硬件时，只要切换这一行即可：
-        self.producer = RS422SimProducer(self.tx_queue, self.rx_queue)
-        # self.producer = RS422RealProducer(self.tx_queue, self.rx_queue, device_config=...)
-        self.producer.start()
+        # 动态保存 dock monitor 引用
+        self.dock_monitors = {}  # key = ch_id , value = dock widget
 
-        # 窗口引用
-        self.tx_monitor = None
-        self.rx_monitor = None
-        self.tx_dock = None
-        self.rx_dock = None
+        # 根据配置动态创建 toolbar action
+        self.create_channel_actions()
+        self.init_toolbtn()
 
-    
     def init_ui(self):
         self.setWindowTitle("总线数据监控")
         self.resize(1000, 800)
-         # 创建工具栏
         self.toolBar = self.addToolBar("Main Toolbar")  
-        self.toolBar.setMovable(False)  # 不允许拖动
+        self.toolBar.setMovable(False)
         self.toolBar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-        # 添加按钮（QAction）
-        self.btn_txshow = QAction(QIcon(ICON_T), "发送数据监控", self)
-        self.btn_rxshow = QAction(QIcon(ICON_R), "采集数据监控", self)
-        self.btn_layout=QAction(QIcon(ICON_TABLE), "默认布局", self)
 
-        # 信号槽：显示 Dock 窗口
-        self.btn_txshow.triggered.connect(self.show_tx_monitor)
-        self.btn_rxshow.triggered.connect(self.show_rx_monitor) 
+
+    def init_toolbtn(self):
+        # 创建占位 widget
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.toolBar.addWidget(spacer)  # 添加到 toolbar 中，前面的按钮会被推到左边
+
+        # 然后再添加你的右侧按钮
+        self.btn_layout = QAction(QIcon(ICON_TABLE), "默认布局", self)
         self.btn_layout.triggered.connect(self.reset_layout)
-        
-        self.toolBar.addActions([self.btn_txshow, self.btn_rxshow, self.btn_layout])
-        
+        self.toolBar.addAction(self.btn_layout)
 
 
-    def show_tx_monitor(self):
-        if self.tx_monitor is None:
-            self.tx_monitor = DataMonitor("发送数据监控", data_queue=self.tx_queue)
-            self.tx_dock = QDockWidget("发送数据监控", self)
-            self.tx_dock.setWidget(self.tx_monitor)
-            self.tx_dock.setObjectName("DockTx")
-            self.tx_dock.setFeatures(QDockWidget.DockWidgetMovable | 
-                                     QDockWidget.DockWidgetClosable | 
-                                     QDockWidget.DockWidgetFloatable)
-            self.addDockWidget(Qt.LeftDockWidgetArea, self.tx_dock)
-            self.tx_dock.destroyed.connect(lambda: setattr(self, "tx_monitor", None))
-            self.tx_dock.show()
-        else:
-            self.tx_dock.raise_()
-            self.tx_dock.show()
+    def create_channel_actions(self):
+        """遍历 manager.producers，为每个通道动态添加按钮"""
+        for ch_id, producers in self.manager.producers.items():
+            # 创建一个按钮：标题为通道ID
+            act = QAction(f"通道 {ch_id}", self)
+            act.triggered.connect(lambda _, cid=ch_id: self.show_channel_monitor(cid))
+            self.toolBar.addAction(act)
 
-    def show_rx_monitor(self):
-        if self.rx_monitor is None:
-            self.rx_monitor = DataMonitor("采集数据监控", data_queue=self.rx_queue)
-            self.rx_dock = QDockWidget("采集数据监控", self)
-            self.rx_dock.setWidget(self.rx_monitor)
-            self.rx_dock.setObjectName("DockRx")
-            self.rx_dock.setFeatures(QDockWidget.DockWidgetMovable | 
-                                     QDockWidget.DockWidgetClosable | 
-                                     QDockWidget.DockWidgetFloatable)
-            self.addDockWidget(Qt.RightDockWidgetArea, self.rx_dock)
-            self.rx_dock.destroyed.connect(lambda: setattr(self, "rx_monitor", None))
-            self.rx_dock.show()
-        else:
-            self.rx_dock.raise_()
-            self.rx_dock.show()
+    def show_channel_monitor(self, ch_id):
+        """显示对应通道的 DataMonitor dock"""
+        if ch_id in self.dock_monitors:
+            dock = self.dock_monitors[ch_id]
+            dock.raise_()
+            dock.show()
+            return
+
+        # >>> 取对应队列
+        q = self.manager.queues[ch_id]
+
+        # 创建 DataMonitor
+        monitor = DataMonitor(f"通道 {ch_id} 数据监控", data_queue=q, channel_id=ch_id)
+        dock = QDockWidget(f"通道 {ch_id} 数据监控", self)
+        dock.setWidget(monitor)
+        dock.setObjectName(f"Dock_{ch_id}")
+        dock.setFeatures(QDockWidget.DockWidgetMovable | 
+                         QDockWidget.DockWidgetClosable | 
+                         QDockWidget.DockWidgetFloatable)
+        self.addDockWidget(Qt.LeftDockWidgetArea, dock)
+        self.dock_monitors[ch_id] = dock
+
+        # 双击行显示解析窗口
+        monitor.row_double_clicked.connect(self.show_parsed_dock)
+        dock.show()
+
+
+    def show_parsed_dock(self, hex_str, protocol, index, source):
+        parser = DockParser(protocol, index, self)
+        dock = QDockWidget(f"{source.upper()} 解析", self)
+        dock.setWidget(parser)
+        dock.setFeatures(QDockWidget.DockWidgetMovable | 
+                         QDockWidget.DockWidgetClosable | 
+                         QDockWidget.DockWidgetFloatable)
+        self.addDockWidget(Qt.BottomDockWidgetArea, dock)
+        dock.update_data(hex_str)
+        dock.show()
+
 
     def reset_layout(self):
-        """根据现有 dockwidget 数量恢复布局"""
-        docks = []
-
-        # 先收集存在的窗口
-        if self.tx_dock:
-            docks.append(self.tx_dock)
-        if hasattr(self, "tx_parsed_dock") and self.tx_parsed_dock:
-            docks.append(self.tx_parsed_dock)
-        if self.rx_dock:
-            docks.append(self.rx_dock)
-        if hasattr(self, "rx_parsed_dock") and self.rx_parsed_dock:
-            docks.append(self.rx_parsed_dock)
-
-        count = len(docks)
-        if count == 0:
-            return  # 没有窗口，直接返回
-
-        # 1个窗口：占满主界面
-        if count == 1:
-            self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
-            self.tabifyDockWidget(docks[0], docks[0])  # 确保独占（无实际tab）
+        """恢复 Dock 布局"""
+        docks = list(self.dock_monitors.values())
+        if not docks:
             return
-
-        # 2个窗口：左右布局
-        if count == 2:
+        for d in docks:
+            d.setFloating(False)
+        if len(docks) == 1:
+            self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
+            return
+        if len(docks) == 2:
             self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
             self.addDockWidget(Qt.RightDockWidgetArea, docks[1])
             return
-
-        # 3个窗口：左中右布局
-        if count == 3:
-            self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
-            self.addDockWidget(Qt.RightDockWidgetArea, docks[1])
-            self.splitDockWidget(docks[0], docks[2], Qt.Horizontal)
-            return
-
-        # 4个窗口：强制 2x2 布局（固定顺序）
-        # 左上: send窗口, 左下: send解析窗口
-        # 右上: recv窗口, 右下: recv解析窗口
-        if count == 4:
-            # 保证引用存在，即使为空也不报错
-            send = self.tx_dock
-            send_parsed = getattr(self, "tx_parsed_dock", None)
-            recv = self.rx_dock
-            recv_parsed = getattr(self, "rx_parsed_dock", None)
-
-            if not (send and recv and send_parsed and recv_parsed):
-                # 如果4个窗口不全，就直接左右布局备用
-                self.addDockWidget(Qt.LeftDockWidgetArea, docks[0])
-                self.addDockWidget(Qt.RightDockWidgetArea, docks[1])
-                if len(docks) > 2:
-                    self.splitDockWidget(docks[0], docks[2], Qt.Horizontal)
-                return
-
-            # 左侧布局
-            self.addDockWidget(Qt.LeftDockWidgetArea, send)
-            self.splitDockWidget(send, send_parsed, Qt.Vertical)
-
-            # 右侧布局
-            self.addDockWidget(Qt.RightDockWidgetArea, recv)
-            self.splitDockWidget(recv, recv_parsed, Qt.Vertical)
-
-
- 
+        # 超过2个 → 强制2×2布局
+        left_col, right_col = [], []
+        for i, dock in enumerate(docks):
+            (left_col if i % 2 == 0 else right_col).append(dock)
+        if left_col:
+            self.addDockWidget(Qt.LeftDockWidgetArea, left_col[0])
+            for d in left_col[1:]:
+                self.splitDockWidget(left_col[0], d, Qt.Vertical)
+        if right_col:
+            self.addDockWidget(Qt.RightDockWidgetArea, right_col[0])
+            for d in right_col[1:]:
+                self.splitDockWidget(right_col[0], d, Qt.Vertical)
 
 
     def closeEvent(self, e: QCloseEvent):
-        self.producer.stop()
+        self.manager.stop_all()
         super().closeEvent(e)
 
 

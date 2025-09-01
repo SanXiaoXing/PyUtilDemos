@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DataTableForm</class>
- <widget class="QWidget" name="DataTableForm">
+ <class>dockmonitor</class>
+ <widget class="QWidget" name="dockmonitor">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>634</height>
+    <width>571</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,26 +75,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <widget class="QWidget" name="tab">
-        <attribute name="title">
-         <string>Tab 1</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QTableView" name="tableView"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tab_2">
-        <attribute name="title">
-         <string>Tab 2</string>
-        </attribute>
-       </widget>
-      </widget>
+      <widget class="QTableView" name="tableView"/>
      </item>
      <item>
       <widget class="Line" name="line">
@@ -126,14 +107,21 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_ch">
          <property name="text">
           <string>通道号：0</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_TR">
+         <property name="text">
+          <string>传输方向：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_protocol">
          <property name="text">
           <string>通讯协议：</string>
          </property>

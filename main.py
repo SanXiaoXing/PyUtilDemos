@@ -28,7 +28,7 @@ class HoverFrame(QFrame):
         self.shadow_effect.setOffset(0, 4)
         self.shadow_effect.setColor(QColor(0, 0, 0, 50))  # 阴影透明度
         self.setGraphicsEffect(self.shadow_effect)
-        self.setStyleSheet(self.default_style())
+        self.setStyleSheet(self.default_style()) 
 
     def enterEvent(self, event):
         self.setStyleSheet(self.hover_style())
