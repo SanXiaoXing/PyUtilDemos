@@ -26,7 +26,6 @@ theme:
     - navigation.indexes
     - navigation.tabs
     - navigation.sections
-    - content.tabs.link
     - content.code.copy
     - content.tooltips
 
@@ -71,5 +70,5 @@ nav:
     - 网络设备管理 NetManager: API/net_manager.md
     - Xml编辑器 XmlEditor: API/xml_editor.md
   - CHANGELOG: CHANGELOG.md
-  - FAQ: FAQ.md
+  - IUUSE: IUUSE.md
   - About: about.md
