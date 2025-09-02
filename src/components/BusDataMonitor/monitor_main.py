@@ -51,7 +51,7 @@ class BusDataMonitorForm(QMainWindow):
         # 然后再添加你的右侧按钮
         self.btn_layout = QAction(QIcon(ICON_TABLE), "默认布局", self)
         self.btn_layout.triggered.connect(self.reset_layout)
-        self.toolBar.addAction(self.btn_layout)
+        self.toolBar.addAction(self.btn_layout)  
 
 
     def create_channel_actions(self):
@@ -97,7 +97,7 @@ class BusDataMonitorForm(QMainWindow):
                          QDockWidget.DockWidgetClosable | 
                          QDockWidget.DockWidgetFloatable)
         self.addDockWidget(Qt.BottomDockWidgetArea, dock)
-        dock.update_data(hex_str)
+        parser.update_data(hex_str)
         dock.show()
 
 

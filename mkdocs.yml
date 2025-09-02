@@ -20,7 +20,7 @@ theme:
   icon:
     previous: fontawesome/solid/angle-left
     next: fontawesome/solid/angle-right
-  features:
+  features: 
     - navigation.top
     - navigation.footer
     - navigation.indexes
@@ -30,7 +30,6 @@ theme:
     - content.tooltips
 
 copyright: Copyright &copy; 2025
-
 
 
 

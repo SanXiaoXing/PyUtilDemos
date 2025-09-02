@@ -3,58 +3,62 @@
         "TorR": "Tx",
         "freq": 20,
         "settings": {
-            "baudrate": 9600,
-            "bytesize": 8,
-            "stopbits": 1,
-            "parity": "N"
+            "baudrate": "9600",
+            "bytesize": "8",
+            "stopbits": "1",
+            "parity": "None"
         },
-        "store": "true",
-        "protocol": "send422",
-        "desc":"info"
+        "store": true,
+        "protocol": {
+            "Tx": "send422"
+        },
+        "desc": "info"
     },
     "1": {
         "TorR": "Rx",
         "freq": 20,
         "settings": {
-            "baudrate": 9600,
-            "bytesize": 8,
-            "stopbits": 1,
-            "parity": "N"
+            "baudrate": "9600",
+            "bytesize": "8",
+            "stopbits": "1",
+            "parity": "None"
         },
-        "store": "false",
-        "protocol": "recv422",
-        "desc":"info"
+        "store": true,
+        "protocol": {
+            "Rx": "recv422"
+        },
+        "desc": "info"
     },
     "2": {
         "TorR": "Tx/Rx",
         "freq": 20,
         "settings": {
-            "baudrate": 9600,
-            "bytesize": 8,
-            "stopbits": 1,
-            "parity": "N"
+            "baudrate": "9600",
+            "bytesize": "8",
+            "stopbits": "1",
+            "parity": "None"
         },
-        "store": "false",
+        "store": true,
         "protocol": {
             "Tx": "send422",
             "Rx": "recv422"
         },
-        "desc":"info"
+        "desc": "info"
     },
     "3": {
         "TorR": "Tx/Rx",
         "freq": 20,
         "settings": {
-            "baudrate": 9600,
-            "bytesize": 8,
-            "stopbits": 1,
-            "parity": "N"
+            "baudrate": "9600",
+            "bytesize": "8",
+            "stopbits": "None",
+            "parity": "None"
         },
-        "store": "false",
+        "store": true,
         "protocol": {
             "Tx": "send422",
             "Rx": "recv422"
         },
-        "desc":"info"
+        "desc": "info"
     }
 }
