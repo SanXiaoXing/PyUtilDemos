@@ -74,5 +74,5 @@ nav:
     - 网络设备管理 NetManager: API/net_manager.md
     - Xml编辑器 XmlEditor: API/xml_editor.md
   - CHANGELOG: CHANGELOG.md
-  - IUUSE: IUUSE.md
+  - ISSUE: ISSUE.md
   - About: about.md
