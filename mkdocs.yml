@@ -35,14 +35,10 @@ copyright: Copyright &copy; 2025
 
 plugins:
   - search
+  - tags
   - mkdocstrings:
-      default_handler: python
       handlers:
         python:
-          selection:
-            filters:
-              - "!^_"  # 排除以_开头的私有函数
-              - "![iI][nN][iI][tT]"
           paths: ["."]
           options:
             show_source: true
@@ -57,6 +53,9 @@ markdown_extensions:
       alternate_style: true  # 使用替代样式
   - pymdownx.superfences # 用于代码块
   - attr_list            # 用于 HTML 属性
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 nav:
   - 首页: index.md
@@ -74,4 +73,5 @@ nav:
     - Xml编辑器 XmlEditor: API/xml_editor.md
   - CHANGELOG: CHANGELOG.md
   - ISSUE: ISSUE.md
+  - Tags: tags.md
   - About: about.md
