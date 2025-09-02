@@ -19,27 +19,22 @@ class ChannelConfigDialog(QDialog,Ui_dialog_setting):
         self.resize(300, 400)
         self.channel_id = str(channel_id)
         self.channel_conf = channel_config.get(self.channel_id, {})
-
+        
         if not self.channel_conf:
             QMessageBox.warning(self, "错误", f"未找到通道配置: {self.channel_id}")
             self.close()
             return
-
-        self.selected_protocol = None  # 单向: str，双向: dict {"Tx":..., "Rx":...}
+        
+        self.TorR=self.channel_conf.get("TorR", "")
+        self.selected_protocol = {"Tx": "", "Rx": ""}
         protocol_loader=ProtocolLoader()
         self.protocol_list=protocol_loader.list_protocols()
-        # 基础信息区
         self.fill_channel_info()
-        # 协议选择区
         self.init_protocol_selectors()
-        # 确认按钮
         self.btn_set.clicked.connect(self.on_accept)
         self.btn_cancel.clicked.connect(self.close)
 
-
-
     def fill_channel_info(self):
-        """显示通道基础信息"""
         self.label_ch.setText(self.channel_id)
         self.label_TorR.setText(self.channel_conf.get("TorR", ""))
         self.spinBox_freq.setValue(int(self.channel_conf.get("freq", 20)))
@@ -47,80 +42,70 @@ class ChannelConfigDialog(QDialog,Ui_dialog_setting):
         self.comboBox_databits.setCurrentText(str(self.channel_conf.get("settings", {}).get("bytesize", 8)))
         self.comboBox_stopbits.setCurrentText(str(self.channel_conf.get("settings", {}).get("stopbits", 1)))
         self.comboBox_parity.setCurrentText(self.channel_conf.get("settings", {}).get("parity", "None"))
-        self.comboBox_store.setCurrentText(self.channel_conf.get("store", "是"))
-
+        self.comboBox_store.setCurrentText("是" if self.channel_conf.get("store", True) else "否")
 
     def init_protocol_selectors(self):
-        """初始化协议选择控件与协议信息区"""
-        TorR = self.channel_conf.get("TorR", "")
-        
+        if self.TorR == "Tx":
+            self.tabWidget.removeTab(1)
+        elif self.TorR == "Rx":
+            self.tabWidget.removeTab(0)
+
         self.comboBox_tx.addItems(self.protocol_list)
-        self.comboBox_tx.setCurrentText(self.channel_conf["protocol"].get("Tx", ""))
+        self.comboBox_tx.setCurrentText(self.channel_conf.get("protocol", {}).get("Tx", ""))
+        self.on_protocol_changed(self.comboBox_tx.currentText(), "Tx")
         self.comboBox_tx.currentTextChanged.connect(lambda txt: self.on_protocol_changed(txt, "Tx"))
-        #self.on_protocol_changed(self.comboBox_tx.currentText(), "Tx")
-
+        
         self.comboBox_rx.addItems(self.protocol_list)
-        self.comboBox_rx.setCurrentText(self.channel_conf["protocol"].get("Rx", ""))
+        self.comboBox_rx.setCurrentText(self.channel_conf.get("protocol", {}).get("Rx", ""))
+        self.on_protocol_changed(self.comboBox_rx.currentText(), "Rx")
         self.comboBox_rx.currentTextChanged.connect(lambda txt: self.on_protocol_changed(txt, "Rx"))
-        #self.on_protocol_changed(self.comboBox_rx.currentText(), "Rx")
-
-        if TorR=="Tx":
-            self.tabWidget.setTabEnabled(1, False)
-        elif TorR=="Rx":
-            self.tabWidget.setTabEnabled(0, False)
-
-
-
+        
 
     def on_protocol_changed(self, protocol_name, direction=None):
-        """切换协议显示（只读）"""
-        if direction:
-            # 双向通道
-            if not isinstance(self.selected_protocol, dict):
-                self.selected_protocol = {"Tx": "", "Rx": ""}
-            self.selected_protocol[direction] = protocol_name
-            form = self.tx_proto_form if direction == "Tx" else self.rx_proto_form
-        else:
-            # 单向通道
-            self.selected_protocol = protocol_name
-            form = self.proto_form
-
+        self.selected_protocol[direction] = protocol_name
         proto = protocol_config.get(protocol_name, {})
-        # 清空旧内容
-        while form.rowCount():
-            form.removeRow(0)
-        # 填入新内容
-        form.addRow("协议名称:", QLabel(protocol_name))
-        form.addRow("数据长度:", QLabel(str(proto.get("length", "-"))))
-        form.addRow("版本:", QLabel(proto.get("version", "-")))
-        form.addRow("描述:", QLabel(proto.get("desc", "-")))
-
+        if direction == "Tx":
+            self.label_tx_length.setText(str(proto.get("length", "-")))
+            self.label_tx_version.setText(proto.get("version", "-"))
+            self.label_tx_desc.setText(proto.get("desc", "-"))
+        elif direction == "Rx":
+            self.label_rx_length.setText(str(proto.get("length", "-")))
+            self.label_rx_version.setText(proto.get("version", "-"))
+            self.label_rx_desc.setText(proto.get("desc", "-"))
+       
     def on_accept(self):
-        """保存修改到 channel_config"""
         if self.channel_id not in channel_config:
             return
-
-        # 更新基础信息
-        channel_config[self.channel_id]["freq"] = self.spin_freq.value()
-        channel_config[self.channel_id]["store"] = self.combo_store.currentText()
-        channel_config[self.channel_id]["settings"] = {
-            "baudrate": self.spin_baud.value(),
-            "bytesize": self.spin_bytesize.value(),
-            "stopbits": self.spin_stopbits.value(),
-            "parity": self.combo_parity.currentText()
+        
+        self.channel_conf["freq"]=self.spinBox_freq.value()
+        self.channel_conf["store"]=self.comboBox_store.currentText()=="是"
+        self.channel_conf["settings"] = {
+            "baudrate": self.comboBox_baudrate.currentText(),
+            "bytesize": self.comboBox_databits.currentText(),
+            "stopbits": self.comboBox_stopbits.currentText(),
+            "parity": self.comboBox_parity.currentText()
         }
-        channel_config[self.channel_id]["protocol"] = self.selected_protocol.copy()
+
+        if self.TorR == "Tx":
+            self.channel_conf["protocol"] = {"Tx": self.selected_protocol.get("Tx", "")}
+        elif self.TorR == "Rx":
+            self.channel_conf["protocol"] = {"Rx": self.selected_protocol.get("Rx", "")}
+        else:
+            self.channel_conf["protocol"] = {
+                "Tx": self.selected_protocol.get("Tx", ""),
+                "Rx": self.selected_protocol.get("Rx", "")
+            }
+
+        channel_config[self.channel_id]=self.channel_conf
+
         save_channel_config()
         self.accept()
 
     def get_selected_protocol(self):
-        """返回用户选择的协议"""
-        return self.selected_protocol
-    
-
+        return self.channel_conf["protocol"]
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    form = ChannelConfigDialog(channel_id="1")
+    form = ChannelConfigDialog(channel_id="0")
     form.show()
     sys.exit(app.exec_())
