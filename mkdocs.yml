@@ -15,9 +15,11 @@ theme:
       toggle:
         icon: material/brightness-4
         name: 切换到浅色模式
-  favicon: ICON/fill-shit-ac.svg
-  logo: ICON/fill-shit-ac.svg
+  favicon: assets/icon/fill-shit-ac.svg
+  logo: assets/icon/fill-shit-ac.svg
   icon:
+    tag:
+      python: fontawesome/brands/python
     previous: fontawesome/solid/angle-left
     next: fontawesome/solid/angle-right
   features: 
@@ -35,7 +37,8 @@ copyright: Copyright &copy; 2025
 
 plugins:
   - search
-  - tags
+  - tags:
+      shadow: true
   - mkdocstrings:
       handlers:
         python:
@@ -45,7 +48,9 @@ plugins:
             show_root_heading: true
             show_signature: true
             separate_signature: false
-
+extra:
+  tags:
+    Python: python
   
 markdown_extensions:
   - admonition
