@@ -1,14 +1,16 @@
 import threading, time, random, queue, json
 from datetime import datetime
 from abc import ABC, abstractmethod
+from ..config import protocol_config
 
 class RS422ProducerBase(ABC):
     """RS422 数据生产者抽象基类（一个方向：Tx 或 Rx）"""
-    def __init__(self, ch_id: str, q: queue.Queue, tor: str, freq: float):
+    def __init__(self, ch_id: str, q: queue.Queue, tor: str, freq: float,protocol:dict):
         self.ch_id = ch_id
         self.queue = q
         self.tor = tor  # "Tx" 或 "Rx"
         self.period = 1.0 / freq
+        self.protocol=protocol
         self._stop_event = threading.Event()
         self.thread = None
 
@@ -39,7 +41,10 @@ class RS422SimProducer(RS422ProducerBase):
         return " ".join(f"{b:02X}" for b in data)
 
     def _loop(self):
-        frame_len = 64 if self.tor.lower() == "tx" else 128
+        protocol_name=self.protocol[self.tor]
+        protocol=protocol_config[protocol_name]
+        frame_len=protocol['length']
+
         while not self._stop_event.is_set():
             ts = self._now_str()
             frame = self._rand_frame(frame_len)
@@ -59,6 +64,7 @@ class RS422RealProducer(RS422ProducerBase):
         # self.dev = open_device(settings) # 实际硬件初始化
 
     def _loop(self):
+        """"模拟数据读取，需替换为实际数据读取逻辑"""
         data = bytes([0xAA]*8) if self.tor.lower()=="tx" else bytes([0x55]*8)
         while not self._stop_event.is_set():
             ts = datetime.now().strftime("%H:%M:%S.%f")[:-3]
@@ -89,22 +95,23 @@ class RS422Manager:
 
             tor_cfg = cfg["TorR"]
             freq = cfg["freq"]
-
+            protocol=cfg['protocol']
+            
             # 如果是单方向
             if tor_cfg in ("Tx", "Rx"):
                 if self.use_sim:
-                    p = ProducerClass(ch_id, q, tor_cfg, freq)
+                    p = ProducerClass(ch_id, q, tor_cfg, freq,protocol)
                 else:
-                    p = ProducerClass(ch_id, q, tor_cfg, freq, cfg["settings"])
+                    p = ProducerClass(ch_id, q, tor_cfg, freq, cfg["settings"],protocol)
                 self.producers[ch_id].append(p)
 
             # 如果是双向（Tx/Rx）
             elif tor_cfg == "Tx/Rx":
                 for tor in ("Tx", "Rx"):
                     if self.use_sim:
-                        p = ProducerClass(ch_id, q, tor, freq)
+                        p = ProducerClass(ch_id, q, tor, freq,protocol)
                     else:
-                        p = ProducerClass(ch_id, q, tor, freq, cfg["settings"])
+                        p = ProducerClass(ch_id, q, tor, freq, cfg["settings"],protocol)
                     self.producers[ch_id].append(p)
             else:
                 raise ValueError(f"Invalid TorR: {tor_cfg}")

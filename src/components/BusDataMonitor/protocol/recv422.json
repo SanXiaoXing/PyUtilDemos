@@ -1,6 +1,5 @@
 {
     "protocol_name": "recv422",
-    "channel": 1,
     "protocol_length": 128,
     "version": "1.1",
     "description": "RS422接收数据通讯协议",
@@ -38,11 +37,11 @@
             "description": "nan"
         },
         {
-            "name": "数据包标识",
+            "name": "Spare",
             "byte_offset": 4,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
@@ -50,2256 +49,672 @@
             "byte_offset": 5,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
-            "name": "系统工作模式反馈",
+            "name": "Spare",
             "byte_offset": 6,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
-            "name": "控制器工作模式反馈",
+            "name": "Spare",
             "byte_offset": 7,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
-            "name": "辅助动力电子控制器接收RIU1C数据故障",
+            "name": "Spare",
             "byte_offset": 8,
             "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力电子控制器接收RIU2B数据故障",
-            "byte_offset": 8,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力电子控制器接收数据失败",
-            "byte_offset": 8,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
+            "bit_length": 8,
+            "type": "uint",
             "description": "nan"
         },
         {
             "name": "Spare",
-            "byte_offset": 8,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "Spare",
-            "byte_offset": 8,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力电子控制器外部供电故障",
-            "byte_offset": 8,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力电子控制器严重故障",
-            "byte_offset": 8,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力电子控制器一般故障",
-            "byte_offset": 8,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "平台软件版本",
             "byte_offset": 9,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
-            "name": "在线加载软件版本",
+            "name": "Spare",
             "byte_offset": 10,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU双转速传感器故障",
-            "byte_offset": 11,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU转速传感器1故障",
-            "byte_offset": 11,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU转速传感器2故障",
-            "byte_offset": 11,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU双排气温度传感器故障",
-            "byte_offset": 11,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU排气温度传感器1故障",
-            "byte_offset": 11,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU排气温度传感器2故障",
-            "byte_offset": 11,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APSC收不到燃油滑油电机数据故障",
-            "byte_offset": 11,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油滑油电机收不到APSC数据故障",
-            "byte_offset": 11,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU冷端补偿传感器故障",
-            "byte_offset": 12,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU燃油压力传感器故障",
-            "byte_offset": 12,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU点火器故障",
-            "byte_offset": 12,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU燃油电磁阀故障",
-            "byte_offset": 12,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油泵电机故障",
-            "byte_offset": 12,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "ATS电机收不到APSC数据故障",
-            "byte_offset": 12,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU进口温度传感器故障",
-            "byte_offset": 12,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU防喘阀故障",
-            "byte_offset": 12,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油压力传感器故障",
-            "byte_offset": 13,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU排气超温",
-            "byte_offset": 13,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU转速过高",
-            "byte_offset": 13,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU转速过低",
-            "byte_offset": 13,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU加速失败",
-            "byte_offset": 13,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU点火故障",
-            "byte_offset": 13,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU起动故障",
-            "byte_offset": 13,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU停车故障",
-            "byte_offset": 13,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU起动燃油电磁阀故障",
-            "byte_offset": 14,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU进口压力传感器故障",
-            "byte_offset": 14,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力滑油压力低",
-            "byte_offset": 14,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "冷端补偿温度过高",
-            "byte_offset": 14,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力滑油温度高",
-            "byte_offset": 14,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油油量传感器故障",
-            "byte_offset": 14,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "齿轮箱滑油油量高",
-            "byte_offset": 14,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "齿轮箱滑油油量低",
-            "byte_offset": 14,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU齿轮箱滑油压力传感器故障",
-            "byte_offset": 15,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "齿轮箱滑油温度传感器故障",
-            "byte_offset": 15,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "机匣滑油温度传感器故障",
-            "byte_offset": 15,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 15,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "齿轮箱振动传感器故障",
-            "byte_offset": 15,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "齿轮箱振动过大",
-            "byte_offset": 15,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 15,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU可加载输出回绕故障",
-            "byte_offset": 15,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "除油电磁阀故障",
-            "byte_offset": 16,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油压力高故障",
-            "byte_offset": 16,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "齿轮箱油池滑油温度高故障",
-            "byte_offset": 16,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油油位传感器油量低故障",
-            "byte_offset": 16,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油油位传感器油量高故障",
-            "byte_offset": 16,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APSC收不到ATS电机数据故障",
-            "byte_offset": 16,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动燃油排泄阀故障",
-            "byte_offset": 16,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油加热器故障",
-            "byte_offset": 16,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU转速超限",
-            "byte_offset": 17,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS转速过高",
-            "byte_offset": 17,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS转速过高",
-            "byte_offset": 17,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 17,
-            "bit_offset": 3,
-            "bit_length": 5,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门电机驱动电流过大故障",
-            "byte_offset": 18,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "系统模式识别异常",
-            "byte_offset": 18,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 18,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门电机驱动电流过大故障",
-            "byte_offset": 18,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门电机驱动电流过小故障",
-            "byte_offset": 18,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机故障",
-            "byte_offset": 18,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门电机驱动电流过小故障",
-            "byte_offset": 18,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "电机外部供电故障",
-            "byte_offset": 18,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力工作状态",
-            "byte_offset": 19,
-            "bit_offset": 0,
-            "bit_length": 4,
-            "type": "nan",
-            "description": "注：bit0为低位"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 19,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU起动电机故障",
-            "byte_offset": 19,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS电机RVDT传感器故障",
-            "byte_offset": 19,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS电机RVDT传感器故障",
-            "byte_offset": 19,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS转速传感器故障",
-            "byte_offset": 20,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS电机故障",
-            "byte_offset": 20,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS起动故障",
-            "byte_offset": 20,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS转速超转故障",
-            "byte_offset": 20,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS转速传感器故障",
-            "byte_offset": 20,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS电机故障",
-            "byte_offset": 20,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS起动故障",
-            "byte_offset": 20,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS转速超转故障",
-            "byte_offset": 20,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APU开关状态（APSC反馈）",
-            "byte_offset": 21,
-            "bit_offset": 0,
-            "bit_length": 2,
-            "type": "nan",
-            "description": "注：bit0为低位"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 21,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 21,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门无法打开",
-            "byte_offset": 21,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门无法打开",
-            "byte_offset": 21,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门无法关闭",
-            "byte_offset": 21,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门无法关闭",
-            "byte_offset": 21,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门RVDT传感器故障",
-            "byte_offset": 22,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 22,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门RVDT传感器故障",
-            "byte_offset": 22,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 22,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门位置超范围故障",
-            "byte_offset": 22,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门位置超范围故障",
-            "byte_offset": 22,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门标定失败",
-            "byte_offset": 22,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门标定失败",
-            "byte_offset": 22,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "注意辅助动力开关状态",
-            "byte_offset": 23,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 23,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 23,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "GMP辅助动力开关设置错误故障",
-            "byte_offset": 23,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 23,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 23,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 23,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU燃油压力过高故障",
-            "byte_offset": 23,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "地面起动APGU保护性停车",
-            "byte_offset": 24,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 24,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS保护性停车",
-            "byte_offset": 24,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS保护性停车",
-            "byte_offset": 24,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU空中保护性停车",
-            "byte_offset": 24,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 24,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 24,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 24,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "上电自检通过",
-            "byte_offset": 25,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU起动中",
-            "byte_offset": 25,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU运行",
-            "byte_offset": 25,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU冷运转中",
-            "byte_offset": 25,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU假起动中",
-            "byte_offset": 25,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "50％磨合运行中",
-            "byte_offset": 25,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "70％磨合运行中",
-            "byte_offset": 25,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "85％磨合运行中",
-            "byte_offset": 25,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进排气门正在打开中",
-            "byte_offset": 26,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进排气门正在维护中",
-            "byte_offset": 26,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机维护测试中",
-            "byte_offset": 26,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机维护测试中",
-            "byte_offset": 26,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油泵电机维护测试中",
-            "byte_offset": 26,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU停车中",
-            "byte_offset": 26,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS维护中",
-            "byte_offset": 26,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS维护中",
-            "byte_offset": 26,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "电机维护中",
-            "byte_offset": 27,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机起动命令",
-            "byte_offset": 27,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助发电机可加载",
-            "byte_offset": 27,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机命令反馈",
-            "byte_offset": 27,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进排气门关闭中",
-            "byte_offset": 27,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "停止系统维护中",
-            "byte_offset": 27,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU超出工作包线",
-            "byte_offset": 27,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU超出工作姿态",
-            "byte_offset": 27,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU点火器打开",
-            "byte_offset": 28,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU燃油电磁阀打开",
-            "byte_offset": 28,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU电动燃油泵使能",
-            "byte_offset": 28,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机控制命令1 ",
-            "byte_offset": 28,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU防喘阀打开",
-            "byte_offset": 28,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU除油电磁阀打开",
-            "byte_offset": 28,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU起动燃油电磁阀打开",
-            "byte_offset": 28,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU起动燃油排泄阀打开",
-            "byte_offset": 28,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机控制命令1 反馈",
-            "byte_offset": 29,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS伺服引气阀打开",
-            "byte_offset": 29,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油加热器打开",
-            "byte_offset": 29,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机控制命令 2",
-            "byte_offset": 29,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油泵电机起动命令",
-            "byte_offset": 29,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机继电器维护",
-            "byte_offset": 29,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机控制命令 2反馈",
-            "byte_offset": 29,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油泵电机起动命令反馈",
-            "byte_offset": 29,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力开关处于自动",
-            "byte_offset": 30,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力开关处于手动",
-            "byte_offset": 30,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力开关处于关",
-            "byte_offset": 30,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油电机控制模式",
-            "byte_offset": 30,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油电机控制模式",
-            "byte_offset": 30,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS引气控制阀电机控制模式",
-            "byte_offset": 30,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS引气控制阀电机控制模式",
-            "byte_offset": 30,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门电机控制",
-            "byte_offset": 30,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门电机控制",
-            "byte_offset": 31,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门未标定",
-            "byte_offset": 31,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门未标定",
-            "byte_offset": 31,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门未到关门位置",
-            "byte_offset": 31,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门未到关门位置",
-            "byte_offset": 31,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "维护测试中",
-            "byte_offset": 31,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU转速提升工作模式",
-            "byte_offset": 31,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS伺服引气阀打开",
-            "byte_offset": 31,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力开关-手动（硬线反馈）",
-            "byte_offset": 32,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力开关-关（硬线反馈）",
-            "byte_offset": 32,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力维护开关-地面气源",
-            "byte_offset": 32,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力维护开关-强制关闭",
-            "byte_offset": 32,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "打开左ATS伺服引气阀（总线反馈）",
-            "byte_offset": 32,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC码包标识",
-            "byte_offset": 32,
-            "bit_offset": 5,
-            "bit_length": 2,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "系统信息维护命令",
-            "byte_offset": 32,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力自动起动（总线反馈）",
-            "byte_offset": 33,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力自动停车（总线反馈）",
-            "byte_offset": 33,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "打开右ATS伺服引气阀（总线反馈）",
-            "byte_offset": 33,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力手动起动（总线）",
-            "byte_offset": 33,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "辅助动力手动停车（总线）",
-            "byte_offset": 33,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "GMP起动APGU（总线反馈）",
-            "byte_offset": 33,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "GMP停转APGU（总线反馈）",
-            "byte_offset": 33,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU冷运转（总线反馈）",
-            "byte_offset": 33,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU假起动（总线反馈）",
-            "byte_offset": 34,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "打开进排气门（总线反馈）",
-            "byte_offset": 34,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "关闭进排气门（总线反馈）",
-            "byte_offset": 34,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "50％磨合",
-            "byte_offset": 34,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "70％磨合",
-            "byte_offset": 34,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "85％磨合",
-            "byte_offset": 34,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机维护BIT（总线反馈）",
-            "byte_offset": 34,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "停止系统维护（总线反馈）",
-            "byte_offset": 34,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "收到进/排气装置维护命令",
-            "byte_offset": 35,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "收到系统维护BIT命令",
-            "byte_offset": 35,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU机位识别",
-            "byte_offset": 35,
-            "bit_offset": 2,
-            "bit_length": 3,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油泵电机维护BIT（总线反馈）",
-            "byte_offset": 35,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机维护BIT（总线反馈）",
-            "byte_offset": 35,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS电机维护BIT（总线反馈）",
-            "byte_offset": 35,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "总线-地面",
-            "byte_offset": 36,
-            "bit_offset": 0,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "硬线-地面",
-            "byte_offset": 36,
-            "bit_offset": 1,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS电机维护BIT（总线反馈）",
-            "byte_offset": 36,
-            "bit_offset": 2,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "电源系统请求起动辅助动力（反馈）",
-            "byte_offset": 36,
-            "bit_offset": 3,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "转速提升命令",
-            "byte_offset": 36,
-            "bit_offset": 4,
-            "bit_length": 1,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
             "name": "Spare",
-            "byte_offset": 36,
-            "bit_offset": 5,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "Spare",
-            "byte_offset": 36,
-            "bit_offset": 6,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "Spare",
-            "byte_offset": 36,
-            "bit_offset": 7,
-            "bit_length": 1,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "控制供电电源电压",
-            "byte_offset": 37,
+            "byte_offset": 11,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
-            "name": "功率输出用电电流",
+            "name": "Spare",
+            "byte_offset": 12,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 13,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 14,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 15,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "APSC运行命令字1",
+            "byte_offset": 16,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "0x00": "无命令",
+                "0x01": "辅助动力自动起动命令标识",
+                "0x02": "辅助动力自动停车命令标识",
+                "0x03": "打开左ATS伺服引气阀命令标识",
+                "0x04": "打开右ATS伺服引气阀命令标识",
+                "0x05": "维护指令起动APGU命令标识",
+                "0x06": "维护指令停转APGU命令标识",
+                "0x07": "APGU冷运转命令标识",
+                "0x08": "APGU假起动命令标识",
+                "0x09": "停止系统维护命令标识",
+                "0x0A": "打开进排气门命令标识",
+                "0x0B": "关闭进排气门命令标识",
+                "0x0C": "进气门零位标定命令标识",
+                "0x0D": "排气门零位标定命令标识",
+                "0x0E": "进气门打开1°命令标识",
+                "0x0F": "排气门打开1°命令标识",
+                "0x10": "进气门关闭1°命令标识",
+                "0x11": "排气门关闭1°命令标识",
+                "0x12": "维护指令清除故障命令标识",
+                "0x13": "APSC维护BIT命令标识",
+                "0x14": "APGU点火器维护BIT命令标识",
+                "0x15": "起动电机维护BIT命令标识",
+                "0x16": "燃油泵电机维护BIT命令标识",
+                "0x17": "滑油泵电机维护BIT命令标识",
+                "0x18": "左ATS电机维护BIT命令标识",
+                "0x19": "右ATS电机维护BIT命令标识"
+            }
+        },
+        {
+            "name": "辅助动力开关命令字",
+            "byte_offset": 17,
+            "bit_offset": 0,
+            "bit_length": 2,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "00": "初始上电状态",
+                "01": "辅助动力开关-手动（VMC）",
+                "10": "辅助动力开关-自动（VMC）",
+                "11": "辅助动力开关-关（VMC）"
+            }
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 17,
+            "bit_offset": 2,
+            "bit_length": 6,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "设置附加数据字1",
+            "byte_offset": 18,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "设置附加数据字2",
+            "byte_offset": 19,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "设置附加数据字3",
+            "byte_offset": 20,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "设置附加数据字4",
+            "byte_offset": 21,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "设置附加数据字5",
+            "byte_offset": 22,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "辅助动力电子控制器发送RIU1C数据故障",
+            "byte_offset": 23,
+            "bit_offset": 0,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "故障",
+                "0": "正常"
+            }
+        },
+        {
+            "name": "辅助动力电子控制器发送RIU2B数据故障",
+            "byte_offset": 23,
+            "bit_offset": 1,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "故障",
+                "0": "正常"
+            }
+        },
+        {
+            "name": "辅助动力电子控制器发送数据失败",
+            "byte_offset": 23,
+            "bit_offset": 2,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "故障",
+                "0": "正常"
+            }
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 23,
+            "bit_offset": 3,
+            "bit_length": 5,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "左发压气机相对物理转速有效",
+            "byte_offset": 24,
+            "bit_offset": 0,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "右发压气机相对物理转速有效",
+            "byte_offset": 24,
+            "bit_offset": 1,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "气压高度数据有效",
+            "byte_offset": 24,
+            "bit_offset": 2,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "马赫数数据有效",
+            "byte_offset": 24,
+            "bit_offset": 3,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "校准空速数据有效",
+            "byte_offset": 24,
+            "bit_offset": 4,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "俯仰角数据有效",
+            "byte_offset": 24,
+            "bit_offset": 5,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "横滚角数据有效",
+            "byte_offset": 24,
+            "bit_offset": 6,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "日历数据有效",
+            "byte_offset": 24,
+            "bit_offset": 7,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "左供油管温度有效",
+            "byte_offset": 25,
+            "bit_offset": 0,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 25,
+            "bit_offset": 1,
+            "bit_length": 1,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 25,
+            "bit_offset": 2,
+            "bit_length": 1,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "大气总温有效",
+            "byte_offset": 25,
+            "bit_offset": 3,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 25,
+            "bit_offset": 4,
+            "bit_length": 4,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "空地状态",
+            "byte_offset": 26,
+            "bit_offset": 0,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "地面",
+                "0": "空中"
+            }
+        },
+        {
+            "name": "左发假起动",
+            "byte_offset": 26,
+            "bit_offset": 1,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "右发假起动",
+            "byte_offset": 26,
+            "bit_offset": 2,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "电源系统请求起动辅助动力（指令）",
+            "byte_offset": 26,
+            "bit_offset": 3,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 26,
+            "bit_offset": 4,
+            "bit_length": 2,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "左发冷运转",
+            "byte_offset": 26,
+            "bit_offset": 6,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "右发冷运转",
+            "byte_offset": 26,
+            "bit_offset": 7,
+            "bit_length": 1,
+            "type": "enum",
+            "description": "nan",
+            "map": {
+                "1": "有效",
+                "0": "无效"
+            }
+        },
+        {
+            "name": "APGU工作模式",
+            "byte_offset": 27,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "左发压气机相对物理转速",
+            "byte_offset": 28,
+            "bit_offset": 0,
+            "bit_length": 16,
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
+        },
+        {
+            "name": "右发压气机相对物理转速",
+            "byte_offset": 30,
+            "bit_offset": 0,
+            "bit_length": 16,
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
+        },
+        {
+            "name": "气压高度",
+            "byte_offset": 32,
+            "bit_offset": 0,
+            "bit_length": 16,
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
+        },
+        {
+            "name": "马赫数",
+            "byte_offset": 34,
+            "bit_offset": 0,
+            "bit_length": 16,
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
+        },
+        {
+            "name": "校准空速",
+            "byte_offset": 36,
+            "bit_offset": 0,
+            "bit_length": 16,
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
+        },
+        {
+            "name": "俯仰角",
             "byte_offset": 38,
             "bit_offset": 0,
             "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
         },
         {
-            "name": "APGU转速",
+            "name": "横滚角",
             "byte_offset": 40,
             "bit_offset": 0,
             "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
         },
         {
-            "name": "APGU进口温度",
+            "name": "大气总温",
             "byte_offset": 42,
             "bit_offset": 0,
             "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
         },
         {
-            "name": "APGU进口压力",
+            "name": "日",
             "byte_offset": 44,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
-            "name": "冷端补偿温度",
+            "name": "月",
             "byte_offset": 45,
             "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油压力",
-            "byte_offset": 47,
-            "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
-            "name": "燃滑油ATS电机供电电源电压",
+            "name": "年",
+            "byte_offset": 46,
+            "bit_offset": 0,
+            "bit_length": 16,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "时/分/秒",
             "byte_offset": 48,
             "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
+            "bit_length": 32,
+            "type": "uint",
             "description": "nan"
         },
         {
-            "name": "APGU排气温度",
-            "byte_offset": 49,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油油位",
-            "byte_offset": 51,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机母线电流",
+            "name": "左供油管温度",
             "byte_offset": 52,
             "bit_offset": 0,
             "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS电机供电电流",
-            "byte_offset": 54,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油压力",
-            "byte_offset": 56,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油温度",
-            "byte_offset": 58,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油泵电机命令转速",
-            "byte_offset": 60,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油泵电机实际转速",
-            "byte_offset": 62,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机命令转速",
-            "byte_offset": 64,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机实际转速",
-            "byte_offset": 66,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "燃油泵电机母线电流",
-            "byte_offset": 68,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "APGU振动",
-            "byte_offset": 70,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS转速",
-            "byte_offset": 71,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 72,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS转速",
-            "byte_offset": 73,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "spare",
-            "byte_offset": 74,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门控制脉宽",
-            "byte_offset": 75,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门控制脉宽",
-            "byte_offset": 76,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门实际位置",
-            "byte_offset": 77,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门实际位置",
-            "byte_offset": 78,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门百分比位置",
-            "byte_offset": 79,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门百分比位置",
-            "byte_offset": 80,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "进气门电流",
-            "byte_offset": 81,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "滑油泵电机温度",
-            "byte_offset": 83,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "排气门电流",
-            "byte_offset": 84,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "DFX-5控制软件版本",
-            "byte_offset": 86,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "DFD-24B控制软件版本",
-            "byte_offset": 87,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "应用支持软件版本",
-            "byte_offset": 88,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS命令位置",
-            "byte_offset": 89,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS伺服引气阀位置反馈",
-            "byte_offset": 90,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS命令位置",
-            "byte_offset": 91,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "右ATS伺服引气阀位置反馈",
-            "byte_offset": 92,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "左ATS电机供电电流",
-            "byte_offset": 93,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机供电电源电流",
-            "byte_offset": 95,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "引气压力",
-            "byte_offset": 96,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "起动电机供电电源电压",
-            "byte_offset": 98,
-            "bit_offset": 0,
-            "bit_length": 16,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 100,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 101,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 102,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 103,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 104,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 105,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 106,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 107,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 108,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 109,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 110,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 111,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 112,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 113,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 114,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 115,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 116,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 117,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 118,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 119,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 120,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 121,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 122,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 123,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "HMC备份",
-            "byte_offset": 124,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
-        },
-        {
-            "name": "数据确认字",
-            "byte_offset": 125,
-            "bit_offset": 0,
-            "bit_length": 8,
-            "type": "nan",
-            "description": "nan"
+            "type": "fixed",
+            "description": "nan",
+            "scale": 1.0,
+            "offset": 0.0
         },
         {
             "name": "校验和1",
-            "byte_offset": 126,
+            "byte_offset": 54,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
         },
         {
             "name": "校验和2",
-            "byte_offset": 127,
+            "byte_offset": 55,
             "bit_offset": 0,
             "bit_length": 8,
-            "type": "nan",
+            "type": "uint",
             "description": "nan"
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 56,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 57,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 58,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "Spare",
+            "byte_offset": 59,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "STOF包状态字-系统模式和状态字1",
+            "byte_offset": 60,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "STOF包状态字-系统模式和状态字2",
+            "byte_offset": 61,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "校验和1",
+            "byte_offset": 62,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "校验和2",
+            "byte_offset": 63,
+            "bit_offset": 0,
+            "bit_length": 8,
+            "type": "uint",
+            "description": "nan"
+        },
+        {
+            "name": "nan",
+            "byte_offset": 0,
+            "bit_offset": 0,
+            "bit_length": 0,
+            "type": "nan",
+            "description": ""
         }
     ]
 }

@@ -19,6 +19,9 @@ class BusDataParser:
     def _extract_bits(data_bytes: bytes, start_bit: int, length: int) -> int:
         """
         从字节流中提取指定bit字段（高位优先）
+        :param data_bytes: 原始字节流
+        :param start_bit: 起始bit位置（0表示第1位，按bit顺序递增）
+        :param length: 提取的bit长度
         """
         total_bits = len(data_bytes) * 8
         if start_bit + length > total_bits:
@@ -46,29 +49,30 @@ class BusDataParser:
 
         result = {}
         for field in self.protocol["fields"]:
-            raw_value = self._extract_bits(
-                data_bytes,
-                field["byte_offset"],
-                field["bit_length"]
-            )
+            # 计算字段起始 bit
+            start_bit = field["byte_offset"] * 8 + field.get("bit_offset", 0)
+            bit_length = field["bit_length"]
+
+            # 提取原始值
+            raw_value = self._extract_bits(data_bytes, start_bit, bit_length)
 
             ftype = field["type"]
             if ftype == "uint":
                 value = raw_value
             elif ftype == "int":
-                # 将值扩展为有符号数
-                sign_bit = 1 << (field["length"] - 1)
+                # 有符号数补码转换
+                sign_bit = 1 << (bit_length - 1)
                 if raw_value & sign_bit:
-                    # 负数补码转换
-                    raw_value -= (1 << field["length"])
-                scale = field.get("scale", 1)
-                offset = field.get("offset", 0)
+                    raw_value -= (1 << bit_length)
+                scale = float(field.get("scale", 1.0))
+                offset = float(field.get("offset", 0.0))
                 value = raw_value * scale + offset
             elif ftype == "enum":
-                value = field["values"].get(str(raw_value), f"UNKNOWN({raw_value})")
+                enum_map = field.get("map", {})
+                value = enum_map.get(str(raw_value), f"UNKNOWN({raw_value})")
             elif ftype == "fixed":
-                scale = field.get("scale", 1)
-                offset = field.get("offset", 0)
+                scale = float(field.get("scale", 1.0))
+                offset = float(field.get("offset", 0.0))
                 value = raw_value * scale + offset
             else:
                 raise ValueError(f"未知字段类型: {ftype}")
