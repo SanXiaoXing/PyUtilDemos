@@ -11,7 +11,7 @@ from src.components.BusDataMonitor.monitor.busdata_producer import RS422Manager
 from src.components.BusDataMonitor.monitor.dock_monitor import DataMonitor
 from src.components.BusDataMonitor.monitor.dock_parser import DockParser
 from src.components.BusDataMonitor.config import channel_config
-from assets import ICON_TABLE
+from assets import ICON_TABLE,ICON_SITEMAP
 
 DEFAULT_MAX_ROWS = 500
 MAX_ALLOWED_ROWS = 200000
@@ -58,7 +58,7 @@ class BusDataMonitorForm(QMainWindow):
         """遍历 manager.producers，为每个通道动态添加按钮"""
         for ch_id, producers in self.manager.producers.items():
             # 创建一个按钮：标题为通道ID
-            act = QAction(f"通道 {ch_id}", self)
+            act = QAction(QIcon(ICON_SITEMAP),f"通道 {ch_id}", self)
             act.triggered.connect(lambda _, cid=ch_id: self.show_channel_monitor(cid))
             self.toolBar.addAction(act)
 
