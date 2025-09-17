@@ -5,7 +5,72 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cff38d21-8cfe-4d65-8cd2-41d38b5eb4dc" name="更改" comment="docs(ISSUE): 更新问题记录并添加标签分类&#10;&#10;- 新增多个问题记录及其解决方案&#10;- 添加标签分类，便于问题归类和查找&#10;- 更新文档结构，增加导航链接&#10;- 优化图片显示，使用适当格式插入图片">
-      <change beforePath="$PROJECT_DIR$/src/components/RTDataPlot/RTdata_plot_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RTDataPlot/RTdata_plot_demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/bulb_statemonitor/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/bulb_statemonitor/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/bus_data_monitor/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/bus_data_monitor/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/calib_tool/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/calib_tool/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/custom_widgets/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/custom_widgets/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/data_replay/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/data_replay/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/log_viewer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/log_viewer/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/net_manager/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/net_manager/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/resource_query/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/resource_query/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/rt_data_plot/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/rt_data_plot/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/xml_editor/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/API/xml_editor/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISSUE/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ISSUE/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/about/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/about/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/_mkdocstrings.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/_mkdocstrings.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icon/fill-shit-ac.svg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icon/fill-shit-ac.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/images/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/favicon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/SanXiaoXing_2025-09-02_13-33-08.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/SanXiaoXing_2025-09-02_13-33-08.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/SanXiaoXing_2025-09-02_13-33-58.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/SanXiaoXing_2025-09-02_13-33-58.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/socket_check.svg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/socket_check.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/socket_connect.svg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/socket_connect.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/bundle.92b07e13.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/bundle.92b07e13.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/bundle.92b07e13.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/bundle.92b07e13.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ar.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ar.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.da.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.da.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.de.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.de.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.du.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.du.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.el.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.el.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.es.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.es.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.fi.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.fi.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.fr.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.fr.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.he.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.he.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.hi.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.hi.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.hu.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.hu.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.hy.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.hy.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.it.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.it.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ja.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ja.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.jp.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.jp.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.kn.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.kn.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ko.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ko.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.multi.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.multi.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.nl.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.nl.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.no.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.no.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.pt.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.pt.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ro.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ro.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ru.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ru.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.sa.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.sa.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.stemmer.support.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.stemmer.support.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.sv.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.sv.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ta.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.ta.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.te.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.te.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.th.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.th.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.tr.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.tr.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.vi.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.vi.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.zh.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/lunr/min/lunr.zh.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/workers/search.973d3a69.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/workers/search.973d3a69.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/javascripts/workers/search.973d3a69.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/javascripts/workers/search.973d3a69.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/stylesheets/main.7e37652d.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/stylesheets/main.7e37652d.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/stylesheets/main.7e37652d.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/stylesheets/main.7e37652d.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/stylesheets/palette.06af60db.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/stylesheets/palette.06af60db.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/stylesheets/palette.06af60db.min.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/assets/stylesheets/palette.06af60db.min.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/search/search_index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/sitemap.xml.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tags_category/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tags_category/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,8 +134,8 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/SanXiaoXing/Desktop/Code/py-util-demos/docs",
+    "git-widget-placeholder": "gh-pages",
+    "last_opened_file_path": "C:/Users/SanXiaoXing/Desktop/Code/py-util-demos",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

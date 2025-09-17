@@ -1,0 +1,3634 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="基于 Python 与 PyQt5 的实用工具集合">
+      
+      
+      
+      
+        <link rel="prev" href="../API/xml_editor/">
+      
+      
+        <link rel="next" href="../ISSUE/">
+      
+      
+      <link rel="icon" href="../assets/icon/fill-shit-ac.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>CHANGELOG - 正经工具箱</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+  
+  
+    
+      
+      
+        
+      
+      
+    
+  
+  
+  <style>:root{.md-tag.md-tag--python{--md-tag-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20448%20512%22%3E%3C%21--%21%20Font%20Awesome%20Free%207.0.0%20by%20%40fontawesome%20-%20https%3A//fontawesome.com%20License%20-%20https%3A//fontawesome.com/license/free%20%28Icons%3A%20CC%20BY%204.0%2C%20Fonts%3A%20SIL%20OFL%201.1%2C%20Code%3A%20MIT%20License%29%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M439.8%20200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0%2036.8-31.2%2067.8-66.8%2067.8H172.7c-29.2%200-53.4%2025-53.4%2054.3v101.8c0%2029%2025.2%2046%2053.4%2054.3%2033.8%209.9%2066.3%2011.7%20106.8%200%2026.9-7.8%2053.4-23.5%2053.4-54.3v-40.7H226.2v-13.6h160.2c31.1%200%2042.6-21.7%2053.4-54.2%2011.2-33.5%2010.7-65.7%200-108.6M286.2%20444.7a20.4%2020.4%200%201%201%200-40.7%2020.4%2020.4%200%201%201%200%2040.7M167.8%20248.1h106.8c29.7%200%2053.4-24.5%2053.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2%208-53.4%2024.7-53.4%2055.6v40.7h106.9v13.6h-147c-31.1%200-58.3%2018.7-66.8%2054.2-9.8%2040.7-10.2%2066.1%200%20108.6%207.6%2031.6%2025.7%2054.2%2056.8%2054.2H101v-48.8c0-35.3%2030.5-66.4%2066.8-66.4m-6.6-183.4a20.4%2020.4%200%201%201%200%2040.8%2020.4%2020.4%200%201%201%200-40.8%22/%3E%3C/svg%3E');}}</style>
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="正经工具箱" class="md-header__button md-logo" aria-label="正经工具箱" data-md-component="logo">
+      
+  <img src="../assets/icon/fill-shit-ac.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            正经工具箱
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CHANGELOG
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://gitee.com/jjycode/py-util-demos" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Gitee
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../API/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  CHANGELOG
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ISSUE/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  ISSUE
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../tags/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Tags
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../about/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="正经工具箱" class="md-nav__button md-logo" aria-label="正经工具箱" data-md-component="logo">
+      
+  <img src="../assets/icon/fill-shit-ac.svg" alt="logo">
+
+    </a>
+    正经工具箱
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://gitee.com/jjycode/py-util-demos" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Gitee
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../API/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/custom_widgets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    自定义控件集 CustomWidgets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/log_viewer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    日志查看器 LogViewer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/calib_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    校准工具 CalibTool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/rt_data_plot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实时数据绘图 RTDataPlot
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/bulb_statemonitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    灯泡状态监控 BulbStateMonitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/data_replay/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    数据回放 DataReplay
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/resource_query/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    资源索引查询 ResourceQuery
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/bus_data_monitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    总线数据监控 BusDataMonitor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/net_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    网络设备管理 NetManager
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API/xml_editor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Xml编辑器 XmlEditor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    CHANGELOG
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    CHANGELOG
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2025-08-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-08-14
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-08-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-08-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-08-13
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-08-13">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-08-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-08-12
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-08-12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-16" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-16
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refactor_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-09
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-08
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-16_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-16
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-09_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-09
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-08-14_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-08-14
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-08-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-23
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-23">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-22
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-16_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-16
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Styling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-15
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refactor_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-14
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refactor_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-12
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-11
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-11">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miscellaneous-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ Miscellaneous Tasks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-11_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-11
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-11">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-09_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-09
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-08_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-08
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-06
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-06">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_39" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-07_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_40" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-04
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      'docs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-06-27" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-06-27
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-06-27">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_41" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_42" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_43" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-06-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-06-26
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-06-26">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#init" class="md-nav__link">
+    <span class="md-ellipsis">
+      Init
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ISSUE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ISSUE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tags
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2025-08-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-08-14
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-08-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-08-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-08-13
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-08-13">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-08-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-08-12
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-08-12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-16" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-16
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refactor_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#build" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-09
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-08
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-16_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-16
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-09_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-09
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-08-14_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-08-14
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-08-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-23
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-23">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-22
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-16_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-16
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-16">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bug-fixes_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🐛 Bug Fixes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#styling" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎨 Styling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-15
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refactor_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-14
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#refactor_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-12
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-11
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-11">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miscellaneous-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚙️ Miscellaneous Tasks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-11_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-11
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-11">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-10_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-09_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-09
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-08_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-08
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-06
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-06">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_39" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-07_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_40" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-07-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-07-04
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-07-04">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      'docs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-06-27" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-06-27
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-06-27">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features_41" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_42" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features_43" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      ♻️ Refactor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2025-06-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      2025-06-26
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2025-06-26">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#init" class="md-nav__link">
+    <span class="md-ellipsis">
+      Init
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="changelog">Changelog</h1>
+<p>All notable changes to this project will be documented in this file.</p>
+<h2 id="2025-08-14">2025-08-14</h2>
+<h3 id="bug-fixes">🐛 Bug Fixes</h3>
+<ul>
+<li><em>(resourcequery)</em> 更新 ResourceQueryTool.py 中的导入路径 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/696bc61a512f89f0aefc24283e752af148e6be16"><code>696bc61</code></a>)</li>
+</ul>
+<h3 id="refactor">♻️ Refactor</h3>
+<ul>
+<li><em>(resourcequery)</em> 实现列头筛选功能 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/bc6403b3035db03e3da2a4bad72f178283b6d1d2"><code>bc6403b</code></a>)</li>
+</ul>
+<h3 id="refactor_1">♻️ Refactor</h3>
+<ul>
+<li>移除了重复的py by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/3539b7d688d2c77621d379700342241c6e65ee0b"><code>3539b7d</code></a>)</li>
+</ul>
+<h2 id="2025-08-13">2025-08-13</h2>
+<h3 id="features">🚀 Features</h3>
+<ul>
+<li><em>(ResourceQuery)</em> 添加资源索引查询功能 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/303d1209080d5acfc849bdb0db8852998ed2625f"><code>303d120</code></a>)</li>
+</ul>
+<h2 id="2025-08-12">2025-08-12</h2>
+<h3 id="bug-fixes_1">🐛 Bug Fixes</h3>
+<ul>
+<li><em>(LogViewer)</em> 优化日志文件日期解析和错误处理 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/0f473fae8fd4fabc1a33c64ace6f2719917a88c6"><code>0f473fa</code></a>)</li>
+</ul>
+<h2 id="2025-07-16">2025-07-16</h2>
+<h3 id="documentation">📚 Documentation</h3>
+<ul>
+<li><em>(README)</em> 更新 BulbStateMonitor 模块开发状态 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/b2db17985c4cf439a79b461d8e1693c323402e49"><code>b2db179</code></a>)</li>
+</ul>
+<h3 id="bug-fixes_2">🐛 Bug Fixes</h3>
+<ul>
+<li>Fix icon don't show by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/768c060216941cf05d056a35fe4e16a2d82a94c2"><code>768c060</code></a>)</li>
+</ul>
+<h2 id="2025-07-10">2025-07-10</h2>
+<h3 id="refactor_2">♻️ Refactor</h3>
+<ul>
+<li>Delete a file for nothing by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/e7e67da6c4110ae30e3cc0ed16b8e31642879beb"><code>e7e67da</code></a>)</li>
+</ul>
+<h3 id="features_1">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 重构卡片组件并添加动画效果 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/7ff0e34eb1ee42bf80b116a68e45543106db005f"><code>7ff0e34</code></a>)</li>
+</ul>
+<h3 id="build">Build</h3>
+<ul>
+<li>Nothing by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/b0dee02e756a61c210213a55ffd1bc0c5c107bd1"><code>b0dee02</code></a>)</li>
+</ul>
+<h2 id="2025-07-09">2025-07-09</h2>
+<h3 id="features_2">🚀 Features</h3>
+<ul>
+<li><em>(bulbstatemonitor)</em> 实现灯泡状态监控工具 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/2a9c084c80bb84805df7f90e0825bbb8a2dab49f"><code>2a9c084</code></a>)</li>
+</ul>
+<h3 id="refactor_3">♻️ Refactor</h3>
+<ul>
+<li><em>(rtdata_plot_demo)</em> Update plot initialization and improve code readability by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/2bc8422d7aa823bc6c9f5c8fa86b9436c6a2bdc6"><code>2bc8422</code></a>)</li>
+</ul>
+<h2 id="2025-07-08">2025-07-08</h2>
+<h3 id="features_3">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 修改了选择参数的dialog，增加了checkbox和颜色选择器 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/5f679c163baf8c792f5a626697eeca7e53233f29"><code>5f679c1</code></a>)</li>
+</ul>
+<h2 id="2025-07-10_1">2025-07-10</h2>
+<h3 id="bug-fixes_3">🐛 Bug Fixes</h3>
+<ul>
+<li>Nothing by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/9417fb1cbccb439864f3f9f40dc026c613208022"><code>9417fb1</code></a>)</li>
+</ul>
+<h2 id="2025-07-16_1">2025-07-16</h2>
+<h3 id="bug-fixes_4">🐛 Bug Fixes</h3>
+<ul>
+<li>Git rebase fix by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/87f355d1d51fe2e1a7089ffa6d296c77bb7b13ae"><code>87f355d</code></a>)</li>
+</ul>
+<h2 id="2025-07-10_2">2025-07-10</h2>
+<h3 id="features_4">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 实现数据选择对话框并重构主界面 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/e3124b0fee62b18ba991a0fc380f382f0d55841b"><code>e3124b0</code></a>)</li>
+</ul>
+<h2 id="2025-07-09_1">2025-07-09</h2>
+<h3 id="features_5">🚀 Features</h3>
+<ul>
+<li><em>(bulbstatemonitor)</em> 实现灯泡状态监控工具 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/f9967c6b35c5288be6c28cc4e131f30344d9b5fb"><code>f9967c6</code></a>)</li>
+</ul>
+<h2 id="2025-08-14_1">2025-08-14</h2>
+<h3 id="features_6">🚀 Features</h3>
+<ul>
+<li><em>(BusDataMonitor)</em> 更新了总线数据监控部分功能demo，并未完成 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/3773ab7458666da1fd419a1d49a2bc49682579e0"><code>3773ab7</code></a>)</li>
+</ul>
+<h2 id="2025-07-23">2025-07-23</h2>
+<h3 id="features_7">🚀 Features</h3>
+<ul>
+<li><em>(CustomWidgets)</em> Add multiple UI components and refactor directory structure by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/b9fc3209b8607be4e13c7abaf260f1aca7fc60cb"><code>b9fc320</code></a>)</li>
+</ul>
+<h2 id="2025-07-22">2025-07-22</h2>
+<h3 id="features_8">🚀 Features</h3>
+<ul>
+<li><em>(CustomWidgets)</em> 重构了自定义控件模块，并且在main中增加了界面链接 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/d18d686943105d3f03b8ecd529c07a2a40c154ec"><code>d18d686</code></a>)</li>
+</ul>
+<h3 id="features_9">🚀 Features</h3>
+<ul>
+<li><em>(Cfg2UI components)</em> 增肌了根据配置文件生成UI的方法，增加了自定义控件仪表盘类型（圆形和扇形） by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/670733912e70c5fb73bf2fe4182655fdbccdd4ce"><code>6707339</code></a>)</li>
+</ul>
+<h2 id="2025-07-16_2">2025-07-16</h2>
+<h3 id="documentation_1">📚 Documentation</h3>
+<ul>
+<li><em>(README)</em> 更新 BulbStateMonitor 模块开发状态 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/11e4da23781f6469de52f5b1aafc715642e7ddba"><code>11e4da2</code></a>)</li>
+</ul>
+<h3 id="bug-fixes_5">🐛 Bug Fixes</h3>
+<ul>
+<li><em>(ICON)</em> Fix icon don't show by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/8e0acbc926da7486a1258f6f2a6453a47ea9d5af"><code>8e0acbc</code></a>)</li>
+</ul>
+<h3 id="styling">🎨 Styling</h3>
+<ul>
+<li><em>(DataReplay)</em> 优化了UI by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/093faae932c1a9f7f85ed4c280f35d271f7a78e9"><code>093faae</code></a>)</li>
+</ul>
+<h2 id="2025-07-15">2025-07-15</h2>
+<h3 id="refactor_4">♻️ Refactor</h3>
+<ul>
+<li><em>(DataReplay)</em> 更新了UI，增加了曲线高亮，光标悬浮显示当前值等功能 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/11d2401f6676311ea72b1a172011c06a53e6e6c7"><code>11d2401</code></a>)</li>
+</ul>
+<h2 id="2025-07-14">2025-07-14</h2>
+<h3 id="refactor_5">♻️ Refactor</h3>
+<ul>
+<li><em>(DataReplay)</em> 重构了数据回放模块的实现方法 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/380544ac89c9ff42f473b0d1bcec612cb73147cd"><code>380544a</code></a>)</li>
+</ul>
+<h2 id="2025-07-12">2025-07-12</h2>
+<h3 id="features_10">🚀 Features</h3>
+<ul>
+<li><em>(BulbStateMonitor)</em> 优化数据处理和用户界面 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/c189d1936f6db1f8f4b56f0172872710aadebf56"><code>c189d19</code></a>)</li>
+</ul>
+<h2 id="2025-07-11">2025-07-11</h2>
+<h3 id="features_11">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 优化了实时数据采集的UI by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/02baf49a7f2eba9bf775eb655f81b7a07233fae8"><code>02baf49</code></a>)</li>
+</ul>
+<h3 id="miscellaneous-tasks">⚙️ Miscellaneous Tasks</h3>
+<ul>
+<li>删除 fill-shit-ac.svg 文件 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/9ab8638e9fa44404447167eb2a18019e3a0c9cc7"><code>9ab8638</code></a>)</li>
+</ul>
+<h3 id="features_12">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 增加了主页图标和子页面的连接 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/8237def88c9485add8f06af40508f10c6c3f342b"><code>8237def</code></a>)</li>
+</ul>
+<h3 id="documentation_2">📚 Documentation</h3>
+<ul>
+<li>Remove trivial item from TODO list by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/f5b65a036948497b053b60f007afca7324f0f9f4"><code>f5b65a0</code></a>)</li>
+</ul>
+<h3 id="refactor_6">♻️ Refactor</h3>
+<ul>
+<li><em>(main)</em> 优化主程序代码结构 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/146a3d1e8f8f50b2e739f654ed34959f8a77964e"><code>146a3d1</code></a>)</li>
+</ul>
+<h3 id="features_13">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 优化UI组件，引入滚动卡片列表 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/394126cb8999a1b0aa5d8d4bb42f18176f4780dd"><code>394126c</code></a>)</li>
+</ul>
+<h2 id="2025-07-10_3">2025-07-10</h2>
+<h3 id="documentation_3">📚 Documentation</h3>
+<ul>
+<li>Update file about requirements by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/ce11c20daf9a19821fc222e43feb880f466c0f68"><code>ce11c20</code></a>)</li>
+</ul>
+<h3 id="features_14">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 重构卡片组件并添加动画效果 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/30e728cd26be25fe03876d7264e1a01beca135a1"><code>30e728c</code></a>)</li>
+</ul>
+<h3 id="features_15">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 重构卡片组件并添加动画效果 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/85160f51619c30560fd823993982dfbeaf841389"><code>85160f5</code></a>)</li>
+</ul>
+<h3 id="features_16">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 重构卡片组件并添加动画效果 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/3a2b462b458524624fc5406c0f31b235d939be99"><code>3a2b462</code></a>)</li>
+</ul>
+<h3 id="features_17">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 重构卡片组件并添加动画效果 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/ecb96d121313ebc6f45e8842b9eb181669c99e16"><code>ecb96d1</code></a>)</li>
+</ul>
+<h3 id="documentation_4">📚 Documentation</h3>
+<ul>
+<li>Update file about requirements by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/498fc24e918d0ca5a08dc04705e73fc29550934b"><code>498fc24</code></a>)</li>
+</ul>
+<h3 id="features_18">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 重构卡片组件并添加动画效果 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/94d80f4f584042fc3692c70d7a2821c84fb94a2b"><code>94d80f4</code></a>)</li>
+</ul>
+<h3 id="features_19">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 重构卡片组件并添加动画效果 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/b86b23edea29e0d52ef64a266def00f23bed39e9"><code>b86b23e</code></a>)</li>
+</ul>
+<h2 id="2025-07-11_1">2025-07-11</h2>
+<h3 id="features_20">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 更新了main的UI卡片式 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/775f7adbb923c2904f67255c8017f98aef2425a9"><code>775f7ad</code></a>)</li>
+</ul>
+<h2 id="2025-07-10_4">2025-07-10</h2>
+<h3 id="features_21">🚀 Features</h3>
+<ul>
+<li><em>(main)</em> 重构主界面为卡片网格布局 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/24fb2da75dde212b68a147f75a46694f885fcc31"><code>24fb2da</code></a>)</li>
+</ul>
+<h3 id="features_22">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 增加了模拟数据，x轴两种显示方式（固定和滚动），y轴两种显示方式（固定和自动） by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/76cc33a8f61150d8698316a4b2fe511b7133425e"><code>76cc33a</code></a>)</li>
+</ul>
+<h3 id="refactor_7">♻️ Refactor</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 增加了在图表中显示实时数据的功能 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/c31e1640651429125ee96fd3e5cded80723c468f"><code>c31e164</code></a>)</li>
+</ul>
+<h3 id="features_23">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> Add X-axis mode toggling and Y-axis autoscaling and change mainUI by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/933f8d8abd9e335e9ae73f8c705bb40cd61e1429"><code>933f8d8</code></a>)</li>
+</ul>
+<h3 id="features_24">🚀 Features</h3>
+<ul>
+<li><em>(BulbStateMonitor)</em> 实现灯泡状态监控功能 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/c19d9da296882270421a9d622dd290b055398d58"><code>c19d9da</code></a>)</li>
+</ul>
+<h3 id="features_25">🚀 Features</h3>
+<ul>
+<li>添加Fluent Design风格的QSS样式演示和样式文件 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/01c4aacba4f18d1254222301b62056fca734951d"><code>01c4aac</code></a>)</li>
+</ul>
+<h2 id="2025-07-09_2">2025-07-09</h2>
+<h3 id="build_1">Build</h3>
+<ul>
+<li>更新项目依赖和忽略文件 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/d633b50cd1f794b6441dfe880417e40cff66b770"><code>d633b50</code></a>)</li>
+</ul>
+<h3 id="features_26">🚀 Features</h3>
+<ul>
+<li><em>(rtdataplot)</em> 实现数据曲线选择和配置功能 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/15dc5eadb1e076d0b2be2c5f3be1a36c14440ffa"><code>15dc5ea</code></a>)</li>
+</ul>
+<h3 id="refactor_8">♻️ Refactor</h3>
+<ul>
+<li><em>(rtdata_plot_demo)</em> Update plot initialization and improve code readability by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/da3b1c8ddba4bc106f97dd6589398bf5987594b0"><code>da3b1c8</code></a>)</li>
+</ul>
+<h3 id="features_27">🚀 Features</h3>
+<ul>
+<li><em>(BulbStateMonitor)</em> Add detailed feature requirements and specifications by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/b3c7b08b74600fd3e730b2398ef77273330fba54"><code>b3c7b08</code></a>)</li>
+</ul>
+<h3 id="features_28">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 更新了曲线选择窗口，选择绘制的数据以及配置曲线颜色 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/580929e205eb2b6a104fc99cf41b8cda9f65e717"><code>580929e</code></a>)</li>
+</ul>
+<h2 id="2025-07-08_1">2025-07-08</h2>
+<h3 id="features_29">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 修改了选择参数的dialog，增加了checkbox和颜色选择器 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/68ae5c2d28121b26097d9410b3fba1a048fdf648"><code>68ae5c2</code></a>)</li>
+</ul>
+<h3 id="features_30">🚀 Features</h3>
+<ul>
+<li><em>(LogViewer)</em> Implement batch delete functionality by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/69ca5558d82a9829c2cf91b8ede53e02c231baff"><code>69ca555</code></a>)</li>
+</ul>
+<h3 id="features_31">🚀 Features</h3>
+<ul>
+<li><em>(LogViewer)</em> 增加日志文件删除及批量删除功能，新增对应日期日志文件删除 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/07328167ead15be9f553629f25e514ee0f989509"><code>0732816</code></a>)</li>
+</ul>
+<h3 id="features_32">🚀 Features</h3>
+<ul>
+<li><em>(LogViewer)</em> 增加日志文件删除及批量删除功能，新增对应日期日志文件删除 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/fdd36384b9ddd1a2107049cfbc9ce3d4452fdf4e"><code>fdd3638</code></a>)</li>
+</ul>
+<h3 id="features_33">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 添加了RTDATAPLOT中实时曲线绘制的UI界面及部分代码 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/40bc673293767954bd42c09d11fc38810e9e6b9f"><code>40bc673</code></a>)</li>
+</ul>
+<h3 id="features_34">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> 添加了RTDATAPLOT中实时曲线绘制的UI界面及部分代码 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/b54dcfce5bb2cebc4ad244cc88dcf2121fb8433e"><code>b54dcfc</code></a>)</li>
+</ul>
+<h3 id="features_35">🚀 Features</h3>
+<ul>
+<li><em>(BulbStateMonitor)</em> 添加灯泡状态监控模块的功能实现 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/e557c7648ba7d7ec246384282ab2d196fa2a7e76"><code>e557c76</code></a>)</li>
+</ul>
+<h3 id="documentation_5">📚 Documentation</h3>
+<ul>
+<li><em>(README)</em> 更改README，完成LogViewer内容 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/e847774865e52ccea31bf1156c9602b6715ebce2"><code>e847774</code></a>)</li>
+</ul>
+<h3 id="features_36">🚀 Features</h3>
+<ul>
+<li><em>(LogViewer)</em> 添加按时间删除日志功能 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/464c21dbcc375b5f1d5e3cb2d9717a1badf8bca4"><code>464c21d</code></a>)</li>
+</ul>
+<h3 id="features_37">🚀 Features</h3>
+<ul>
+<li><em>(LogViewer)</em> 增加日志文件批量删除功能 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/940cd1d7626de2926b88b31fd2f3e8963fe23fd5"><code>940cd1d</code></a>)</li>
+</ul>
+<h2 id="2025-07-07">2025-07-07</h2>
+<h3 id="documentation_6">📚 Documentation</h3>
+<ul>
+<li>更新 LogViewer 模块的 TODO 列表 by <a href="mailto:sanxiaoxing@qq.com">@SanXiaoXing</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/4d99db49e0072e83f9cfdbb3bd4c79829ef02e16"><code>4d99db4</code></a>)</li>
+</ul>
+<h3 id="refactor_9">♻️ Refactor</h3>
+<ul>
+<li><em>(LogViewer)</em> Adjust layout stretch and remove unnecessary spacer by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/9c96b5d48fe8e9fb9f5bbe39ad7714d2880eacc6"><code>9c96b5d</code></a>)</li>
+</ul>
+<h2 id="2025-07-06">2025-07-06</h2>
+<h3 id="features_38">🚀 Features</h3>
+<ul>
+<li><em>(logviewer)</em> 增加日志类型过滤和优化日志加载功能 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/9aa9c8764eb6758e2b8f8686e70ce2c62e27c6da"><code>9aa9c87</code></a>)</li>
+</ul>
+<h3 id="features_39">🚀 Features</h3>
+<ul>
+<li><em>(logviewer)</em> 增加日志类型过滤和优化日志加载功能 by <a href="mailto:1137199378@qq.com">@XiaoXing San</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/6c244fb6d437f4c750f38729eb8bddbd0118b1c8"><code>6c244fb</code></a>)</li>
+</ul>
+<h2 id="2025-07-07_1">2025-07-07</h2>
+<h3 id="features_40">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> Update UI and add new features by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/0ff4f29cb5accc5ae128deae216244cb0fb75039"><code>0ff4f29</code></a>)</li>
+</ul>
+<h2 id="2025-07-04">2025-07-04</h2>
+<h3 id="docs">'docs</h3>
+<ul>
+<li><em>(README)</em> 更新项目目标列表' by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/49a8e1bd71bdc5980cbb5a6225fd4cb109a10c3c"><code>49a8e1b</code></a>)</li>
+</ul>
+<h2 id="2025-06-27">2025-06-27</h2>
+<h3 id="features_41">🚀 Features</h3>
+<ul>
+<li><em>(RTDataPlot)</em> Add real-time data plotting functionality by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/8004bf79118fe9513e40af2a83a21b5ff11dfaee"><code>8004bf7</code></a>)</li>
+</ul>
+<h3 id="features_42">🚀 Features</h3>
+<ul>
+<li><em>(CalibTool)</em> 增强了数据校验逻辑和用户交互体验 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/c3b8a65a0ad766cae453ad7934637ffabada8dad"><code>c3b8a65</code></a>)</li>
+</ul>
+<h3 id="refactor_10">♻️ Refactor</h3>
+<ul>
+<li><em>(CalibTool)</em> 添加注释,让格式更规范一些 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/dfa8469bf0f8e66c6c33102d1d2cf963d6bc1293"><code>dfa8469</code></a>)</li>
+</ul>
+<h3 id="documentation_7">📚 Documentation</h3>
+<ul>
+<li><em>(README)</em> 更新了README里的待开发功能描述 by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/93398ab7639383b108cc5bcdf2c91b777c5953f3"><code>93398ab</code></a>)</li>
+</ul>
+<h3 id="features_43">🚀 Features</h3>
+<ul>
+<li><em>(DataReplay)</em> 添加了一个deepseek写的分块式加载示例，Update了README by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/3752dce7c25b1dd55ed2b14bac9854a4e9685469"><code>3752dce</code></a>)</li>
+</ul>
+<h3 id="documentation_8">📚 Documentation</h3>
+<ul>
+<li><em>(README)</em> Update by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/ce35d25765eec70f6c9c15a0117b1cff0538ae49"><code>ce35d25</code></a>)</li>
+</ul>
+<h3 id="refactor_11">♻️ Refactor</h3>
+<ul>
+<li><em>(LogViewer)</em> Update UI code and improve log file handling by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/c19faf8db9f6782cb6b5310971d5d76c0028d898"><code>c19faf8</code></a>)</li>
+</ul>
+<h2 id="2025-06-26">2025-06-26</h2>
+<h3 id="init">Init</h3>
+<ul>
+<li>First commit by <a href="mailto:12975537+jjycode@user.noreply.gitee.com">@JJYCode</a> (<a href="https://gitee.com/jjycode/py-util-demos/commit/7b0b337ad2c66f61ac42616f2e1d4501cefe2460"><code>7b0b337</code></a>)</li>
+</ul>
+<!-- Generated by SanXiaoXing, via git-cliff, Command is git cliff -o CHANGELOG.md-->
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../API/xml_editor/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Xml编辑器 XmlEditor">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Xml编辑器 XmlEditor
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ISSUE/" class="md-footer__link md-footer__link--next" aria-label="下一页: ISSUE">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                ISSUE
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "navigation.footer", "navigation.indexes", "navigation.tabs", "navigation.sections", "content.code.copy", "content.tooltips"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": {"Python": "python"}, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
