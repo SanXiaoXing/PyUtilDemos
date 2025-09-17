@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cff38d21-8cfe-4d65-8cd2-41d38b5eb4dc" name="更改" comment="docs(ISSUE): 更新问题记录并添加标签分类&#10;&#10;- 新增多个问题记录及其解决方案&#10;- 添加标签分类，便于问题归类和查找&#10;- 更新文档结构，增加导航链接&#10;- 优化图片显示，使用适当格式插入图片">
+      <change beforePath="$PROJECT_DIR$/src/components/RTDataPlot/RTdata_plot_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/RTDataPlot/RTdata_plot_demo.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="yx" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2zl2BWoGUtI0fgwwmzoNzhNILuw" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.NetManager.executor": "Run",
+    "Python.ResourceQueryTool.executor": "Run",
+    "Python.XmlEditor.executor": "Run",
+    "Python.bulb_statemonitor_demo.executor": "Run",
+    "Python.data_replay_bokeh.executor": "Run",
+    "Python.data_replay_bokeh_fixed.executor": "Run",
+    "Python.data_replay_demo.executor": "Run",
+    "Python.flight_sim_demo.executor": "Run",
+    "Python.flight_sim_form.executor": "Run",
+    "Python.flight_sim_with_rtplot.executor": "Run",
+    "Python.flight_simulator.executor": "Run",
+    "Python.log_viewer_demo (1).executor": "Run",
+    "Python.log_viewer_demo.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/SanXiaoXing/Desktop/Code/py-util-demos/docs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.externalTools",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\SanXiaoXing\Desktop\Code\py-util-demos\docs" />
+      <recent name="C:\Users\SanXiaoXing\Desktop\Code\py-util-demos\docs\assets" />
+      <recent name="C:\Users\SanXiaoXing\Desktop\Code\py-util-demos" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\SanXiaoXing\Desktop\Code\py-util-demos\docs\assets" />
+      <recent name="C:\Users\SanXiaoXing\Desktop\Code\py-util-demos\docs\pages" />
+      <recent name="C:\Users\SanXiaoXing\Desktop\Code\py-util-demos\src" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178" />
+        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\SanXiaoXing\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="cff38d21-8cfe-4d65-8cd2-41d38b5eb4dc" name="更改" comment="" />
+      <created>1752291218613</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1752291218613</updated>
+      <workItem from="1752291224192" duration="572000" />
+      <workItem from="1752292168415" duration="2953000" />
+      <workItem from="1752300585281" duration="4965000" />
+      <workItem from="1752307430179" duration="1854000" />
+      <workItem from="1752452067881" duration="2307000" />
+      <workItem from="1752539385570" duration="2516000" />
+      <workItem from="1752635306037" duration="509000" />
+      <workItem from="1752635935209" duration="2220000" />
+      <workItem from="1752650895311" duration="2203000" />
+      <workItem from="1754958972829" duration="3068000" />
+      <workItem from="1754962869618" duration="1286000" />
+      <workItem from="1755050755998" duration="1345000" />
+      <workItem from="1755065762091" duration="1959000" />
+      <workItem from="1755229967298" duration="3609000" />
+      <workItem from="1755239239431" duration="2948000" />
+      <workItem from="1755243488999" duration="2912000" />
+      <workItem from="1755331453430" duration="10000" />
+      <workItem from="1755332249454" duration="65000" />
+      <workItem from="1755475542644" duration="93000" />
+      <workItem from="1755593249661" duration="1055000" />
+      <workItem from="1755655325943" duration="111000" />
+      <workItem from="1755669844672" duration="2566000" />
+      <workItem from="1755677998404" duration="2372000" />
+      <workItem from="1755734552536" duration="83000" />
+      <workItem from="1755743760805" duration="3289000" />
+      <workItem from="1755822286136" duration="96000" />
+      <workItem from="1756104914186" duration="3092000" />
+      <workItem from="1756110095431" duration="2048000" />
+      <workItem from="1756166588855" duration="8160000" />
+      <workItem from="1756192646674" duration="1164000" />
+      <workItem from="1756194947893" duration="116000" />
+      <workItem from="1756279871118" duration="995000" />
+      <workItem from="1756281118073" duration="99000" />
+      <workItem from="1756365628488" duration="460000" />
+      <workItem from="1756368273550" duration="1241000" />
+      <workItem from="1756686310914" duration="1292000" />
+      <workItem from="1756687703248" duration="454000" />
+      <workItem from="1756698334397" duration="7321000" />
+      <workItem from="1756719793140" duration="74000" />
+      <workItem from="1756771595149" duration="2136000" />
+      <workItem from="1756859571030" duration="9850000" />
+      <workItem from="1756971994050" duration="3614000" />
+      <workItem from="1757039768064" duration="5324000" />
+      <workItem from="1757302783208" duration="182000" />
+      <workItem from="1757640487141" duration="11454000" />
+      <workItem from="1757894817021" duration="6370000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat(main): 实现窗口管理器以跟踪和管理打开的窗口&#10;&#10;- 添加了 CardWidget 类的修改，实现了窗口实例的跟踪和管理&#10;- 优化了窗口打开逻辑，避免重复打开多个相同窗口- 增加了窗口关闭时的清理工作，确保资源得到释放&#10;- 改进了代码格式和结构，提高了代码可读性">
+      <option name="closed" value="true" />
+      <created>1752304353104</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1752304353104</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="yx" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="yx" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat(main): 实现窗口管理器以跟踪和管理打开的窗口&#10;&#10;- 添加了 CardWidget 类的修改，实现了窗口实例的跟踪和管理&#10;- 优化了窗口打开逻辑，避免重复打开多个相同窗口- 增加了窗口关闭时的清理工作，确保资源得到释放&#10;- 改进了代码格式和结构，提高了代码可读性" />
+    <MESSAGE value="feat(XmlEditor): 实现 XML 文件异步加载功能&#10;&#10;- 添加异步加载机制，使用 QTimer 进行批量处理&#10;&#10;- 在界面上增加进度条和状态标签，显示加载进度" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(XmlEditor): 实现 XML 文件异步加载功能&#10;&#10;- 添加异步加载机制，使用 QTimer 进行批量处理&#10;&#10;- 在界面上增加进度条和状态标签，显示加载进度" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/py_util_demos$log_viewer_demo.coverage" NAME="log_viewer_demo 覆盖结果" MODIFIED="1756169706432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/components/LogViewer" />
+    <SUITE FILE_PATH="coverage/py_util_demos$ResourceQueryTool.coverage" NAME="ResourceQueryTool 覆盖结果" MODIFIED="1755678204233" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ResourceQuery" />
+    <SUITE FILE_PATH="coverage/py_util_demos$flight_sim_demo.coverage" NAME="flight_sim_demo 覆盖结果" MODIFIED="1757044599454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/components/FlightSim" />
+    <SUITE FILE_PATH="coverage/py_util_demos$data_replay_bokeh.coverage" NAME="data_replay_bokeh 覆盖结果" MODIFIED="1755745293699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DataReplay" />
+    <SUITE FILE_PATH="coverage/py_util_demos$flight_simulator.coverage" NAME="flight_simulator 覆盖结果" MODIFIED="1757042537337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/components/FlightSim" />
+    <SUITE FILE_PATH="coverage/py_util_demos$flight_sim_form.coverage" NAME="flight_sim_form 覆盖结果" MODIFIED="1756972108739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/components/FlightSim" />
+    <SUITE FILE_PATH="coverage/py_util_demos$bulb_statemonitor_demo.coverage" NAME="bulb_statemonitor_demo 覆盖结果" MODIFIED="1752637425077" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/BulbStateMonitor" />
+    <SUITE FILE_PATH="coverage/py_util_demos$XmlEditor.coverage" NAME="XmlEditor 覆盖结果" MODIFIED="1755679737690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/XmlEditor" />
+    <SUITE FILE_PATH="coverage/py_util_demos$log_viewer_demo__1_.coverage" NAME="log_viewer_demo (1) 覆盖结果" MODIFIED="1756773476593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/components/LogViewer" />
+    <SUITE FILE_PATH="coverage/py_util_demos$main.coverage" NAME="main 覆盖结果" MODIFIED="1756973458783" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/py_util_demos$data_replay_bokeh_fixed.coverage" NAME="data_replay_bokeh_fixed 覆盖结果" MODIFIED="1755745334669" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DataReplay" />
+    <SUITE FILE_PATH="coverage/py_util_demos$NetManager.coverage" NAME="NetManager 覆盖结果" MODIFIED="1756106355474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NetManager" />
+    <SUITE FILE_PATH="coverage/py_util_demos$data_replay_demo.coverage" NAME="data_replay_demo 覆盖结果" MODIFIED="1755744329085" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/DataReplay" />
+    <SUITE FILE_PATH="coverage/py_util_demos$flight_sim_with_rtplot.coverage" NAME="flight_sim_with_rtplot 覆盖结果" MODIFIED="1757044612118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/components/FlightSim" />
+  </component>
+</project>
