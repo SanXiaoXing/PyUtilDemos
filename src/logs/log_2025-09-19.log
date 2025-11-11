@@ -1,0 +1,17 @@
+2025/09/19 11:38:58.652 - AircraftInfoViewer - INFO      - 发现 58 个飞机模型
+2025/09/19 11:38:58.737 - FlightSimulator - INFO      - 使用JSBSim数据目录: C:\Soft\Anaconda\envs\pro3810\lib\site-packages\jsbsim
+2025/09/19 11:38:58.745 - FlightSimulator - INFO      - 尝试加载飞机模型: c172p
+2025/09/19 11:38:59.404 - FlightSimulator - INFO      - 成功加载飞机模型: c172p
+2025/09/19 11:38:59.405 - FlightSimGUI - INFO      - 仿真器初始化成功 (JSBSim模式, c172p)
+2025/09/19 11:39:04.228 - FlightSimGUI - INFO      - 初始条件已应用
+2025/09/19 11:39:05.437 - FlightSimGUI - INFO      - 仿真已开始
+2025/09/19 11:39:14.226 - FlightSimGUI - INFO      - 仿真已停止
+2025/09/19 11:39:20.390 - FlightSimGUI - INFO      - 仿真已停止
+2025/09/19 11:45:16.839 - AircraftInfoViewer - INFO      - 发现 58 个飞机模型
+2025/09/19 11:45:16.916 - FlightSimulator - INFO      - 使用JSBSim数据目录: C:\Soft\Anaconda\envs\pro3810\lib\site-packages\jsbsim
+2025/09/19 11:45:16.919 - FlightSimulator - INFO      - 尝试加载飞机模型: c172p
+2025/09/19 11:45:16.958 - FlightSimulator - INFO      - 成功加载飞机模型: c172p
+2025/09/19 11:45:16.958 - FlightSimGUI - INFO      - 仿真器初始化成功 (JSBSim模式, c172p)
+2025/09/19 11:45:22.464 - FlightSimGUI - INFO      - 初始条件已应用
+2025/09/19 11:45:23.988 - FlightSimGUI - INFO      - 仿真已开始
+2025/09/19 11:45:34.298 - FlightSimGUI - INFO      - 仿真已停止

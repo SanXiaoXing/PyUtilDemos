@@ -1,9 +1,5 @@
 import os 
 import sys
-
-from src.components.LogViewer.Ui_log_viewer import Ui_log_viewer
-from PyQt5 import QtWidgets, QtCore
-
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from pathlib import Path
 from PyQt5.QtWidgets import *
@@ -13,114 +9,96 @@ import glob
 from datetime import datetime, timedelta
 import re
 
-LOG_FILES = str(Path(__file__).parent.parent.parent / 'logs')  # 日志文件路径
-print(LOG_FILES)
+from src.components.LogViewer.Ui_log_viewer import *
+from src.utils.LogDisplayUtil import log_display_util
 
+LOG_FILES = str(Path(__file__).parent.parent.parent / 'logs')
 
 class LogCheckForm(QWidget, Ui_log_viewer):
-    """日志查看器主窗口类
-
-    提供日志文件浏览、过滤、删除等功能的图形界面组件。
-    """
-
+    DATE_FORMAT = '%Y-%m-%d'
+    
     def __init__(self):
-        """初始化日志查看器界面"""
         super(LogCheckForm, self).__init__()
         self.setupUi(self)
-        self._log_files_cache = None  # 日志文件缓存
-        self._cache_timestamp = 0     # 缓存时间戳
         self.InitUI()
 
-    def Get_Log_Files(self, force_refresh=False):
-        """获取日志文件列表，带缓存机制
-
-        Args:
-            force_refresh (bool): 是否强制刷新缓存，默认为False
-
-        Returns:
-            list: 日志文件路径列表
-        """
-        current_time = datetime.now().timestamp()
-
-        # 如果缓存存在且未过期（5秒内），直接返回缓存
-        if (not force_refresh and
-            self._log_files_cache is not None and
-            current_time - self._cache_timestamp < 5):
-            return self._log_files_cache
-
-        # 重新获取文件列表并更新缓存
-        self._log_files_cache = glob.glob(os.path.join(LOG_FILES, "*.log"))
-        self._cache_timestamp = current_time
-        return self._log_files_cache
-
-    def Invalidate_Log_Files_Cache(self):
-        """使日志文件缓存失效"""
-        self._log_files_cache = None
-        self._cache_timestamp = 0
-
     def InitUI(self):
-        """初始化用户界面"""
         self.setWindowTitle('历史日志')
-        strdate = datetime.now().strftime('%Y-%m-%d')
+        strdate = datetime.now().strftime(self.DATE_FORMAT)
         self.current_log_content = ""  # 存储当前完整日志内容
         self.batch_mode = False  # 批量删除模式标志
-
+        
+        # 使用统一的日志显示工具类，无需重复定义正则表达式
+        
         # 设置列表控件支持多选
         self.listWidget_historyLogs.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
+        # 拖拽勾选：初始化并安装事件过滤器（仅在批量模式生效）
+        self._drag_check_active = False
+        self._drag_check_target_state = None
+        self._drag_checked_indexes = set()
+        self._drag_autoscroll_margin = 24  # 视口上下边缘触发自动滚动的边距（像素）
+        self.listWidget_historyLogs.setMouseTracking(True)
+        self.listWidget_historyLogs.viewport().installEventFilter(self)
+        
         # 设置右键菜单
         self.listWidget_historyLogs.setContextMenuPolicy(Qt.CustomContextMenu)
         self.listWidget_historyLogs.customContextMenuRequested.connect(self.Show_Context_Menu)
-
+        self.listWidget_historyLogs.itemClicked.connect(self.On_History_Log_Clicked)
+        
+        # 初始化加载与信号连接（之前误删，现恢复）
         self.Get_Log_File_By_Date(strdate)
         self.Set_Log_Date()
         self.calendarWidget.selectionChanged.connect(
             lambda: self.Get_Log_File_By_Date(self.calendarWidget.selectedDate().toString("yyyy-MM-dd"))
         )
         self.comboBox_logType.currentTextChanged.connect(self.Filter_Log_By_Type)
-        self.listWidget_historyLogs.itemClicked.connect(self.On_History_Log_Clicked)
-
+        
         # 连接按钮事件
         self.pushButton_batchMode.clicked.connect(self.Enter_Batch_Mode)
         self.pushButton_deleteSelected.clicked.connect(self.Delete_Selected_Logs)
         self.pushButton_cancelBatch.clicked.connect(self.Exit_Batch_Mode)
         self.pushButton_deleteByDate.clicked.connect(self.Delete_Logs_By_Date)
-
+        
         # 设置按钮样式
         self.Set_Button_Styles()
-
+        
         self.Load_History_Log_List()
         # 设置应用图标
+        self._set_window_icon()
+
+    def _set_window_icon(self):
+        """设置窗口图标"""
         try:
-            icon_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                                        "assets", "icon", "文件文档.svg")
+            icon_path = str(Path(__file__).parent.parent.parent / "assets" / "icon" / "文件文档.svg")
             if os.path.exists(icon_path):
                 self.setWindowIcon(QIcon(icon_path))
         except Exception as e:
             print(f"设置图标失败: {e}")
 
     def Set_Log_Date(self):
-        """在日历控件中高亮显示有日志文件的日期"""
-        log_files = self.Get_Log_Files()
+        log_files = glob.glob(os.path.join(LOG_FILES, "*.log"))
         for logfile in log_files:
-            date = os.path.basename(logfile)
-            date = date.split('_')[1].split('.')[0]
-            date = datetime.strptime(date, '%Y-%m-%d').date()
-            format = QTextCharFormat()
-            format.setBackground(QColor(180, 238, 180))
-            self.calendarWidget.setDateTextFormat(date, format)
+            try:
+                date_str = os.path.basename(logfile)
+                date_parts = date_str.split('_')
+                if len(date_parts) < 2:
+                    continue  # 跳过不符合格式的文件名
+                date_str = date_parts[1].split('.')[0]
+                date = datetime.strptime(date_str, self.DATE_FORMAT).date()
+                date_format_obj = QTextCharFormat()
+                date_format_obj.setBackground(QColor(180, 238, 180))
+                self.calendarWidget.setDateTextFormat(date, date_format_obj)
+            except (IndexError, ValueError, AttributeError):
+                # 忽略无法解析的文件名或日期格式错误
+                continue
 
-    def Get_Log_File_By_Date(self, date):
-        """根据日期获取并显示对应的日志文件内容
-
-        Args:
-            date (str): 日期字符串，格式为'yyyy-MM-dd'
-        """
-        log_files = self.Get_Log_Files()
+    def Get_Log_File_By_Date(self,date):
+        log_files=glob.glob(os.path.join(LOG_FILES,"*.log"))
         for logfile in log_files:
             if date in logfile:
-                with open(logfile, 'r', encoding='utf-8') as file:
-                    self.current_log_content = file.read()
+                with open(logfile,'r',encoding='utf-8') as file:
+                    self.current_log_content=file.read()
                     self.Update_Log_Types()  # 动态更新日志类型
                     self.Filter_Log_By_Type(self.comboBox_logType.currentText())
                 return
@@ -133,27 +111,21 @@ class LogCheckForm(QWidget, Ui_log_viewer):
         """动态扫描当前日志内容中的所有日志类型并更新下拉框"""
         # 保存当前选择的类型
         current_selection = self.comboBox_logType.currentText()
-
+        
         # 清空下拉框
         self.comboBox_logType.clear()
-
+        
         # 添加"全部"选项
         self.comboBox_logType.addItem("全部")
-
+        
         if self.current_log_content:
-            # 使用正则表达式提取所有日志级别
-            # 日志格式: YYYY/MM/DD HH:MM:SS - 模块名 - 日志级别 - 消息
-            log_levels = set()
-            pattern = r'\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2} - [^-]+ - ([A-Z]+)\s*- '
-            matches = re.findall(pattern, self.current_log_content)
-
-            for match in matches:
-                log_levels.add(match.strip())
-
+            # 使用统一工具类提取日志级别
+            log_levels = log_display_util.get_log_levels_from_content(self.current_log_content)
+            
             # 按字母顺序排序并添加到下拉框
             for level in sorted(log_levels):
                 self.comboBox_logType.addItem(level)
-
+        
         # 尝试恢复之前的选择，如果不存在则选择"全部"
         index = self.comboBox_logType.findText(current_selection)
         if index >= 0:
@@ -162,159 +134,73 @@ class LogCheckForm(QWidget, Ui_log_viewer):
             self.comboBox_logType.setCurrentIndex(0)  # 选择"全部"
 
     def Filter_Log_By_Type(self, log_type):
-        """根据日志类型过滤日志内容并应用颜色
-
-        Args:
-            log_type (str): 日志类型，如"ERROR", "INFO"等
-        """
+        """根据日志类型过滤日志内容并应用颜色"""
         if not self.current_log_content:
             return
-
+            
         self.plainTextEdit_log.clear()
-
+        
         if log_type == "全部":
             # 显示所有日志并应用颜色
-            self.Apply_Colors_To_All_Logs()
+            self.Apply_Colors_To_Content(self.current_log_content)
         else:
-            # 按类型过滤日志并应用颜色
-            lines = self.current_log_content.split('\n')
-            filtered_lines = []
-
-            for line in lines:
-                if log_type in line:
-                    filtered_lines.append(line)
-
-            filtered_content = '\n'.join(filtered_lines)
+            # 使用统一工具类按类型过滤日志并应用颜色
+            filtered_content = log_display_util.filter_logs_by_level(self.current_log_content, log_type)
             self.Apply_Colors_To_Content(filtered_content)
-
-    def Apply_Colors_To_All_Logs(self):
-        """为所有日志应用颜色"""
-        self.Apply_Colors_To_Content(self.current_log_content)
-
+    
     def Apply_Colors_To_Content(self, content):
-        """为指定内容应用颜色 - 优化版本
-
-        Args:
-            content (str): 需要应用颜色的日志内容
-        """
-        # 定义日志级别对应的颜色
-        log_colors = {
-            'ERROR': '#FF0000',      # 红色
-            'CRITICAL': '#8B0000',   # 深红色
-            'WARNING': '#FF8C00',    # 橙色
-            'INFO': '#0000FF',       # 蓝色
-            'DEBUG': '#808080',      # 灰色
-        }
-
-        lines = content.split('\n')
-
-        # 检查内容大小，如果过大则使用简化渲染
-        if len(lines) > 5000:  # 超过5000行使用简化模式
-            self.Apply_Colors_Simple(content, log_colors)
-            return
-
-        # 批量构建HTML内容，避免频繁的appendHtml调用
-        html_content = []
-        batch_size = 500  # 每批处理500行
-
-        for i in range(0, len(lines), batch_size):
-            batch_lines = lines[i:i + batch_size]
-            batch_html = []
-
-            for line in batch_lines:
-                if line.strip():  # 跳过空行
-                    # 检测日志级别并只对级别关键词应用颜色
-                    colored_line = line
-                    for level, color in log_colors.items():
-                        if f' - {level}' in line:
-                            # 只对日志级别关键词应用颜色，其他部分保持默认颜色
-                            colored_line = line.replace(
-                                f' - {level}',
-                                f' - <span style="color: {color}">{level}</span>'
-                            )
-                            break
-
-                    # HTML转义特殊字符（除了我们添加的span标签）
-                    if '<span style=' not in colored_line:
-                        colored_line = colored_line.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-
-                    batch_html.append(colored_line)
-
-            # 批量添加到文本框
-            if batch_html:
-                self.plainTextEdit_log.appendHtml('<br>'.join(batch_html) + '<br>')
-
-            # 每批处理后刷新UI，保持响应性
-            QtWidgets.QApplication.processEvents()
-
-    def Apply_Colors_Simple(self, content, log_colors):
-        """简化的颜色渲染模式，用于大量日志
-
-        Args:
-            content (str): 日志内容
-            log_colors (dict): 日志级别与颜色的映射字典
-        """
-        # 对于大量日志，使用纯文本模式以提高性能
-        self.plainTextEdit_log.clear()
-        self.plainTextEdit_log.appendPlainText("日志内容过多，使用简化显示模式...\n\n")
-
-        # 只显示前2000行和后1000行
-        lines = content.split('\n')
-        if len(lines) > 3000:
-            preview_lines = lines[:2000] + ['\n... 省略中间部分 ...\n'] + lines[-1000:]
-        else:
-            preview_lines = lines
-
-        # 分批显示，避免一次性加载过多内容
-        batch_size = 1000
-        for i in range(0, len(preview_lines), batch_size):
-            batch = preview_lines[i:i + batch_size]
-            self.plainTextEdit_log.appendPlainText('\n'.join(batch))
-            QtWidgets.QApplication.processEvents()
+        """应用颜色到日志内容 - 使用统一工具类"""
+        # 使用统一的日志显示工具类进行颜色渲染
+        log_display_util.apply_colors_to_text_widget(self.plainTextEdit_log, content)
+    
+    def Apply_Colors_Simple(self, content):
+        """简化的颜色渲染模式，用于大量日志 - 使用统一工具类"""
+        # 使用统一的日志显示工具类的简化模式
+        log_display_util._apply_colors_simple(self.plainTextEdit_log, content)
 
     def Load_History_Log_List(self):
         """加载历史日志文件列表 - 优化版本"""
         try:
             self.listWidget_historyLogs.clear()
-            log_files = self.Get_Log_Files()
+            log_files = glob.glob(os.path.join(LOG_FILES, "*.log"))
             log_files.sort()  # 按文件名排序
-
+            
             # 先快速加载文件名，后续异步加载详细信息
             for logfile in log_files:
                 try:
                     # 提取日期信息
                     date = os.path.basename(logfile).split('_')[1].split('.')[0]
-
+                    
                     # 获取文件大小作为快速指标
                     file_size = os.path.getsize(logfile)
                     size_kb = file_size // 1024
-
+                    
                     # 创建显示文本（先显示文件大小，避免读取文件内容）
                     display_text = f"{date} ({size_kb}KB)"
-
+                    
                     # 添加到列表控件
                     item = QListWidgetItem(display_text)
                     item.setData(Qt.UserRole, date)  # 存储日期信息
                     item.setData(Qt.UserRole + 1, logfile)  # 存储文件路径
-
+                    
                     # 根据批量模式设置复选框
                     if self.batch_mode:
                         item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
                         item.setCheckState(Qt.Unchecked)
                     else:
                         item.setFlags(item.flags() & ~Qt.ItemIsUserCheckable)
-
+                    
                     self.listWidget_historyLogs.addItem(item)
-
+                    
                 except Exception as e:
                     print(f"处理文件 {logfile} 时出错: {e}")
-
+                    
             # 异步更新详细信息（行数统计）
             QtCore.QTimer.singleShot(100, self.Update_Log_Counts_Async)
-
+            
         except Exception as e:
             print(f"加载历史日志列表时出错: {e}")
-
+    
     def Update_Log_Counts_Async(self):
         """异步更新日志行数统计"""
         try:
@@ -323,33 +209,26 @@ class LogCheckForm(QWidget, Ui_log_viewer):
                 if item:
                     logfile = item.data(Qt.UserRole + 1)
                     date = item.data(Qt.UserRole)
-
+                    
                     try:
                         # 使用更高效的行数统计方法
                         log_count = self.Count_Log_Lines_Fast(logfile)
-
+                        
                         # 更新显示文本
                         display_text = f"{date} ({log_count}条日志)"
                         item.setText(display_text)
-
+                        
                         # 强制刷新UI
                         QtWidgets.QApplication.processEvents()
-
+                        
                     except Exception as e:
                         print(f"更新文件 {logfile} 行数时出错: {e}")
-
+                        
         except Exception as e:
             print(f"异步更新日志行数时出错: {e}")
-
+    
     def Count_Log_Lines_Fast(self, filepath):
-        """快速统计日志文件行数
-
-        Args:
-            filepath (str): 日志文件路径
-
-        Returns:
-            int: 文件行数
-        """
+        """快速统计日志文件行数"""
         try:
             count = 0
             with open(filepath, 'r', encoding='utf-8') as file:
@@ -364,41 +243,31 @@ class LogCheckForm(QWidget, Ui_log_viewer):
         except Exception as e:
             print(f"统计文件 {filepath} 行数时出错: {e}")
             return 0
-
+    
     def On_History_Log_Clicked(self, item):
-        """处理历史日志列表点击事件
-
-        Args:
-            item (QListWidgetItem): 被点击的列表项
-        """
+        """处理历史日志列表点击事件"""
         try:
             # 获取存储的日期信息
             date = item.data(Qt.UserRole)
             if date:
                 # 临时断开日历信号连接，避免循环触发
                 self.calendarWidget.selectionChanged.disconnect()
-
+                
                 # 设置日历控件到对应日期
                 selected_date = QDate.fromString(date, "yyyy-MM-dd")
                 if selected_date.isValid():
                     self.calendarWidget.setSelectedDate(selected_date)
-
+                
                 # 重新连接信号
-                self.calendarWidget.selectionChanged.connect(
-                    lambda: self.Get_Log_File_By_Date(self.calendarWidget.selectedDate().toString("yyyy-MM-dd"))
-                )
-
+                self.calendarWidget.selectionChanged.connect(lambda:self.Get_Log_File_By_Date(self.calendarWidget.selectedDate().toString("yyyy-MM-dd")))
+                
                 # 加载对应日期的日志
                 self.Get_Log_File_By_Date(date)
         except Exception as e:
             print(f"处理历史日志点击事件时出错: {e}")
-
+    
     def Show_Context_Menu(self, position):
-        """显示右键菜单
-
-        Args:
-            position (QPoint): 菜单显示位置
-        """
+        """显示右键菜单"""
         item = self.listWidget_historyLogs.itemAt(position)
         if item:
             context_menu = QMenu(self)
@@ -407,49 +276,72 @@ class LogCheckForm(QWidget, Ui_log_viewer):
             context_menu.addAction(delete_action)
             context_menu.exec_(self.listWidget_historyLogs.mapToGlobal(position))
 
-    def Delete_Single_Log(self, item):
-        """删除单个日志文件
-
-        Args:
-            item (QListWidgetItem): 要删除的日志文件项
-        """
-        try:
-            logfile = item.data(Qt.UserRole + 1)
-            date = item.data(Qt.UserRole)
-
-            # 确认删除
-            reply = QMessageBox.question(self, '确认删除',
-                                       f'确定要删除日志文件 "{date}" 吗？\n此操作不可撤销！',
-                                       QMessageBox.Yes | QMessageBox.No,
-                                       QMessageBox.No)
-
-            if reply == QMessageBox.Yes:
-                # 删除文件
+    def _delete_log_files(self, files_to_delete, operation_name="删除"):
+        """通用的文件删除方法，减少重复代码"""
+        deleted_count = 0
+        failed_files = []
+        current_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+        need_clear_display = False
+        
+        for file_info in files_to_delete:
+            try:
+                if isinstance(file_info, tuple):
+                    logfile, date_str = file_info
+                else:
+                    # 处理单个文件删除的情况
+                    logfile = file_info.data(Qt.UserRole + 1)
+                    date_str = file_info.data(Qt.UserRole)
+                
                 if os.path.exists(logfile):
                     os.remove(logfile)
-
-                    # 从列表中移除
-                    row = self.listWidget_historyLogs.row(item)
-                    self.listWidget_historyLogs.takeItem(row)
-
-                    # 清空当前显示的日志内容（如果删除的是当前显示的文件）
-                    current_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
-                    if date == current_date:
-                        self.current_log_content = ""
-                        self.plainTextEdit_log.clear()
-                        self.Update_Log_Types()
-
-                    # 使缓存失效并更新日历显示
-                    self.Invalidate_Log_Files_Cache()
-                    self.Set_Log_Date()
-
-                    QMessageBox.information(self, '删除成功', f'日志文件 "{date}" 已删除')
+                    deleted_count += 1
+                    
+                    # 检查是否需要清空当前显示
+                    if date_str == current_date:
+                        need_clear_display = True
                 else:
-                    QMessageBox.warning(self, '删除失败', f'文件不存在: {logfile}')
+                    failed_files.append(f'{date_str} (文件不存在)')
+                    
+            except Exception as e:
+                failed_files.append(f'{date_str} (删除失败: {str(e)})')
+        
+        # 重新加载列表
+        self.Load_History_Log_List()
+        
+        # 清空当前显示（如果需要）
+        if need_clear_display:
+            self.current_log_content = ""
+            self.plainTextEdit_log.clear()
+            self.Update_Log_Types()
+        
+        # 更新日历显示
+        self.Set_Log_Date()
+        
+        return deleted_count, failed_files
 
+    def Delete_Single_Log(self, item):
+        """删除单个日志文件"""
+        try:
+            date = item.data(Qt.UserRole)
+            logfile = item.data(Qt.UserRole + 1)
+            
+            # 确认删除
+            reply = QMessageBox.question(self, '确认删除', 
+                                       f'确定要删除日志文件 "{date}" 吗？\n\n文件路径: {logfile}\n\n此操作不可撤销！',
+                                       QMessageBox.Yes | QMessageBox.No,
+                                       QMessageBox.No)
+            
+            if reply == QMessageBox.Yes:
+                deleted_count, failed_files = self._delete_log_files([item])
+                
+                if failed_files:
+                    QMessageBox.warning(self, '删除失败', f'文件不存在: {logfile}')
+                else:
+                    QMessageBox.information(self, '删除成功', f'日志文件 "{date}" 已删除')
+                    
         except Exception as e:
             QMessageBox.critical(self, '删除失败', f'删除文件时出错: {str(e)}')
-
+    
     def Delete_Selected_Logs(self):
         """批量删除选中的日志文件"""
         try:
@@ -459,192 +351,159 @@ class LogCheckForm(QWidget, Ui_log_viewer):
                 item = self.listWidget_historyLogs.item(i)
                 if item.checkState() == Qt.Checked:
                     selected_items.append(item)
-
+            
             if not selected_items:
                 QMessageBox.information(self, '提示', '请先勾选要删除的日志文件')
                 return
-
+            
             # 确认删除
             file_list = [item.data(Qt.UserRole) for item in selected_items]
-            reply = QMessageBox.question(self, '确认批量删除',
-                                       f'确定要删除以下 {len(selected_items)} 个日志文件吗？\n\n' +
-                                       '\n'.join(file_list) +
+            reply = QMessageBox.question(self, '确认批量删除', 
+                                       f'确定要删除以下 {len(selected_items)} 个日志文件吗？\n\n' + 
+                                       '\n'.join(file_list) + 
                                        '\n\n此操作不可撤销！',
                                        QMessageBox.Yes | QMessageBox.No,
                                        QMessageBox.No)
-
+            
             if reply == QMessageBox.Yes:
-                deleted_count = 0
-                failed_files = []
-                current_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
-                need_clear_display = False
-
-                for item in selected_items:
-                    try:
-                        logfile = item.data(Qt.UserRole + 1)
-                        date = item.data(Qt.UserRole)
-
-                        if os.path.exists(logfile):
-                            os.remove(logfile)
-                            deleted_count += 1
-
-                            # 检查是否需要清空当前显示
-                            if date == current_date:
-                                need_clear_display = True
-                        else:
-                            failed_files.append(f'{date} (文件不存在)')
-
-                    except Exception as e:
-                        failed_files.append(f'{item.data(Qt.UserRole)} (删除失败: {str(e)})')
-
-                # 使缓存失效并重新加载列表
-                self.Invalidate_Log_Files_Cache()
-                self.Load_History_Log_List()
-
-                # 清空当前显示（如果需要）
-                if need_clear_display:
-                    self.current_log_content = ""
-                    self.plainTextEdit_log.clear()
-                    self.Update_Log_Types()
-
-                # 更新日历显示
-                self.Set_Log_Date()
-
+                deleted_count, failed_files = self._delete_log_files(selected_items)
+                
                 # 显示结果
                 if failed_files:
-                    QMessageBox.warning(self, '批量删除完成',
-                                       f'成功删除 {deleted_count} 个文件\n\n失败的文件:\n' +
+                    QMessageBox.warning(self, '批量删除完成', 
+                                       f'成功删除 {deleted_count} 个文件\n\n失败的文件:\n' + 
                                        '\n'.join(failed_files))
                 else:
                     QMessageBox.information(self, '批量删除成功', f'成功删除 {deleted_count} 个日志文件')
-
+                    
         except Exception as e:
             QMessageBox.critical(self, '批量删除失败', f'批量删除时出错: {str(e)}')
-
+    
     def Enter_Batch_Mode(self):
         """进入批量删除模式"""
         self.batch_mode = True
-
+        
         # 切换按钮显示状态
         self.pushButton_batchMode.setVisible(False)
         self.pushButton_deleteSelected.setVisible(True)
         self.pushButton_cancelBatch.setVisible(True)
-
+        
         # 重新加载列表以显示复选框
         self.Load_History_Log_List()
-
+        
         # 禁用右键菜单和单击事件
         self.listWidget_historyLogs.setContextMenuPolicy(Qt.NoContextMenu)
         self.listWidget_historyLogs.itemClicked.disconnect()
-
+    
     def Exit_Batch_Mode(self):
         """退出批量删除模式"""
         self.batch_mode = False
-
+        
         # 切换按钮显示状态
         self.pushButton_batchMode.setVisible(True)
         self.pushButton_deleteSelected.setVisible(False)
         self.pushButton_cancelBatch.setVisible(False)
-
+        
         # 重新加载列表以隐藏复选框
         self.Load_History_Log_List()
-
+        
         # 恢复右键菜单和单击事件
         self.listWidget_historyLogs.setContextMenuPolicy(Qt.CustomContextMenu)
         self.listWidget_historyLogs.itemClicked.connect(self.On_History_Log_Clicked)
-
+    
     def Delete_Logs_By_Date(self):
         """按日期范围删除日志文件"""
         try:
             # 获取用户输入的天数
-            days, ok = QInputDialog.getInt(self, '按日期删除日志',
-                                          '请输入要删除多少天前的日志文件：\n(例如：输入7表示删除7天前及更早的日志)',
+            days, ok = QInputDialog.getInt(self, '按日期删除日志', 
+                                          '请输入要删除多少天前的日志文件：\n(例如：输入7表示删除7天前及更早的日志)', 
                                           7, 1, 365, 1)
-
+            
             if not ok:
                 return
-
+            
             # 计算截止日期
             cutoff_date = datetime.now() - timedelta(days=days)
-            cutoff_date_str = cutoff_date.strftime('%Y-%m-%d')
-
+            cutoff_date_str = cutoff_date.strftime(self.DATE_FORMAT)
+            
             # 查找符合条件的日志文件
-            log_files = self.Get_Log_Files()
+            log_files = glob.glob(os.path.join(LOG_FILES, "*.log"))
             files_to_delete = []
-
+            
             for logfile in log_files:
                 try:
                     # 从文件名提取日期
                     filename = os.path.basename(logfile)
                     date_str = filename.split('_')[1].split('.')[0]
-                    file_date = datetime.strptime(date_str, '%Y-%m-%d')
-
+                    file_date = datetime.strptime(date_str, self.DATE_FORMAT)
+                    
                     # 如果文件日期早于截止日期，加入删除列表
                     if file_date < cutoff_date:
                         files_to_delete.append((logfile, date_str))
-
+                        
                 except Exception as e:
                     print(f"解析文件日期时出错 {logfile}: {e}")
                     continue
-
+            
             if not files_to_delete:
                 QMessageBox.information(self, '提示', f'没有找到{days}天前的日志文件')
                 return
-
+            
             # 确认删除
             file_list = [date for _, date in files_to_delete]
-            reply = QMessageBox.question(self, '确认按日期删除',
-                                       f'找到 {len(files_to_delete)} 个{days}天前的日志文件：\n\n' +
-                                       '\n'.join(file_list[:10]) +
+            reply = QMessageBox.question(self, '确认按日期删除', 
+                                       f'找到 {len(files_to_delete)} 个{days}天前的日志文件：\n\n' + 
+                                       '\n'.join(file_list[:10]) + 
                                        (f'\n... 还有{len(file_list)-10}个文件' if len(file_list) > 10 else '') +
                                        f'\n\n确定要删除{cutoff_date_str}之前的所有日志文件吗？\n此操作不可撤销！',
                                        QMessageBox.Yes | QMessageBox.No,
                                        QMessageBox.No)
-
+            
             if reply == QMessageBox.Yes:
-                deleted_count = 0
-                failed_files = []
-                current_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
-                need_clear_display = False
-
-                for logfile, date_str in files_to_delete:
-                    try:
-                        if os.path.exists(logfile):
-                            os.remove(logfile)
-                            deleted_count += 1
-
-                            # 检查是否需要清空当前显示
-                            if date_str == current_date:
-                                need_clear_display = True
-                        else:
-                            failed_files.append(f'{date_str} (文件不存在)')
-
-                    except Exception as e:
-                        failed_files.append(f'{date_str} (删除失败: {str(e)})')
-
-                # 使缓存失效并重新加载列表
-                self.Invalidate_Log_Files_Cache()
-                self.Load_History_Log_List()
-
-                # 清空当前显示（如果需要）
-                if need_clear_display:
-                    self.current_log_content = ""
-                    self.plainTextEdit_log.clear()
-                    self.Update_Log_Types()
-
-                # 更新日历显示
-                self.Set_Log_Date()
-
+                deleted_count, failed_files = self._delete_log_files(files_to_delete)
+                
                 # 显示结果
                 if failed_files:
-                    QMessageBox.warning(self, '按日期删除完成',
-                                       f'成功删除 {deleted_count} 个文件\n\n失败的文件:\n' +
+                    QMessageBox.warning(self, '按日期删除完成', 
+                                       f'成功删除 {deleted_count} 个文件\n\n失败的文件:\n' + 
                                        '\n'.join(failed_files))
                 else:
                     QMessageBox.information(self, '按日期删除成功', f'成功删除 {deleted_count} 个{days}天前的日志文件')
-
+                    
         except Exception as e:
             QMessageBox.critical(self, '按日期删除失败', f'按日期删除时出错: {str(e)}')
+
+    def Enter_Batch_Mode(self):
+        """进入批量删除模式"""
+        self.batch_mode = True
+        
+        # 切换按钮显示状态
+        self.pushButton_batchMode.setVisible(False)
+        self.pushButton_deleteSelected.setVisible(True)
+        self.pushButton_cancelBatch.setVisible(True)
+        
+        # 重新加载列表以显示复选框
+        self.Load_History_Log_List()
+        
+        # 禁用右键菜单和单击事件
+        self.listWidget_historyLogs.setContextMenuPolicy(Qt.NoContextMenu)
+        self.listWidget_historyLogs.itemClicked.disconnect()
+    
+    def Exit_Batch_Mode(self):
+        """退出批量删除模式"""
+        self.batch_mode = False
+        
+        # 切换按钮显示状态
+        self.pushButton_batchMode.setVisible(True)
+        self.pushButton_deleteSelected.setVisible(False)
+        self.pushButton_cancelBatch.setVisible(False)
+        
+        # 重新加载列表以隐藏复选框
+        self.Load_History_Log_List()
+        
+        # 恢复右键菜单和单击事件
+        self.listWidget_historyLogs.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.listWidget_historyLogs.itemClicked.connect(self.On_History_Log_Clicked)
 
     def Set_Button_Styles(self):
         """设置按钮样式"""
@@ -665,7 +524,7 @@ class LogCheckForm(QWidget, Ui_log_viewer):
                 background-color: #21618c;
             }
         """
-
+        
         # 删除选中按钮样式 - 红色背景
         delete_style = """
             QPushButton {
@@ -683,7 +542,7 @@ class LogCheckForm(QWidget, Ui_log_viewer):
                 background-color: #a93226;
             }
         """
-
+        
         # 取消按钮样式 - 灰色背景
         cancel_style = """
             QPushButton {
@@ -701,7 +560,7 @@ class LogCheckForm(QWidget, Ui_log_viewer):
                 background-color: #6c7b7d;
             }
         """
-
+        
         # 按时间删除按钮样式 - 紫色背景
         date_delete_style = """
             QPushButton {
@@ -719,7 +578,7 @@ class LogCheckForm(QWidget, Ui_log_viewer):
                 background-color: #7d3c98;
             }
         """
-
+        
         # 应用样式
         self.pushButton_deleteSelected.setStyleSheet(delete_style)
         self.pushButton_batchMode.setStyleSheet(batch_style)
@@ -727,8 +586,113 @@ class LogCheckForm(QWidget, Ui_log_viewer):
         self.pushButton_deleteByDate.setStyleSheet(date_delete_style)
 
 
+    # ============== 鼠标拖动勾选（批量模式）支持 ==============
+    def _apply_drag_check_range(self, start_row: int, end_row: int):
+        """将指定范围内的列表项设置为目标勾选状态
+        
+        在批量模式下，用户可以通过鼠标拖动来选择多个项目。此方法负责将指定行范围
+        内的未处理条目设置为预设的目标勾选状态，避免重复处理已设置的条目。
+        
+        Args:
+            start_row (int): 起始行号（包含）
+            end_row (int): 结束行号（包含）
+            
+        Returns:
+            None: 无返回值
+            
+        Note:
+            - 方法会自动处理起始行号大于结束行号的情况
+            - 只处理具有复选框功能的条目(Qt.ItemIsUserCheckable)
+            - 已处理过的行号会被记录在self._drag_checked_indexes中避免重复处理
+        """
+        if start_row > end_row:
+            start_row, end_row = end_row, start_row
+        for row in range(start_row, end_row + 1):
+            if row in self._drag_checked_indexes:
+                continue
+            item = self.listWidget_historyLogs.item(row)
+            if not item:
+                continue
+            # 仅在复选框可用时生效
+            if not (item.flags() & Qt.ItemIsUserCheckable):
+                continue
+            item.setCheckState(self._drag_check_target_state)
+            self._drag_checked_indexes.add(row)
+
+    def eventFilter(self, obj, event):
+        """事件过滤器，用于在批量模式下支持通过鼠标拖动来批量勾选或取消勾选列表项。
+
+        该方法拦截发送到 listWidget_historyLogs 视口的鼠标事件，并根据鼠标操作实现
+        拖动选择功能。仅在 batch_mode 为 True 时启用此功能。
+
+        Args:
+            obj (QObject): 发送事件的对象，应为 listWidget_historyLogs 的视口。
+            event (QEvent): 具体的事件对象，如 MouseButtonPress、MouseMove 等。
+
+        Returns:
+            bool: 如果事件被处理则返回 True，否则调用父类的事件过滤器并返回其结果。
+        """
+        if obj is self.listWidget_historyLogs.viewport():
+            # 仅在批量模式下启用该功能
+            if not getattr(self, 'batch_mode', False):
+                return super().eventFilter(obj, event)
+
+            et = event.type()
+            # 左键按下：开始拖动勾选操作
+            if et == QEvent.MouseButtonPress and event.button() == Qt.LeftButton:
+                pos = event.pos()
+                item = self.listWidget_historyLogs.itemAt(pos)
+                if item and (item.flags() & Qt.ItemIsUserCheckable):
+                    self._drag_check_active = True
+                    self._drag_checked_indexes.clear()
+                    self._drag_last_row = self.listWidget_historyLogs.row(item)
+                    # 目标状态取决于按下时的当前状态（按下第一个条目时切换一次）
+                    self._drag_check_target_state = Qt.Checked if item.checkState() != Qt.Checked else Qt.Unchecked
+                    item.setCheckState(self._drag_check_target_state)
+                    self._drag_checked_indexes.add(self._drag_last_row)
+                    return True  # 吞掉事件，避免触发选择行为
+
+            # 鼠标移动：在拖动中对经过的条目应用统一的勾选状态，并处理自动滚动
+            if et == QEvent.MouseMove and getattr(self, '_drag_check_active', False):
+                pos = event.pos()
+                viewport = self.listWidget_historyLogs.viewport()
+                h = viewport.height()
+                y = pos.y()
+
+                # 自动滚动：靠近顶部/底部时缓慢滚动
+                vbar = self.listWidget_historyLogs.verticalScrollBar()
+                step = max(1, vbar.singleStep())
+                if y < self._drag_autoscroll_margin:
+                    vbar.setValue(max(vbar.minimum(), vbar.value() - step))
+                elif y > h - self._drag_autoscroll_margin:
+                    vbar.setValue(min(vbar.maximum(), vbar.value() + step))
+
+                # 应用行范围切换，避免快速移动遗漏中间项
+                item = self.listWidget_historyLogs.itemAt(event.pos())
+                if item:
+                    cur_row = self.listWidget_historyLogs.row(item)
+                    self._apply_drag_check_range(self._drag_last_row, cur_row)
+                    self._drag_last_row = cur_row
+                return True
+
+            # 左键释放：结束拖动
+            if et == QEvent.MouseButtonRelease and event.button() == Qt.LeftButton:
+                if getattr(self, '_drag_check_active', False):
+                    self._drag_check_active = False
+                    self._drag_checked_indexes.clear()
+                    return True
+
+            # 鼠标离开视口：结束拖动状态
+            if et == QEvent.Leave:
+                if getattr(self, '_drag_check_active', False):
+                    self._drag_check_active = False
+                    self._drag_checked_indexes.clear()
+                    return True
+
+        return super().eventFilter(obj, event)
+
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
+    app =QtWidgets.QApplication(sys.argv)
     Tool = LogCheckForm()
     Tool.show()
     sys.exit(app.exec())
