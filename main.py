@@ -12,6 +12,7 @@ from src.components.DataReplay.data_replay_demo import DataReplayForm
 from src.components.CustomWidgets.gallary import GallaryForm
 from src.components.ResourceQuery import ResourceQueryTool
 from src.components.BusDataMonitor.monitor_main import BusDataMonitorForm
+from src.components.XmlEditorPro.xml_editor_pro_demo import XmlEditorProWidget
 
 
 class HoverFrame(QFrame):
@@ -277,6 +278,12 @@ class ScrollCardList(QWidget):
                 "title": "自定义控件",  
                 "description": "这是一个自定义绘制的控件集，有仪表盘等控件",
                 "window_class": GallaryForm  
+            },
+            {
+                "svg_path": "编辑撰写.svg",
+                "title": "XML 编辑器",
+                "description": "这是一个XML 编辑器，可快速进行XML编写以及内容复制",
+                "window_class": XmlEditorProWidget
             }
         ]   
            

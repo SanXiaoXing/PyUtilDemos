@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="py-util-demos" theme="midnight">
+  <meta>
+    <author>SanXiaoXing</author>
+    <created>2026-03-07</created>
+  </meta>
+  <services>
+    <service id="svc-1" enabled="true">
+      <name>Logger</name>
+      <endpoint proto="udp">127.0.0.1:9000</endpoint>
+    </service>
+    <service id="svc-2" enabled="false">
+      <name>Monitor</name>
+      <endpoint proto="tcp">127.0.0.1:9100</endpoint>
+      <tags>
+        <tag>bus</tag>
+        <tag>replay</tag>
+      </tags>
+    </service>
+  </services>
+  <notes>在左侧树中拖拽可改变节点层级。</notes>
+</project>
+
