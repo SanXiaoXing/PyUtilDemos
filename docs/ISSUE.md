@@ -5,7 +5,7 @@ tags: [issue, Python]
 
 ## 上位机测试程序退出时显示错误信息 {#1}
 
-[:material-tag: **Socket**](tags_category.md#1)
+[:material-tag: **Socket**](tags_category.md#1){.md-tag}
 !!! Success "已解决"
 
     === "问题记录"
@@ -32,7 +32,7 @@ tags: [issue, Python]
 
 ## 在线设备刷新显示错误问题 {#2}
 
-[:material-tag: **重载**](tags_category.md#_2)
+[:material-tag: **重载**](tags_category.md#_2){.md-tag}
 
 !!! Success "已解决"
 
@@ -73,7 +73,7 @@ tags: [issue, Python]
 
 ## 未连接网线但是可以socket连接成功问题 {#4}
 
-[:material-tag: **Socket**](tags_category.md#_1)
+[:material-tag: **Socket**](tags_category.md#_1){.md-tag}
 !!! Success "已解决"
     
     === "问题记录"

@@ -9,7 +9,7 @@ tags:
 以下为各组件的 API 文档，已拆分为独立页面：
 
 [:material-tag: **python**](../tags/#tag:python){.md-tag}
-[:material-tag: **python**](../tags/#tag:python)
+
 
 ## 组件
 - [日志查看器 LogViewer](../API/log_viewer.md)

@@ -21,13 +21,13 @@
     "name": "数据4",
     "color": "#00ffff",
     "unit": "Ω",
-    "visible": false
+    "visible": true
   },
   "data5": {
     "name": "数据5",
     "color": "#00ff7f",
     "unit": "Pa",
-    "visible": true
+    "visible": false
   },
   "data6": {
     "name": "数据6",

@@ -1,0 +1,64 @@
+[project]
+site_name = "正经工具箱"
+site_description = "基于 Python 与 PyQt5 的实用工具集合"
+repo_url = "https://github.com/SanXiaoXing/PyUtilDemos"
+site_dir = "site"
+copyright = "Copyright © 2025"
+
+
+[project.theme]
+language = "zh"
+favicon = "assets/icon/fill-shit-ac.svg"
+logo = "assets/icon/fill-shit-ac.svg"
+features = [
+    "navigation.top",
+    "navigation.footer",
+    "navigation.indexes",
+    "navigation.tabs",
+    "navigation.sections",
+    "content.code.copy",
+    "content.tooltips",
+]
+
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[project.theme.icon.tag]
+python = "fontawesome/brands/python"
+
+[project.extra.tags]
+Python = "python"
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["."]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+show_bases = true
+heading_level = 3
+show_source = true
+show_root_heading = true
+show_signature = true
+show_signature_annotations = true
+show_signature_type_parameters = true
+separate_signature = false
+show_root_toc_entry = false
+show_root_full_path = true
+show_symbol_type_heading = true
+show_attribute_values = true
+annotations_path = "source"
+merge_init_into_class = false
+show_docstring_functions = true
+show_docstring_classes = true
+show_docstring_description = true
+show_docstring_examples = true
+docstring_style = "google"
+
+

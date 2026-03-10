@@ -18,6 +18,7 @@ from src.components.CustomWidgets.components.dashboard.sector_dashboard import G
 from src.components.CustomWidgets.components.conf2ui.input_spinbox import InputSpinxboForm
 from src.components.CustomWidgets.components.conf2ui.switch_slider import SwitchSliderForm
 from src.components.CustomWidgets.components.conf2ui.switch_checkbox import SwitchPanel
+from src.components.CustomWidgets.components.ButtonStyle.ButtonStyle import Example
 
 
 class GallaryForm(QWidget, Ui_FormGallery): 
@@ -62,6 +63,7 @@ class GallaryForm(QWidget, Ui_FormGallery):
         self.input_spinbox = InputSpinxboForm()
         self.switch_slider = SwitchSliderForm()
         self.switch_checkbox=SwitchPanel()
+        self.switch_button = Example()
 
 
         # 添加到堆叠窗口
@@ -70,6 +72,7 @@ class GallaryForm(QWidget, Ui_FormGallery):
         self.stackedWidget.insertWidget(2, self.input_spinbox)  
         self.stackedWidget.insertWidget(3, self.switch_slider)
         self.stackedWidget.insertWidget(4, self.switch_checkbox)
+        self.stackedWidget.insertWidget(5, self.switch_button)
 
         # 默认显示第一页
         self.stackedWidget.setCurrentIndex(0)  # 显示第0页
@@ -84,6 +87,9 @@ class GallaryForm(QWidget, Ui_FormGallery):
                 "input_spinbox": 2,
                 "switch_slider": 3,
                 "switch_checkbox":4
+            },
+            "Button样式":{
+                "switch_button": 5
             }
         }
 

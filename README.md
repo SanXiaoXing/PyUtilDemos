@@ -122,4 +122,4 @@ python main.py
 
 ## 贡献者
 - [SanXiaoXing](https://github.com/SanXiaoXing)
-- [JIN](https://gitee.com/jjycode)
+- [JIN](https://github.com/RandomJinJin)

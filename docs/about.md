@@ -59,13 +59,13 @@
 
 ## 开发团队
 
-- **[JIN](https://gitee.com/jjycode)** - 项目发起人和核心开发者
+- **[JIN](https://github.com/RandomJinJin)** - 项目发起人和核心开发者
 - **[SanXiaoXing](https://github.com/SanXiaoXing)** - 核心开发者
 
 ## 联系我们
 
-- **代码仓库**: [https://gitee.com/jjycode/py-util-demos](https://gitee.com/jjycode/py-util-demos)
-- **问题反馈**: 请通过 Gitee Issues 提交
+- **代码仓库**: [https://github.com/SanXiaoXing/PyUtilDemos](https://gitee.com/jjycode/py-util-demos)
+- **问题反馈**: 请通过 Github Issues 提交
 
 ## 版权声明
 
