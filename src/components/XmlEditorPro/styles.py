@@ -126,6 +126,7 @@ QTreeWidget::item:hover {
 QTreeWidget::item:selected {
     background: rgba(10, 132, 255, 32);
     border: 1px solid rgba(10, 132, 255, 90);
+    color: #003366;
 }
 
 QTableWidget {
@@ -135,12 +136,23 @@ QTableWidget {
 }
 
 QTableWidget::item {
-    padding: 8px 10px;
+    padding: 1px 1px;
     border-bottom: 1px solid #f2f2f7;
+    background: #ffffff;
+}
+QTableWidget::item:focus {
+    border: 2px solid #0a84ff;
+    padding: 1px 1px;
+}
+
+QTableWidget QLineEdit {
+    border-radius: 8px;
+    padding: 3px 6px;
 }
 
 QTableWidget::item:selected {
     background: rgba(10, 132, 255, 32);
+    color: #003366;
 }
 
 QTableCornerButton::section {
