@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import (
     QDialogButtonBox,
     QFrame,
     QHBoxLayout,
+    QHeaderView,
     QLabel,
     QLineEdit,
     QMenu,
@@ -122,11 +123,16 @@ class AttributesTable(QTableWidget):
     def __init__(self, parent: QWidget):
         super().__init__(0, 2, parent)
         self.setHorizontalHeaderLabels(["属性名", "属性值"])
-        self.horizontalHeader().setStretchLastSection(True)
+        self.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        self.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
         self.verticalHeader().setVisible(False)
         self.setShowGrid(False)
         self.setSelectionBehavior(self.SelectRows)
         self.setAlternatingRowColors(False)
+        self.setTextElideMode(Qt.ElideRight)
+        self.horizontalHeader().setMinimumSectionSize(60)
+        self.setRowHeight(0, 32)
+        self.verticalHeader().setDefaultSectionSize(32)
         self._block = False
         self.itemChanged.connect(self._on_item_changed)
         self._on_change = None
@@ -464,7 +470,8 @@ class XmlEditorProWidget(QWidget):
 
         self.attrs = AttributesTable(self.props)
         self.attrs.set_on_change(self._on_attrs_changed)
-        form.addWidget(self.attrs, 1)
+        self.attrs.setMinimumHeight(200)
+        form.addWidget(self.attrs, 3)
 
         actions = QHBoxLayout()
         self.btn_add_child = QPushButton("添加子节点")
