@@ -19,6 +19,8 @@ from src.components.CustomWidgets.components.conf2ui.input_spinbox import InputS
 from src.components.CustomWidgets.components.conf2ui.switch_slider import SwitchSliderForm
 from src.components.CustomWidgets.components.conf2ui.switch_checkbox import SwitchPanel
 from src.components.CustomWidgets.components.ButtonStyle.ButtonStyle import Example
+from src.components.CustomWidgets.components.combobox.SafeComboBox import SafeCBWindow
+from src.components.CustomWidgets.components.combobox.SearchComboBox import SearchCBWindow
 
 
 class GallaryForm(QWidget, Ui_FormGallery): 
@@ -64,7 +66,8 @@ class GallaryForm(QWidget, Ui_FormGallery):
         self.switch_slider = SwitchSliderForm()
         self.switch_checkbox=SwitchPanel()
         self.switch_button = Example()
-
+        self.safe_combobox = SafeCBWindow()
+        self.search_combobox = SearchCBWindow()
 
         # 添加到堆叠窗口
         self.stackedWidget.insertWidget(0, self.circular_dashboard)  # 第0页
@@ -73,6 +76,8 @@ class GallaryForm(QWidget, Ui_FormGallery):
         self.stackedWidget.insertWidget(3, self.switch_slider)
         self.stackedWidget.insertWidget(4, self.switch_checkbox)
         self.stackedWidget.insertWidget(5, self.switch_button)
+        self.stackedWidget.insertWidget(6, self.safe_combobox)
+        self.stackedWidget.insertWidget(7, self.search_combobox)
 
         # 默认显示第一页
         self.stackedWidget.setCurrentIndex(0)  # 显示第0页
@@ -90,6 +95,11 @@ class GallaryForm(QWidget, Ui_FormGallery):
             },
             "Button样式":{
                 "switch_button": 5
+            },
+            "ComboBox样式":
+            {
+                "FluentConfirmPopup": 6,
+                "SearchComboBox": 7
             }
         }
 
